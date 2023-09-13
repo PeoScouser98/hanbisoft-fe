@@ -9,7 +9,7 @@ const Footer = () => {
 	);
 };
 
-const StyledFooter = styled.footer.attrs({ className: 'dx-theme-background-color dx-theme-border-color' })`
+const StyledFooter = styled.footer.attrs({ className: 'dx-theme-border-color' })`
 	display: flex;
 	justify-content: start;
 	align-items: center;

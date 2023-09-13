@@ -8,7 +8,7 @@ import userApi from './api/userApi';
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['auth', 'language']
+	whitelist: ['auth', 'language', 'pages', 'themes']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer); // Provide a way to combine redux's root reducer

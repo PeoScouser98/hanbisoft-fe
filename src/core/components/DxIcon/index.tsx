@@ -1,4 +1,4 @@
-import { DxIconProps } from './t';
+import { DxIconProps } from './_type';
 
 const DxIcon = (props: DxIconProps) => <i className={`dx-icon-${props.type}`} {...props}></i>;
 

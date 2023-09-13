@@ -2,8 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 	* {
-      @import url('https://fonts.googleapis.com/css2?family=Inter&family=Noto+Sans+KR&display=swap');
-      font-family: 'Noto Sans KR', sans-serif;
+		font-family: 'Roboto', sans-serif;
       margin: 0;
       box-sizing:border-box
    }
@@ -11,12 +10,19 @@ const GlobalStyles = createGlobalStyle`
 		margin: 0;
 		padding: 0;
   	}
-  
+  @font-face {
+	font-family: DXIcons;
+	src:
+		local('DevExtreme Generic Icons'),
+		local('devextreme_generic_icons'),
+		url('/src/themes/icons/dxicons.woff2') format('woff2'),
+		url('/src/themes/icons/dxicons.woff') format('woff'),
+		url('/src/themes/icons/dxicons.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
 	:root{
-		--color-primary:#337ab7;
-		--color-success: #5cb85c;
-
-		--tracking-tight: -.025em
+		--tracking-tight: -0.025em
 		--tracking-normal: 0;
 		--tracking-wide: .025em
 

@@ -23,19 +23,17 @@ const Breadcrumbs = () => {
 	return (
 		<BreadCrumbsWrapper>
 			<StyledLink to='/'>
-				<DxIcon type='home' style={{ fontSize: '18px' }} />
+				<DxIcon type='home' style={{ fontSize: 18 }} />
 			</StyledLink>
-			<React.Fragment>
-				{breadcrumbs.map((item: Pick<INavigation, 'id' | 'text' | 'path'>, index) => (
-					<React.Fragment key={index}>
-						<DxIcon type='chevronright' key={index} />
 
-						<Typography variant='small' style={{ userSelect: 'none', whiteSpace: 'nowrap' }}>
-							{item.text}
-						</Typography>
-					</React.Fragment>
-				))}
-			</React.Fragment>
+			{breadcrumbs.map((item: Pick<INavigation, 'id' | 'text' | 'path'>, index) => (
+				<React.Fragment>
+					<DxIcon type='chevronright' key={index} />
+					<Typography variant='small' style={{ userSelect: 'none', whiteSpace: 'nowrap' }}>
+						{item.text}
+					</Typography>
+				</React.Fragment>
+			))}
 		</BreadCrumbsWrapper>
 	);
 };
@@ -45,13 +43,19 @@ const BreadCrumbsWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: 0.75em;
-	color: white;
+	padding: 0 16px;
+
+	& * + *,
+	& * {
+		color: white;
+	}
+	@media screen and (max-width: 767px) {
+		display: none;
+	}
 `;
 
 const StyledLink = styled(Link)`
-	color: white;
 	text-decoration: none;
-	font-size: 14px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

@@ -1,9 +1,9 @@
+import { NumberBox } from 'devextreme-react';
 import React from 'react';
-import { TextBox } from 'devextreme-react';
 import { useController } from 'react-hook-form';
-import type { TTextFieldProps } from './_type';
+import type { TNumberFieldProps } from './_type';
 
-const TextFieldControl: React.FC<TTextFieldProps> = (props): React.JSX.Element => {
+const NumberFieldControl: React.FC<TNumberFieldProps> = (props): React.JSX.Element => {
 	const { field, fieldState } = useController({
 		control: props.control,
 		name: props.name,
@@ -11,26 +11,25 @@ const TextFieldControl: React.FC<TTextFieldProps> = (props): React.JSX.Element =
 	});
 
 	const id = React.useId();
-
 	return (
-		<TextBox
+		<NumberBox
 			id={id}
 			ref={(e) => {
 				field.ref(e?.instance);
 			}}
+			onValueChange={(value) => field.onChange(value)}
 			isValid={!fieldState.invalid}
 			validationError={fieldState.error}
-			onValueChange={(value) => field.onChange(value)}
 			value={field.value}
 			{...props}
 		/>
 	);
 };
 
-TextFieldControl.defaultProps = {
+NumberFieldControl.defaultProps = {
 	validationMessageMode: 'auto',
 	validationMessagePosition: 'bottom',
 	valueChangeEvent: 'input'
 };
 
-export default TextFieldControl;
+export default NumberFieldControl;

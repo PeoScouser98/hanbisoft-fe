@@ -1,0 +1,142 @@
+{
+    "items": [
+        {
+            "key": "$base-accent",
+            "value": "rgba(99, 102, 241, 1)"
+        },
+        {
+            "key": "$base-success",
+            "value": "rgba(74, 222, 128, 1)"
+        },
+        {
+            "key": "$base-warning",
+            "value": "rgba(250, 204, 21, 1)"
+        },
+        {
+            "key": "$base-danger",
+            "value": "rgba(244, 63, 94, 1)"
+        },
+        {
+            "key": "$base-text-color",
+            "value": "rgba(229, 231, 235, 1)"
+        },
+        {
+            "key": "$base-border-color",
+            "value": "rgba(55, 65, 81, 1)"
+        },
+        {
+            "key": "$base-bg",
+            "value": "rgba(31, 41, 55, 1)"
+        },
+        {
+            "key": "$pager-page-selected-bg",
+            "value": "rgba(55, 65, 81, 1)"
+        },
+        {
+            "key": "$pager-page-selected-color",
+            "value": "rgba(255, 255, 255, 1)"
+        },
+        {
+            "key": "$base-focus-color",
+            "value": "rgba(255, 255, 255, 1)"
+        },
+        {
+            "key": "$base-hover-bg",
+            "value": "rgba(75, 85, 99, 1)"
+        },
+        {
+            "key": "$loadpanel-content-bg",
+            "value": "rgba(75, 85, 99, 1)"
+        },
+        {
+            "key": "$tooltip-bg",
+            "value": "rgba(99, 102, 241, 1)"
+        },
+        {
+            "key": "$tooltip-color",
+            "value": "rgba(255, 255, 255, 1)"
+        },
+        {
+            "key": "$base-border-radius-large",
+            "value": "4px"
+        },
+        {
+            "key": "$datagrid-row-focused-color",
+            "value": "rgba(255, 255, 255, 1)"
+        },
+        {
+            "key": "$button-default-border-color",
+            "value": "rgba(99, 102, 241, 1)"
+        },
+        {
+            "key": "$button-group-default-selected-bg",
+            "value": "rgba(99, 102, 241, 0.3)"
+        },
+        {
+            "key": "$scheduler-workspace-focused-cell-color",
+            "value": "rgba(55, 65, 81, 1)"
+        },
+        {
+            "key": "$datagrid-hover-bg",
+            "value": "rgba(75, 85, 99, 0.3)"
+        },
+        {
+            "key": "$datagrid-row-error-bg",
+            "value": "rgba(239, 68, 68, 1)"
+        },
+        {
+            "key": "$datagrid-selection-bg",
+            "value": "rgba(17, 24, 39, 1)"
+        },
+        {
+            "key": "$scrollable-scrollbar-active-bg",
+            "value": "rgba(55, 65, 81, 0.5)"
+        },
+        {
+            "key": "$scrollable-scroll-bg",
+            "value": "rgba(17, 24, 39, 1)"
+        },
+        {
+            "key": "$accordion-item-focused-border-color",
+            "value": "rgba(255, 255, 255, 1)"
+        },
+        {
+            "key": "$datagrid-columnchooser-font-weight",
+            "value": "normal"
+        },
+        {
+            "key": "$treeview-hover-bg",
+            "value": "rgba(55, 65, 81, 1)"
+        },
+        {
+            "key": "$texteditor-placeholder-color",
+            "value": "rgba(75, 85, 99, 1)"
+        },
+        {
+            "key": "$texteditor-border-color",
+            "value": "rgba(55, 65, 81, 1)"
+        },
+        {
+            "key": "$dropdowneditor-button-active-bg",
+            "value": "rgba(17, 24, 39, 1)"
+        },
+        {
+            "key": "$treeview-focused-bg",
+            "value": "rgba(17, 24, 39, 1)"
+        },
+        {
+            "key": "$drawer-shader-background-color",
+            "value": "rgba(55, 65, 81, 0.5)"
+        },
+        {
+            "key": "$tagbox-tag-button-remove-bg",
+            "value": "rgba(156, 163, 175, 1)"
+        }
+    ],
+    "baseTheme": "generic.light",
+    "outputColorScheme": "dark-scheme",
+    "makeSwatch": false,
+    "version": "23.1.5",
+    "widgets": [],
+    "removeExternalResources": false
+}

@@ -1,7 +1,6 @@
 import usePageNavigate from '@/app/hooks/usePageNavigate';
 import { useAppSelector } from '@/app/store/hook';
 import { RootState } from '@/app/store/type';
-import DxIcon from '@/core/components/DxIcon';
 import ErrorBoundary from '@/core/components/ErrorBoundary';
 import LoadingProgressBar from '@/core/components/Loading/LoadingProgressBar';
 import Typography from '@/core/components/Typography';
@@ -17,18 +16,16 @@ const TabNavigation = () => {
 	const { handleOpenPage, handleClosePage, handleReorderPage } = usePageNavigate();
 	const navigate = useNavigate();
 
-	React.useEffect(() => {
-		navigate(currentPage.path);
-	}, [currentPage]);
+	// React.useEffect(() => {
+	// 	navigate(currentPage.path);
+	// }, [currentPage]);
 
 	const renderTitle = React.useCallback(
 		(page: IPage) => (
 			<TabItem onClick={() => handleOpenPage(page)}>
 				<Typography variant='p'>{page?.text}</Typography>
 				{openingPages.length >= 2 && page?.canClose && (
-					<DxIcon
-						style={{ position: 'absolute', top: 0, right: 0 }}
-						type='close'
+					<CloseButton
 						onClick={(e) => {
 							e.stopPropagation();
 							handleClosePage(page);
@@ -55,7 +52,7 @@ const TabNavigation = () => {
 	);
 
 	const handleTabDragStart = React.useCallback((e: DragStartEvent) => {
-		if (e.itemData?.canDragAndDrop === false || !e.itemData) return;
+		if (e.itemData?.canReorder === false) return false;
 		e.itemData = e.fromData[e.fromIndex];
 	}, []);
 
@@ -78,17 +75,10 @@ const TabNavigation = () => {
 					hoverStateEnabled={false}
 					itemTitleRender={renderTitle}
 					showNavButtons
-					swipeEnabled
-					loop
 					selectedItem={currentPage}
 					repaintChangesOnly={true}
 					onSelectedItemChange={(value) => {
-						console.log(value);
 						handleOpenPage(value);
-					}}
-					onItemClick={(e) => {
-						console.log(e.itemData);
-						handleOpenPage(e.itemData as unknown as IPage);
 					}}
 					onSelectedIndexChange={(value) => handleOpenPage(openingPages[value] as unknown as IPage)}
 					itemRender={renderOutlet}
@@ -98,16 +88,12 @@ const TabNavigation = () => {
 	);
 };
 
-const Container = styled.div.attrs({
-	className: 'dx-theme-background-color dx-theme-text-color'
-})`
+const Container = styled.div`
 	height: 100%;
 	padding: 16px;
 `;
 
-const StyledTabPanel = styled(TabPanel).attrs({
-	className: 'dx-theme-background-color dx-theme-text-color'
-})`
+const StyledTabPanel = styled(TabPanel)`
 	height: calc(100vh - 11.5rem);
 `;
 
@@ -120,8 +106,13 @@ const TabItem = styled.div`
 	padding: 0 4px;
 `;
 
+const CloseButton = styled.i.attrs({ className: 'dx-icon-close' })`
+	position: absolute;
+	top: 0;
+	right: 0;
+`;
 const OutLetWrapper = styled.div`
 	padding: 1em;
 `;
 
-export default TabNavigation;
+export default React.memo(TabNavigation);

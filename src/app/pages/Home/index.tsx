@@ -1,4 +1,6 @@
+import { Button } from 'devextreme-react';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { styled } from 'styled-components';
 import StatsBox from './components/StatsBox';
 
@@ -6,6 +8,7 @@ const Home = () => {
 	return (
 		<React.Fragment>
 			<TopContentArea>
+				<Button text='Click me' onClick={() => toast.success('Ok')} />
 				{/* <Chart /> */}
 				<StatsBox />
 			</TopContentArea>

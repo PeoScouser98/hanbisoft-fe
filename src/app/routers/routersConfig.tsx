@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteObject } from 'react-router-dom';
-import RootLayout from '../layouts/RootLayout';
+import RootLayout from '../layouts/RootLayout/RootLayout';
 import Home from '../pages/Home';
 import NotFoundPage from '@/app/pages/Error/NotFoundPage';
 import Signin from '@/app/pages/Auth/Signin';

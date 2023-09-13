@@ -1,16 +1,12 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo } from 'react';
 
-interface Props {
-	children?: ReactNode;
-}
-
-interface State {
+type State = {
 	hasError: boolean;
 	error: Error | null;
 	errorInfo: ErrorInfo | null;
-}
+};
 
-class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends Component<React.PropsWithChildren, State> {
 	public state: State = {
 		hasError: false,
 		error: null,
@@ -30,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
 		if (this.state.hasError) {
 			return (
 				<div style={{ padding: '16px' }}>
-					<h2>Something went wrong.</h2>
+					<h2 style={{ marginBottom: '16px' }}>Something went wrong</h2>
 					<details style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state.error.toString()}
 						<br />

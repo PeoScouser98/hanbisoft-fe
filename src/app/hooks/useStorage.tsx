@@ -5,7 +5,7 @@ import { useCallback, useState, useEffect } from 'react';
  * @param {string} key
  * @param {any} defaultValue
  */
-export function useLocalStorage(key: string, defaultValue: any) {
+export function useLocalStorage(key: string, defaultValue?: any) {
 	return useStorage(key, defaultValue, window.localStorage);
 }
 

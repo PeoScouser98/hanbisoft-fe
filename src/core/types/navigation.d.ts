@@ -1,5 +1,5 @@
 import { dxTreeViewItem } from 'devextreme/ui/tree_view';
-import { DxIconType } from '../components/DxIcon/t';
+import { DxIconType } from '../components/DxIcon';
 
 export declare interface INavigation extends dxTreeViewItem {
 	icon: DxIconType;

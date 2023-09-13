@@ -1,14 +1,38 @@
 import navigation from '@/app/configs/navigation.config';
 import usePageNavigate from '@/app/hooks/usePageNavigate';
+import { useAppSelector } from '@/app/store/hook';
+import { INavigation } from '@/core/types/navigation';
 import { ScrollView, TextBox, TreeView } from 'devextreme-react';
+import { ItemClickEvent } from 'devextreme/ui/tree_view';
 import React from 'react';
-// import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+// import { useTranslation } from 'react-i18next';
 
 const AsideNavigation = () => {
-	// const { t } = useTranslation();
 	const { handleOpenPage } = usePageNavigate();
+	const { currentPage } = useAppSelector((state) => state.pages);
 	const [searchValue, setSearchValue] = React.useState<string>('');
+
+	const treeViewDataSource = React.useMemo(
+		() => navigation.map((item) => ({ ...item, selected: item.id === currentPage.id })),
+		[currentPage]
+	);
+
+	const handleItemClick = React.useCallback(
+		(itemData: ItemClickEvent<INavigation>['itemData']) => {
+			if (!itemData?.path) return;
+
+			handleOpenPage({
+				id: itemData?.id as string,
+				text: itemData?.text as string,
+				path: itemData?.path,
+				canClose: itemData?.path !== '/',
+				canReorder: itemData?.path !== '/'
+			});
+		},
+		[currentPage]
+	);
+
 	return (
 		<Aside>
 			<TextBoxWrapper>
@@ -30,26 +54,19 @@ const AsideNavigation = () => {
 						items={navigation}
 						expandNodesRecursive={false}
 						focusStateEnabled={false}
-						dataStructure='tree'
+						dataStructure='plain'
 						searchMode='contains'
 						expandIcon='chevronright'
 						collapseIcon='chevrondown'
 						searchTimeout={500}
 						searchValue={searchValue}
-						dataSource={navigation}
+						dataSource={treeViewDataSource}
 						keyExpr='id'
+						displayExpr='text'
 						searchExpr={['text', 'path']}
-						onItemClick={({ itemData }) => {
-							if (itemData?.path) {
-								handleOpenPage({
-									id: itemData.id as string,
-									text: itemData.text as string,
-									path: itemData.path,
-									canClose: itemData.path !== '/',
-									canReorder: true
-								});
-							}
-						}}
+						selectedExpr='selected'
+						selectedIndex={treeViewDataSource.findIndex((node) => node.selected)}
+						onItemClick={({ itemData }) => handleItemClick(itemData)}
 						selectionMode='single'
 					/>
 				</ScrollView>
@@ -76,14 +93,12 @@ const StyledTreeView = styled(TreeView)`
 
 const TextBoxWrapper = styled.div.attrs({ className: 'dx-theme-accent-as-background-color' })`
 	width: 100%;
-	height: 3rem;
 	flex-basis: 3rem;
 `;
 
 const SearchBox = styled(TextBox)`
-	height: 3rem;
-	flex-basis: 3rem;
-
+	height: 100%;
+	background-color: transparent;
 	& .dx-texteditor-input-container > * {
 		color: white;
 		background-color: transparent;
@@ -96,7 +111,7 @@ const SearchBox = styled(TextBox)`
 	}
 `;
 
-const Aside = styled.aside.attrs({ className: 'dx-theme-background-color dx-theme-text-color' })`
+const Aside = styled.aside.attrs({ className: 'dx-theme-background-color-active' })`
 	height: 100%;
 	width: 320px;
 	display: flex;

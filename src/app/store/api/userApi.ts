@@ -8,8 +8,8 @@ const userApi = createApi({
 	tagTypes: ['Users'],
 	baseQuery: axiosBaseQuery(),
 	endpoints: (build) => ({
-		getUsers: build.query<IUser[], AxiosRequestConfig['params'] | void>({
-			query: (params = {}) => ({ url: '/users', method: 'GET', params: params }),
+		getUsers: build.query<IUser[], AxiosRequestConfig['params']>({
+			query: (params) => ({ url: '/users', method: 'GET', params: params }),
 			providesTags: [{ type: 'Users', id: 'LIST' }]
 		}),
 		createUsers: build.mutation<Array<IUser>, Omit<IUser, 'id'>>({

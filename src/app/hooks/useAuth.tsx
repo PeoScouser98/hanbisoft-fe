@@ -1,18 +1,17 @@
+import { IUser } from '@/core/types/user';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSigninMutation } from '../store/api/auth.api';
 import { useAppDispatch, useAppSelector } from '../store/hook';
 import { signout } from '../store/reducers/auth.reducer';
-import { RootState } from '../store/type';
-import { IUser } from '@/core/types/user';
 
 /**
  * @description Provides auth actions (signin/signout), and get user state
  */
 
 export default function useAuth() {
-	const authState = useAppSelector((state: RootState) => state.auth);
+	const authState = useAppSelector((state) => state.auth);
 	const [signinMutation, { isLoading, isError }] = useSigninMutation();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();

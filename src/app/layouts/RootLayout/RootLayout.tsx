@@ -50,7 +50,7 @@ export default function RootLayout() {
 	);
 }
 
-const Container = styled.main.attrs({ className: 'dx-theme-background-color dx-theme-text-color' })`
+const Container = styled.main`
 	position: relative;
 	height: 100vh;
 	width: 100%;
@@ -66,9 +66,7 @@ const StyledDrawer = styled(Drawer)`
 	}
 `;
 
-const DrawerContent = styled.div.attrs({
-	className: 'dx-theme-background-color dx-theme-text-color'
-})`
+const DrawerContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

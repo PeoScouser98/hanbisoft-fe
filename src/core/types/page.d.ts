@@ -1,4 +1,4 @@
-import { DxIconType } from '../components/DxIcon/t';
+import { DxIconType } from '../components/DxIcon';
 
 export declare interface IPage {
 	id: string;

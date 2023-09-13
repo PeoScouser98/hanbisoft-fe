@@ -18,31 +18,38 @@ const navigation: Array<INavigation> = [
 		breadcrumbs: [{ text: 'Users', path: '/users' }]
 	},
 	{
+		id: '2.1',
+		text: 'Register',
+		path: '/users/create',
+		icon: 'add',
+		hasItems: true
+	},
+	{
 		id: '3',
 		text: 'Data grid',
 		icon: 'folder',
-		hasItems: true,
-		items: [
-			{
-				id: '3.1',
-				text: 'Simple data grid',
-				path: '/data-grid/simple-example',
-				icon: 'file',
-				breadcrumbs: [
-					{ text: 'Data grid', path: '/data-grid/simple-example' },
-					{ text: 'Simple example', path: '/data-grid/simple-example' }
-				]
-			},
-			{
-				id: '3.2',
-				text: 'Header group',
-				path: '/data-grid/header-grouping',
-				icon: 'file',
-				breadcrumbs: [
-					{ text: 'Data grid', path: '/data-grid/header-grouping' },
-					{ text: 'Header group', path: '/data-grid/header-grouping' }
-				]
-			}
+		hasItems: true
+	},
+	{
+		id: '3.1',
+		parentId: '3',
+		text: 'Simple data grid',
+		path: '/data-grid/simple-example',
+		icon: 'file',
+		breadcrumbs: [
+			{ text: 'Data grid', path: '/data-grid/simple-example' },
+			{ text: 'Simple data grid', path: '/data-grid/simple-example' }
+		]
+	},
+	{
+		id: '3.2',
+		parentId: '3',
+		text: 'Header group',
+		path: '/data-grid/header-grouping',
+		icon: 'file',
+		breadcrumbs: [
+			{ text: 'Data grid', path: '/data-grid/header-grouping' },
+			{ text: 'Header group', path: '/data-grid/header-grouping' }
 		]
 	},
 	{

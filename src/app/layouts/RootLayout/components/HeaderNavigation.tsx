@@ -7,7 +7,10 @@ import { styled } from 'styled-components';
 
 const HeaderNavigation = () => {
 	const navigate = useNavigate();
-	const { signout, authState } = useAuth();
+	const {
+		signout,
+		authState: { user }
+	} = useAuth();
 
 	const profileSettings = React.useMemo(
 		() => [
@@ -28,7 +31,7 @@ const HeaderNavigation = () => {
 	);
 
 	return (
-		<Toolbar>
+		<Header>
 			<NavLinkLogo to='/'>
 				<DxIcon type='mediumiconslayout' /> Hanbisoft
 			</NavLinkLogo>
@@ -36,9 +39,8 @@ const HeaderNavigation = () => {
 			<StyledDropdownButton
 				splitButton={false}
 				useSelectMode={false}
-				width={160}
-				text={authState.user?.displayName}
-				icon={authState.user?.picture}
+				text={user?.displayName}
+				icon={user?.picture}
 				focusStateEnabled={false}
 				hoverStateEnabled={false}
 				stylingMode='text'
@@ -46,11 +48,11 @@ const HeaderNavigation = () => {
 				displayExpr='name'
 				keyExpr='id'
 			/>
-		</Toolbar>
+		</Header>
 	);
 };
 
-const Toolbar = styled.header.attrs({ className: 'dx-theme-text-color dx-theme-background-color' })`
+const Header = styled.div`
 	padding: 12px 16px;
 	height: 3.5rem;
 	display: flex;
@@ -61,6 +63,8 @@ const Toolbar = styled.header.attrs({ className: 'dx-theme-text-color dx-theme-b
 const StyledDropdownButton = styled(DropDownButton)`
 	& .dx-button-content {
 		padding: 0;
+		width: fit-content;
+		justify-content: flex-end;
 	}
 	& .dx-button-content > .dx-icon {
 		border-radius: 9999px;
@@ -75,7 +79,6 @@ const NavLinkLogo = styled(Link).attrs({ className: 'dx-theme-text-color' })`
 	align-self: center;
 	font-size: 18px;
 	font-weight: 600;
-	/* color: ${(props) => props.theme.colors.default}; */
 `;
 
 export default React.memo(HeaderNavigation);

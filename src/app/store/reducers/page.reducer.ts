@@ -1,5 +1,4 @@
-import { IPage } from '@/core/types/page';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	currentPage: {
@@ -7,7 +6,7 @@ const initialState = {
 		text: 'Dashboard',
 		path: '/',
 		canClose: false,
-		fixed: true
+		canReorder: false
 	},
 
 	openingPages: [
@@ -16,7 +15,7 @@ const initialState = {
 			text: 'Dashboard',
 			path: '/',
 			canClose: false,
-			fixed: true
+			canReorder: false
 		}
 	]
 };
@@ -25,13 +24,13 @@ const pageSlice = createSlice({
 	name: 'pages',
 	initialState: initialState,
 	reducers: {
-		openNewPage: (state, action: PayloadAction<IPage>) => {
+		openNewPage: (state, action) => {
 			return {
 				currentPage: action.payload,
 				openingPages: [...new Map([...state.openingPages, action.payload].map((item) => [item.id, item])).values()]
 			};
 		},
-		closePage: (state, action: PayloadAction<IPage>) => {
+		closePage: (state, action) => {
 			const currentPageIndex = state.openingPages.findIndex((page) => page.id === state.currentPage.id);
 			const openingPages = state.openingPages.filter((page) => page.id !== action.payload.id);
 			const currentPage =
@@ -41,14 +40,11 @@ const pageSlice = createSlice({
 				openingPages
 			};
 		},
-		reorderPage: (state, action: PayloadAction<{ fromIndex: number; toIndex: number; itemData: IPage }>) => {
-			const newOrderingOpeningPages = [...state.openingPages];
-			newOrderingOpeningPages.splice(action.payload.fromIndex, 1);
-			newOrderingOpeningPages.splice(action.payload.toIndex, 0, action.payload.itemData);
-			return {
-				...state,
-				openingPages: newOrderingOpeningPages
-			};
+		reorderPage: (state, action) => {
+			if (!action.payload.itemData.canReorder) return state;
+			state.openingPages.splice(action.payload.fromIndex, 1);
+			state.openingPages.splice(action.payload.toIndex, 0, action.payload.itemData);
+			return state;
 		}
 	}
 });

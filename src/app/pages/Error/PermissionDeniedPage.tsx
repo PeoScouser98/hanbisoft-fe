@@ -28,7 +28,7 @@ export default function PermissionDeniedPage() {
 	);
 }
 
-const Container = styled.div`
+const Container = styled.div.attrs({ className: 'dx-theme-background-color' })`
 	height: 100vh;
 	width: 100%;
 	display: flex;
