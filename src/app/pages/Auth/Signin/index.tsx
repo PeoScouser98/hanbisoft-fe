@@ -1,16 +1,15 @@
-import TextFieldControl from '@/core/components/FormControls/TextFieldControl';
+import Image from '@/assets/hero-image.png';
+import Icon from '@/common/components/DxIcon';
+import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
+import Typography from '@/common/components/Typography';
+import useAuth from '@/common/hooks/useAuth';
+import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import useAuth from '@/app/hooks/useAuth';
-import DxIcon from '@/core/components/DxIcon';
-import Typography from '@/core/components/Typography';
 import { Button } from 'devextreme-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { styled } from 'styled-components';
 import signinSchema from '../../../validations/auth.validation';
-import { IUser } from '@/core/types/user';
 
 const Signin: React.FC<unknown> = () => {
 	const { control, handleSubmit } = useForm({
@@ -20,13 +19,13 @@ const Signin: React.FC<unknown> = () => {
 	const { signin } = useAuth();
 
 	return (
-		<Container>
+		<Container className='dx-theme-background-color dx-theme-text-color'>
 			<FormWrapper>
 				<Form onSubmit={handleSubmit(signin)}>
 					<Typography
 						variant='h3'
 						color='accent'
-						style={{
+						css={{
 							display: 'inline-flex',
 							alignItems: 'center',
 							justifyContent: 'center',
@@ -34,9 +33,9 @@ const Signin: React.FC<unknown> = () => {
 							gap: '4px',
 							marginBottom: '8px'
 						}}>
-						<DxIcon type='mediumiconslayout' style={{ fontSize: 'inherit' }} /> Hanbisoft
+						<Icon type='mediumiconslayout' css={{ fontSize: '24px' }} /> Hanbisoft
 					</Typography>
-					<Typography variant='h2' style={{ textAlign: 'center', marginBottom: '32px' }}>
+					<Typography variant='h2' css={{ textAlign: 'center', marginBottom: '32px' }}>
 						Sign in to your account
 					</Typography>
 
@@ -46,23 +45,26 @@ const Signin: React.FC<unknown> = () => {
 					<Button
 						type='default'
 						focusStateEnabled={false}
-						icon={
-							/* html */ `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z"/></svg>`
-						}
-						text='Sign in'
 						useSubmitBehavior
+						render={() => {
+							return (
+								<div css={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 4 }}>
+									Sign in
+								</div>
+							);
+						}}
 					/>
 				</Form>
 			</FormWrapper>
+
+			<HeroImage id='hero-image' src={Image} />
 		</Container>
 	);
 };
 
-const Container = styled.div.attrs({
-	className: ' dx-theme-background-color dx-theme-text-color'
-})`
+const Container = styled.div`
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: 1fr 1.5fr;
 	grid-auto-columns: minmax(1fr);
 	align-items: center;
 	height: 100vh;
@@ -97,6 +99,14 @@ const StyledLink = styled(Link)`
 	font-size: 12px;
 	text-decoration: none;
 	color: inherit;
+`;
+
+const HeroImage = styled.img`
+	display: block;
+	height: 100vh;
+	width: 100%;
+	object-fit: cover;
+	object-position: center;
 `;
 
 export default Signin;

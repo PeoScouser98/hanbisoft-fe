@@ -1,7 +1,7 @@
-import { useSessionStorage } from '@/app/hooks/useStorage';
+import React from 'react';
 import { addMultiEmployees, getEmployees, updateMultiEmployees } from '@/app/services/employee.service';
-import type { IEmployee } from '@/core/types/employee';
-import handleExportExcel from '@/core/utils/exportExcel';
+
+import handleExportExcel from '@/common/utils/exportExcel';
 import { AxiosError } from 'axios';
 import DataGrid, {
 	Column,
@@ -15,14 +15,15 @@ import DataGrid, {
 	HeaderFilter,
 	IColumnProps,
 	Lookup,
+	Scrolling,
 	Search,
 	Selection
 } from 'devextreme-react/data-grid';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import { DataChange } from 'devextreme/common/grids';
-import React from 'react';
 import { useMutation, useQuery } from 'react-query';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const DataGridExample = () => {
 	const { data: employees } = useQuery({
@@ -32,26 +33,27 @@ const DataGridExample = () => {
 		staleTime: 30 * 1000
 		// refetchOnMount: true
 	});
+	const { t } = useTranslation();
 
 	const { mutateAsync: handleAddEmployees } = useMutation({
 		mutationKey: ['employees'],
-		mutationFn: (data: Array<Partial<IEmployee>>) => addMultiEmployees(data),
+		mutationFn: (data: Array<Partial<any>>) => addMultiEmployees(data),
 		useErrorBoundary: true
 	});
 	const { mutateAsync: handleUpdateEmployees } = useMutation({
 		mutationKey: ['employees'],
-		mutationFn: (data: Array<Partial<IEmployee>>) => updateMultiEmployees(data),
+		mutationFn: (data: Array<Partial<any>>) => updateMultiEmployees(data),
 		useErrorBoundary: true
 	});
 
-	const [_, setSelectedEmployee] = useSessionStorage('selected_employees', []);
-	const selectEmployee = React.useCallback((e: any) => {
+	const [_, setSelectedEmployee] = React.useState([]);
+	const selectEmployee = React.useCallback((e) => {
 		e.component.byKey(e.currentSelectedRowKeys[0]).done((employee: any) => {
 			setSelectedEmployee(employee);
 		});
 	}, []);
 
-	const dataGridRef = React.useRef<any>();
+	const dataGridRef = React.useRef<typeof DataGrid.prototype>();
 	const columns = React.useMemo<IColumnProps[]>(
 		() => [
 			{
@@ -89,9 +91,8 @@ const DataGridExample = () => {
 		[employees]
 	);
 
-	const handleSaveData = React.useCallback(async (data: DataChange<Partial<IEmployee>, any>[]) => {
+	const handleSaveData = React.useCallback(async (data: DataChange<Partial<any>, any>[]) => {
 		try {
-			console.log(1);
 			const newEmployees = data.filter((item) => item.type === 'insert').map((item) => item.data);
 			const updatedEmployees = data.filter((item) => item.type === 'update').map((item) => item.data);
 			return await Promise.all([handleAddEmployees(newEmployees), handleUpdateEmployees(updatedEmployees)]);
@@ -109,10 +110,10 @@ const DataGridExample = () => {
 					location='before'
 					options={{
 						icon: 'save',
-						text: 'Save',
+						text: t('common:btn.save'),
 						type: 'default',
 						onClick: function () {
-							dataGridRef.current?.instance.saveEditData();
+							dataGridRef.current.instance?.saveEditData();
 						}
 					}}
 				/>
@@ -121,16 +122,23 @@ const DataGridExample = () => {
 					location='before'
 					options={{
 						icon: 'undo',
-						text: 'Revert',
+						text: t('common:btn.revert'),
 						onClick: () => dataGridRef.current?.instance?.cancelEditData()
 					}}
 				/>
 			</Toolbar>
-			<Toolbar className='dx-theme-border-color-as-background-color' style={{ padding: '8px' }}>
+			<Toolbar className='dx-theme-border-color-as-background-color' style={{ padding: '4px', borderRadius: '4px' }}>
 				<Item
 					widget='dxTextBox'
 					location='before'
-					options={{ mode: 'search', placeholder: 'Search by full name ...', width: '100%' }}
+					options={{
+						mode: 'search',
+						placeholder: 'Search by full name ...',
+						width: '100%',
+						onValueChange: (value) => {
+							console.log(value);
+						}
+					}}
 				/>
 			</Toolbar>
 
@@ -143,23 +151,24 @@ const DataGridExample = () => {
 					mode: 'virtual',
 					rowRenderingMode: 'virtual',
 					columnRenderingMode: 'virtual',
-					renderAsync: true
+					renderAsync: true,
+					preloadEnabled: true
 				}}
 				columnResizingMode='widget'
-				onExporting={(e) => handleExportExcel(e.component, 'Employee list.xlsx')}
 				allowColumnReordering
 				allowColumnResizing
 				columnAutoWidth
 				showBorders
 				showColumnLines
 				showRowLines
+				cacheEnabled
 				onSaved={(e) => handleSaveData(e.changes)}
-				// onInitNewRow={e}
-				onSelectionChanged={selectEmployee}>
+				onExporting={(e) => handleExportExcel(e.component, 'Employee list.xlsx')}
+				onSelectionChanged={(e) => selectEmployee(e)}>
 				<ColumnChooser enabled={true} />
 				<HeaderFilter visible={true} />
 				<FilterRow visible={true} applyFilter='onClick' />
-				{/* <SearchPanel visible /> */}
+
 				{columns.map((column, index) => (
 					<Column {...column} key={index} allowSearch={false}>
 						{column.lookup && <Lookup {...column.lookup} />}
@@ -171,12 +180,11 @@ const DataGridExample = () => {
 						{column.allowSearch && <FilterRow />}
 					</Column>
 				))}
-
 				<Export allowExportSelectedData enabled formats={['excel', 'pdf']} />
-				<Editing mode='batch' useIcons allowUpdating allowDeleting allowAdding />
+				<Editing mode='batch' useIcons allowUpdating allowDeleting allowAdding selectTextOnEditStart={false} />
 				<Selection recursive mode='multiple' selectAllMode='allPages' showCheckBoxesMode='always' />
 				<ColumnFixing enabled={true} />
-
+				<Scrolling mode='infinite' rowRenderingMode='virtual' preloadEnabled />
 				<DataGridToolbar>
 					<DataGridToolbarItem
 						name='addRowButton'
@@ -193,12 +201,6 @@ const DataGridExample = () => {
 
 					<DataGridToolbarItem name='exportButton' location='after' locateInMenu='auto' />
 					<DataGridToolbarItem name='applyFilterButton' options={{ text: 'Apply' }} location='after' />
-					{/* <Item
-						name='searchPanel'
-						showText='always'
-						options={{ text: 'Apply', onChange: (value) => console.log(value) }}
-						location='after'
-					/> */}
 				</DataGridToolbar>
 			</DataGrid>
 		</Container>
@@ -208,8 +210,8 @@ const DataGridExample = () => {
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 8px;
 	align-items: stretch;
 `;
 
-export default DataGridExample;
+export default React.memo(DataGridExample);

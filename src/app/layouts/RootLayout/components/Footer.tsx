@@ -1,4 +1,4 @@
-import Typography from '@/core/components/Typography';
+import Typography from '@/common/components/Typography';
 import styled from 'styled-components';
 
 const Footer = () => {
@@ -14,10 +14,10 @@ const StyledFooter = styled.footer.attrs({ className: 'dx-theme-border-color' })
 	justify-content: start;
 	align-items: center;
 	height: fit-content;
-	padding: 16px 24px;
+	padding: 16px;
 	border-top-width: 1px;
 	border-top-style: solid;
-	height: 3rem;
+	height: 2.5rem;
 `;
 
 export default Footer;

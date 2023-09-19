@@ -1,11 +1,21 @@
-import Typography from '@/core/components/Typography';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '@/app/store/hook';
+import { closePage } from '@/app/store/reducers/page.reducer';
+import Typography from '@/common/components/Typography';
 import { Button } from 'devextreme-react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-// import Typography from '@/core/components/Typography';
+// import Typography from '@/common/components/Typography';
 
 export default function PermissionDeniedPage() {
 	const navigate = useNavigate();
+
+	const dispatch = useAppDispatch();
+	const { currentPage } = useAppSelector((state) => state.pages);
+
+	React.useEffect(() => {
+		dispatch(closePage(currentPage)); // Close current page that is not found
+	}, []);
 
 	return (
 		<Container>

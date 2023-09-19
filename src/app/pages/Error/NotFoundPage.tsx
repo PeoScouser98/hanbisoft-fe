@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/app/store/hook';
 import { closePage } from '@/app/store/reducers/page.reducer';
-import Typography from '@/core/components/Typography';
+import Typography from '@/common/components/Typography';
 import { Button } from 'devextreme-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,10 +9,10 @@ import { styled } from 'styled-components';
 const NotFoundPage: React.FunctionComponent = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { openingPages, currentPage } = useAppSelector((state) => state.pages);
+	const { currentPage } = useAppSelector((state) => state.pages);
 
 	React.useEffect(() => {
-		dispatch(closePage(openingPages.at(-1)));
+		dispatch(closePage(currentPage)); // Close current page that is not found
 	}, []);
 
 	return (
@@ -28,7 +28,9 @@ const NotFoundPage: React.FunctionComponent = () => {
 						stylingMode='contained'
 						type='default'
 						icon='home'
-						onClick={() => navigate(currentPage.path)}
+						onClick={
+							() => navigate(currentPage.path) // Navigate to the previous page
+						}
 						text='Go back'
 					/>
 					<ContactButton stylingMode='text' type='normal' text='Contact support' icon='to' />
@@ -53,6 +55,7 @@ const ContentArea = styled.div`
 	gap: 6px;
 `;
 const StatusCode = styled.code`
+	font-size: 16px;
 	color: ${({ theme }) => theme.colors.danger};
 	font-weight: 600;
 `;
@@ -65,7 +68,7 @@ const ButtonList = styled.div`
 `;
 
 const ContactButton = styled(Button)`
-	& .dx-icon-to {
+	& + .dx-icon-to {
 		float: right;
 	}
 `;

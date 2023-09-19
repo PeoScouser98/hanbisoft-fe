@@ -1,14 +1,16 @@
 import axios from 'axios';
-import store from '../store/store';
+import _configs from './env.config';
 
 const axiosClient = axios.create({
-	baseURL: import.meta.env.VITE_BASE_URL
+	baseURL: _configs.BASE_URL
 });
 
 axiosClient.interceptors.request.use(
 	(config) => {
-		// const accessToken = store.getState().auth;
-		// if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+		const skipingJwtEndpoints = ['/signin'];
+		if (skipingJwtEndpoints.indexOf(config.url) !== -1) return config;
+		const accessToken = localStorage.getItem('access_token');
+		if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
 		return config;
 	},
 	(error) => Promise.reject(error)

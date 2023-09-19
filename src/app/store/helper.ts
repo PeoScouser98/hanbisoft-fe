@@ -10,19 +10,20 @@ const axiosBaseQuery =
 			data?: AxiosRequestConfig['data'];
 			params?: AxiosRequestConfig['params'];
 		},
-		unknown,
-		unknown
+		any,
+		any
 	> =>
 	async ({ url, method, data, params }) => {
 		try {
 			const response = await axiosClient.request({ url, method, data, params });
 			return { data: response };
 		} catch (axiosError) {
-			let err = axiosError as AxiosError;
+			const err = axiosError as AxiosError;
 			return {
 				error: {
 					status: err.response?.status,
 					data: err.response?.data || err.message
+					// error: err
 				}
 			};
 		}

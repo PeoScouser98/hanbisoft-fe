@@ -1,65 +1,79 @@
-import type { INavigation } from '@/core/types/navigation';
+import { INavigation } from '@/type';
+/**
+ * i18nKey: {{namespace}}:{{parent_key}}.{{reference_key}}
+ */
 
 const navigation: Array<INavigation> = [
 	{
 		id: '1',
-		text: 'Dashboard',
+		i18nKey: 'common:navigation.dashboard',
 		path: '/',
 		icon: 'home',
 		hasItems: false,
-		breadcrumbs: [{ text: 'Dashboard', path: '/' }]
+		breadcrumbs: [{ i18nKey: 'common:navigation.dashboard', path: '/' }]
 	},
 	{
 		id: '2',
-		text: 'Users',
-		path: '/users',
+		i18nKey: 'common:navigation.users',
 		icon: 'group',
-		hasItems: false,
-		breadcrumbs: [{ text: 'Users', path: '/users' }]
+		hasItems: true,
+		breadcrumbs: [{ i18nKey: 'common:navigation.users', path: '/users' }]
 	},
 	{
 		id: '2.1',
-		text: 'Register',
+		parentId: '2',
+		i18nKey: 'common:navigation.list_all_users',
+		path: '/users',
+		icon: 'group',
+		breadcrumbs: [{ i18nKey: 'users', path: '/users' }]
+	},
+	{
+		id: '2.2',
+		parentId: '2',
+		i18nKey: 'common:navigation.create_new_user',
 		path: '/users/create',
-		icon: 'add',
-		hasItems: true
+		icon: 'plus',
+		breadcrumbs: [
+			{ i18nKey: 'common:navigation.users', path: '/users' },
+			{ i18nKey: 'common:navigation.create', path: '/users/create' }
+		]
 	},
 	{
 		id: '3',
-		text: 'Data grid',
+		i18nKey: 'common:navigation.data_grid',
 		icon: 'folder',
 		hasItems: true
 	},
 	{
 		id: '3.1',
 		parentId: '3',
-		text: 'Simple data grid',
+		i18nKey: 'common:navigation.simple_data_grid',
 		path: '/data-grid/simple-example',
 		icon: 'file',
 		breadcrumbs: [
-			{ text: 'Data grid', path: '/data-grid/simple-example' },
-			{ text: 'Simple data grid', path: '/data-grid/simple-example' }
+			{ i18nKey: 'common:navigation.simple_data_grid', path: '/data-grid/simple-example' },
+			{ i18nKey: 'common:navigation.simple_data_grid', path: '/data-grid/simple-example' }
 		]
 	},
 	{
 		id: '3.2',
 		parentId: '3',
-		text: 'Header group',
+		i18nKey: 'common:navigation.header_group',
 		path: '/data-grid/header-grouping',
 		icon: 'file',
 		breadcrumbs: [
-			{ text: 'Data grid', path: '/data-grid/header-grouping' },
-			{ text: 'Header group', path: '/data-grid/header-grouping' }
+			{ i18nKey: 'common:navigation.header_group', path: '/data-grid/header-grouping' },
+			{ i18nKey: 'common:navigation.header_group', path: '/data-grid/header-grouping' }
 		]
-	},
-	{
-		id: '4',
-		text: 'Scheduler',
-		path: '/scheduler',
-		icon: 'file',
-		hasItems: false,
-		breadcrumbs: [{ text: 'Scheduler', path: '/scheduler' }]
 	}
+	// {
+	// 	id: '4',
+	// 	i18nKey: 'common:navigation.scheduler',
+	// 	path: '/scheduler',
+	// 	icon: 'file',
+	// 	hasItems: false,
+	// 	breadcrumbs: [{ i18nKey: 'scheduler', path: '/scheduler' }]
+	// }
 ];
 
 export default navigation;

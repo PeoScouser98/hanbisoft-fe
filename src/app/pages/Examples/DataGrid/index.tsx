@@ -1,4 +1,4 @@
-import LoadingProgressBar from '@/core/components/Loading/LoadingProgressBar';
+import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 

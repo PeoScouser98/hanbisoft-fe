@@ -1,4 +1,4 @@
-import { IEmployee } from '@/core/types/employee';
+import { IEmployee } from '@/type';
 import axiosClient from '../configs/axios.config';
 
 export const getEmployees = async (): Promise<IEmployee[]> => axiosClient.get('/employees');

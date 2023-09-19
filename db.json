@@ -8,6 +8,17 @@
 			"gender": "male",
 			"picture": "https://ui-avatars.com/api/?name=admin",
 			"role": 1
+		},
+		{
+			"email": "test2@email.com",
+			"password": "$2a$10$00DlRx/Rz.1CRMqOvukTVeuBpBaLGNZysu9jTgdz59cjFg6FlvQWS",
+			"role": 0,
+			"gender": "1",
+			"address": "Ha Noi",
+			"displayName": "Member 1",
+			"picture": "https://ui-avatars.com/api/?name=member",
+			"age": 24,
+			"id": 2
 		}
 	],
 	"employees": [

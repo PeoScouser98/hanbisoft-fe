@@ -1,7 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/dist/query/react';
-import axiosBaseQuery from '../helper';
-import { IUser } from '@/core/types/user';
+import { IUser } from '@/type';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { AxiosRequestConfig } from 'axios';
+import axiosBaseQuery from '../helper';
 
 const userApi = createApi({
 	reducerPath: 'users',
@@ -10,7 +10,15 @@ const userApi = createApi({
 	endpoints: (build) => ({
 		getUsers: build.query<IUser[], AxiosRequestConfig['params']>({
 			query: (params) => ({ url: '/users', method: 'GET', params: params }),
-			providesTags: [{ type: 'Users', id: 'LIST' }]
+			providesTags: [{ type: 'Users', id: 'LIST' }],
+			transformResponse: (response) => {
+				if (!response || !Array.isArray(response.data)) return [];
+				const transformedData = response.data?.map((item) => {
+					const { password, ...rest } = item;
+					return rest;
+				});
+				return transformedData;
+			}
 		}),
 		createUsers: build.mutation<Array<IUser>, Omit<IUser, 'id'>>({
 			query: (payload) => ({ url: '/users', method: 'POST', data: payload }),

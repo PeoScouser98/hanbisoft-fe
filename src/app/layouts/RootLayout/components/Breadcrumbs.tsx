@@ -1,12 +1,15 @@
 import navigation from '@/app/configs/navigation.config';
-import DxIcon from '@/core/components/DxIcon';
-import Typography from '@/core/components/Typography';
-import { INavigation } from '@/core/types/navigation';
+import Icon from '@/common/components/DxIcon';
+import { INavigation } from '@/type';
+import HomeIcon from '@mui/icons-material/Home';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Breadcrumbs = () => {
+	const { t, i18n } = useTranslation('common');
+
 	const { pathname } = useLocation();
 	const breadcrumbs: Array<Pick<INavigation, 'text' | 'path' | 'breadcrumbs'>> = React.useMemo(() => {
 		const matchedNavigationItem = navigation.find((item) => {
@@ -18,22 +21,21 @@ const Breadcrumbs = () => {
 		return matchedNavigationItem?.hasItems
 			? matchedNavigationItem.items?.find((item) => !!matchPath(item?.path as string, pathname))?.breadcrumbs
 			: matchedNavigationItem?.breadcrumbs;
-	}, [pathname]);
+	}, [pathname, i18n.language]);
 
 	return (
 		<BreadCrumbsWrapper>
 			<StyledLink to='/'>
-				<DxIcon type='home' style={{ fontSize: 18 }} />
+				<HomeIcon />
 			</StyledLink>
 
-			{breadcrumbs.map((item: Pick<INavigation, 'id' | 'text' | 'path'>, index) => (
-				<React.Fragment>
-					<DxIcon type='chevronright' key={index} />
-					<Typography variant='small' style={{ userSelect: 'none', whiteSpace: 'nowrap' }}>
-						{item.text}
-					</Typography>
-				</React.Fragment>
-			))}
+			{Array.isArray(breadcrumbs) &&
+				breadcrumbs.map((item: Pick<INavigation, 'id' | 'i18nKey' | 'path'>, index) => (
+					<React.Fragment key={index}>
+						<Icon type='chevronright' key={index} />
+						<StyledLink to={item?.path}>{t(item?.i18nKey)}</StyledLink>
+					</React.Fragment>
+				))}
 		</BreadCrumbsWrapper>
 	);
 };
@@ -43,8 +45,6 @@ const BreadCrumbsWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	gap: 0.75em;
-	padding: 0 16px;
-
 	& * + *,
 	& * {
 		color: white;
@@ -60,10 +60,9 @@ const StyledLink = styled(Link)`
 	justify-content: center;
 	align-items: center;
 	gap: 0.5em;
+	white-space: nowrap;
+	color: white !important;
 	transition: linear 300ms ease-in-out;
-	& :where(:not(:first)) {
-		text-decoration: underline;
-	}
 `;
 
 export default Breadcrumbs;

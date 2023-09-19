@@ -1,13 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { TAuthPayload, IUser } from '@/core/types/user';
 import axiosBaseQuery from '../helper';
+import { IUser, AuthResponse, HttpResponse } from '@/type';
 
 const authApi = createApi({
 	reducerPath: 'authApi',
 	tagTypes: ['Auth'],
 	baseQuery: axiosBaseQuery(),
 	endpoints: (build) => ({
-		signin: build.mutation<Pick<TAuthPayload, 'user' | 'accessToken'>, Pick<IUser, 'email' | 'password'>>({
+		signin: build.mutation<HttpResponse<AuthResponse>, Pick<IUser, 'email' | 'password'>>({
 			query: (payload) => ({ url: '/signin', data: payload, method: 'POST' }),
 			invalidatesTags: ['Auth']
 		})

@@ -1,31 +1,37 @@
-import usePageNavigate from '@/app/hooks/usePageNavigate';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
 import { useAppSelector } from '@/app/store/hook';
 import { RootState } from '@/app/store/type';
-import ErrorBoundary from '@/core/components/ErrorBoundary';
-import LoadingProgressBar from '@/core/components/Loading/LoadingProgressBar';
-import Typography from '@/core/components/Typography';
-import { IPage } from '@/core/types/page';
+import ErrorBoundary from '@/common/components/ErrorBoundary';
+import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
+import Typography from '@/common/components/Typography';
 import { ScrollView, Sortable, TabPanel } from 'devextreme-react';
 import { DragStartEvent } from 'devextreme/ui/sortable';
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+import { useTranslation } from 'react-i18next';
+import { IPage } from '@/type';
 
 const TabNavigation = () => {
 	const { openingPages, currentPage } = useAppSelector((state: RootState) => state.pages);
 	const { handleOpenPage, handleClosePage, handleReorderPage } = usePageNavigate();
 	const navigate = useNavigate();
+	const { t, i18n } = useTranslation();
 
-	// React.useEffect(() => {
-	// 	navigate(currentPage.path);
-	// }, [currentPage]);
+	React.useEffect(() => {
+		navigate(currentPage.path);
+	}, [currentPage]);
 
 	const renderTitle = React.useCallback(
 		(page: IPage) => (
 			<TabItem onClick={() => handleOpenPage(page)}>
-				<Typography variant='p'>{page?.text}</Typography>
-				{openingPages.length >= 2 && page?.canClose && (
+				<Typography variant='p' css={{ width: '85%', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+					{t(page?.i18nKey)}
+				</Typography>
+				{page?.canClose && (
 					<CloseButton
+						className='dx-icon-close'
 						onClick={(e) => {
 							e.stopPropagation();
 							handleClosePage(page);
@@ -34,7 +40,7 @@ const TabNavigation = () => {
 				)}
 			</TabItem>
 		),
-		[openingPages, handleClosePage]
+		[i18n.language]
 	);
 	const renderOutlet = React.useCallback(
 		() => (
@@ -42,13 +48,13 @@ const TabNavigation = () => {
 				<OutLetWrapper>
 					<ErrorBoundary>
 						<React.Suspense fallback={<LoadingProgressBar />}>
-							<Outlet />
+							<Outlet context={{ search: '' }} />
 						</React.Suspense>
 					</ErrorBoundary>
 				</OutLetWrapper>
 			</ScrollView>
 		),
-		[]
+		[openingPages, i18n.language]
 	);
 
 	const handleTabDragStart = React.useCallback((e: DragStartEvent) => {
@@ -71,16 +77,19 @@ const TabNavigation = () => {
 					dataSource={openingPages}
 					scrollingEnabled
 					scrollByContent
-					focusStateEnabled={false}
-					hoverStateEnabled={false}
 					itemTitleRender={renderTitle}
 					showNavButtons
-					selectedItem={currentPage}
+					deferRendering
+					hoverStateEnabled={false}
+					focusStateEnabled={false}
 					repaintChangesOnly={true}
-					onSelectedItemChange={(value) => {
-						handleOpenPage(value);
-					}}
-					onSelectedIndexChange={(value) => handleOpenPage(openingPages[value] as unknown as IPage)}
+					onTitleClick={({ itemData }) => handleOpenPage(itemData as unknown as IPage)}
+					css={css`
+						& .dx-tabs-wrapper > .dx-item .dx-tab {
+							padding: 0 !important;
+						}
+					`}
+					selectedItem={currentPage}
 					itemRender={renderOutlet}
 				/>
 			</Sortable>
@@ -94,23 +103,27 @@ const Container = styled.div`
 `;
 
 const StyledTabPanel = styled(TabPanel)`
-	height: calc(100vh - 11.5rem);
+	height: calc(100vh - 8rem);
 `;
 
 const TabItem = styled.div`
 	position: relative;
 	width: 10rem;
-	text-overflow: ellipsis;
-	overflow: hidden;
 	text-align: left;
-	padding: 0 4px;
 `;
 
-const CloseButton = styled.i.attrs({ className: 'dx-icon-close' })`
+const CloseButton = styled.i`
 	position: absolute;
 	top: 0;
 	right: 0;
+	font-size: 12px !important;
+	transition: cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.2s;
+	opacity: 0.5;
+	&:hover {
+		opacity: 1;
+	}
 `;
+
 const OutLetWrapper = styled.div`
 	padding: 1em;
 `;

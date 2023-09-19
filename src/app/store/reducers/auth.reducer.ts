@@ -1,10 +1,9 @@
+import { AuthResponse } from '@/type';
 import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../api/auth.api';
-import { TAuthPayload } from '@/core/types/user';
 
-const initialState: TAuthPayload = {
+const initialState: Omit<AuthResponse, 'accessToken'> = {
 	user: null,
-	accessToken: null,
 	authenticated: false
 };
 
@@ -18,8 +17,8 @@ const authSlice = createSlice({
 	},
 	extraReducers: (build) => {
 		build.addMatcher(authApi.endpoints.signin.matchFulfilled, (state, { payload }) => {
-			state.user = payload.user;
-			state.accessToken = payload.accessToken;
+			const { data } = payload;
+			state.user = data.user;
 			state.authenticated = true;
 			return state;
 		});

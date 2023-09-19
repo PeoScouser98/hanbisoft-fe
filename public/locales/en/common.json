@@ -1,0 +1,22 @@
+{
+	"actions": {
+		"profile": "Profile",
+		"sign_out": "Sign out"
+	},
+	"navigation": {
+		"dashboard": "Dashboard",
+		"users": "Users",
+		"list_all_users": "List all users",
+		"create_new_user": "Create new user",
+		"create": "Create",
+		"data_grid": "Data grid",
+		"header_group": "Header group",
+		"simple_data_grid": "Simple data grid",
+		"scheduler": "Scheduler"
+	},
+	"btn": {
+		"search": "Search",
+		"save": "Save",
+		"revert": "Revert"
+	}
+}

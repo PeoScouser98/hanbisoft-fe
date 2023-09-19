@@ -1,4 +1,6 @@
-const themeConfig = {
+import { Theme } from '@emotion/react';
+
+const theme: Theme = {
 	colors: {
 		text: {
 			dark: '#f3f4f6',
@@ -7,6 +9,10 @@ const themeConfig = {
 		border: {
 			light: '#d1d5db',
 			dark: '#4b5563'
+		},
+		background: {
+			light: '#fff',
+			dark: '#1f2937'
 		},
 		accent: '#6366f1',
 		success: '#4ade80',
@@ -22,4 +28,4 @@ const themeConfig = {
 	}
 };
 
-export default themeConfig;
+export default theme;
