@@ -1,7 +1,7 @@
 import useDxTheme from '@/common/hooks/useDxTheme';
 import React from 'react';
 
-export default function PredefineTheme({ children }: React.PropsWithChildren) {
+const PredefineTheme = ({ children }: React.PropsWithChildren) => {
 	const { currentTheme } = useDxTheme();
 	const [loading, setLoading] = React.useState<boolean>(true);
 
@@ -23,4 +23,6 @@ export default function PredefineTheme({ children }: React.PropsWithChildren) {
 	}, [currentTheme]);
 
 	return loading ? null : children;
-}
+};
+
+export default React.memo(PredefineTheme);
