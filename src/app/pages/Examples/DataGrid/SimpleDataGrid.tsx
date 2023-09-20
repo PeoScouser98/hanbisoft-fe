@@ -21,8 +21,8 @@ import DataGrid, {
 } from 'devextreme-react/data-grid';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import { DataChange } from 'devextreme/common/grids';
-import { useMutation, useQuery } from 'react-query';
-import styled from 'styled-components';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 
 const DataGridExample = () => {

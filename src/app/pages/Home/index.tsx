@@ -1,4 +1,3 @@
-import React from 'react';
 import navigation from '@/app/configs/navigation.config';
 import { useGetUsersQuery } from '@/app/store/api/userApi';
 import Typography from '@/common/components/Typography';
@@ -75,7 +74,6 @@ const Grid = styled.div`
 	grid-template-columns: repeat(4, 1fr);
 	align-items: stretch;
 	gap: 24px;
-
 	@media screen and (min-width: 384px) and (max-width: 767px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
@@ -102,7 +100,6 @@ const CardBody = styled.div`
 	display: flex;
 	align-items: flex-start;
 	align-self: flex-start;
-
 	flex-direction: column;
 	gap: 6px;
 `;

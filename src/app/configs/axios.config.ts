@@ -1,10 +1,10 @@
 import axios from 'axios';
-import _configs from './env.config';
+import __configs from './env.config';
 import { HttpStatusCode } from 'axios';
 import { signout } from '../store/reducers/auth.reducer';
 
 const axiosClient = axios.create({
-	baseURL: _configs.BASE_URL
+	baseURL: __configs.BASE_URL
 });
 
 axiosClient.interceptors.request.use(

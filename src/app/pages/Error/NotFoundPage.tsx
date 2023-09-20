@@ -1,10 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/app/store/hook';
 import { closePage } from '@/app/store/reducers/page.reducer';
 import Typography from '@/common/components/Typography';
-import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 import { Button } from 'devextreme-react';
 import React from 'react';
-import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 
 const NotFoundPage: React.FunctionComponent = () => {

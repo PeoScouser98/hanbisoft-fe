@@ -4,8 +4,7 @@ import { closePage } from '@/app/store/reducers/page.reducer';
 import Typography from '@/common/components/Typography';
 import { Button } from 'devextreme-react';
 import { useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
-// import Typography from '@/common/components/Typography';
+import styled from '@emotion/styled';
 
 export default function PermissionDeniedPage() {
 	const navigate = useNavigate();
@@ -18,7 +17,7 @@ export default function PermissionDeniedPage() {
 	}, []);
 
 	return (
-		<Container>
+		<Container className='dx-theme-background-color'>
 			<ContentArea>
 				<StatusCode>403</StatusCode>
 				<Typography variant='h1'>Permission denied</Typography>
@@ -38,7 +37,7 @@ export default function PermissionDeniedPage() {
 	);
 }
 
-const Container = styled.div.attrs({ className: 'dx-theme-background-color' })`
+const Container = styled.div`
 	height: 100vh;
 	width: 100%;
 	display: flex;

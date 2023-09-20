@@ -1,13 +1,28 @@
-import React from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-export default function useQueryParams() {
-	const [urlParams, setUrlParams] = React.useState<{ [key: string]: any }>();
+function useQueryParams() {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const params = useParams();
-	const appendUrlParams = () => {
-		new URLSearchParams({
-			...params
-		});
+	// Hàm để lấy giá trị của một URL param
+	const getParam = (paramName) => {
+		return searchParams.get(paramName);
 	};
-	return params;
+
+	// Hàm để thiết lập giá trị của một URL param
+	const setParam = (paramName, paramValue) => {
+		const newSearchParams = new URLSearchParams(searchParams);
+		newSearchParams.set(paramName, paramValue);
+		setSearchParams(newSearchParams);
+	};
+
+	// Hàm để xóa một URL param
+	const deleteParam = (paramName) => {
+		const newSearchParams = new URLSearchParams(searchParams);
+		newSearchParams.delete(paramName);
+		setSearchParams(newSearchParams);
+	};
+
+	return { params, getParam, setParam, deleteParam };
 }
+
+export default useQueryParams;

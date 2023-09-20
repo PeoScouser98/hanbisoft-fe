@@ -15,11 +15,12 @@ const authSlice = createSlice({
 		}
 	},
 	extraReducers: (build) => {
-		build.addMatcher(authApi.endpoints.signin.matchFulfilled, (state, { payload }) => {
+		build.addMatcher(authApi.endpoints.signin.matchFulfilled, (_, { payload }) => {
 			const { data } = payload;
-			state.user = data.user;
-			state.authenticated = true;
-			return state;
+			return {
+				user: data.user,
+				authenticated: true
+			};
 		});
 	}
 });

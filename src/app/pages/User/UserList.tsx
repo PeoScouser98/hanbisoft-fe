@@ -5,7 +5,7 @@ import getDataGridChanges from '@/common/utils/getDataGridChanges';
 import DataGrid, { Column, ColumnFixing, Editing, Export, IColumnProps } from 'devextreme-react/data-grid';
 import { SavedEvent } from 'devextreme/ui/data_grid';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import '@/common/utils/string';
 
 const UserList: React.FC<unknown> = () => {

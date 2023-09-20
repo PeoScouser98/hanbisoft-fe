@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import PrivateLayout from '../RestrictedLayouts/PrivateLayout';
 import Main from './components/Main';
 import Header from './components/Navbar';

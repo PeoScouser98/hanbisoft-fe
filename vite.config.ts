@@ -9,16 +9,15 @@ export default defineConfig({
 		outDir: 'dist',
 		cssMinify: true,
 		cssCodeSplit: true,
+		chunkSizeWarningLimit: 1024,
 		copyPublicDir: true,
 		minify: 'esbuild'
 	},
 	server: {
-		port: 8000,
-		open: true
+		port: 8008
 	},
 	preview: {
-		port: 9000,
-		open: true
+		port: 9000
 	},
 	resolve: {
 		alias: [
@@ -31,10 +30,7 @@ export default defineConfig({
 	plugins: [
 		react({
 			jsxImportSource: '@emotion/react',
-			plugins: [
-				['@swc/plugin-styled-components', {}],
-				['@swc/plugin-emotion', {}]
-			]
+			plugins: [['@swc/plugin-emotion', {}]]
 		})
 	]
 });

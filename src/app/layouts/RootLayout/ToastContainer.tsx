@@ -1,8 +1,8 @@
-import useDxTheme from '@/common/hooks/useDxTheme';
+import useDXTheme from '@/common/hooks/useDXTheme';
 import { Toaster } from 'sonner';
 
 export default function ToastContainer() {
-	const { currentTheme } = useDxTheme();
+	const { currentTheme } = useDXTheme();
 
 	const toastClassName =
 		currentTheme === 'light'

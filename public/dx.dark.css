@@ -259,9 +259,9 @@
 	src:
 		local('DevExtreme Generic Icons'),
 		local('devextreme_generic_icons'),
-		url('/icons/dxicons.woff2') format('woff2'),
-		url('/icons/dxicons.woff') format('woff'),
-		url('/icons/dxicons.ttf') format('truetype');
+		url('icons/dxicons.woff2') format('woff2'),
+		url('icons/dxicons.woff') format('woff'),
+		url('icons/dxicons.ttf') format('truetype');
 	font-weight: 400;
 	font-style: normal;
 }

@@ -21,8 +21,9 @@ import {
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { ArrowForward } from '@mui/icons-material';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 
-const Signin: React.FC<unknown> = () => {
+export default function Signin() {
 	const { control, handleSubmit } = useForm({
 		resolver: yupResolver(signinSchema)
 	});
@@ -65,7 +66,7 @@ const Signin: React.FC<unknown> = () => {
 						render={() => {
 							return (
 								<div css={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 4 }}>
-									Sign in
+									Sign in <LoginOutlinedIcon />
 								</div>
 							);
 						}}
@@ -74,7 +75,7 @@ const Signin: React.FC<unknown> = () => {
 			</FormWrapper>
 		</Container>
 	);
-};
+}
 
 const Logo = styled(Typography)`
 	display: inline-flex;
@@ -97,5 +98,3 @@ const StyledLinkButton = styled(Link)`
 	top: 16px;
 	right: 16px;
 `;
-
-export default Signin;

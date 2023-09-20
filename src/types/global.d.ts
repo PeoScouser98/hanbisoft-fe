@@ -14,7 +14,7 @@ declare global {
 		message: string;
 		data: T;
 	}
-
+	export declare type DataTheme = 'generic.light' | 'generic.dark';
 	export declare interface IEmployee {
 		[key: string]: any;
 	}

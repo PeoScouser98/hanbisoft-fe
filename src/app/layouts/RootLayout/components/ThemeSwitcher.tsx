@@ -1,10 +1,9 @@
-import React from 'react';
-import useDxTheme from '@/common/hooks/useDxTheme';
-import { Theme } from '@emotion/react';
+import useDXTheme from '@/common/hooks/useDXTheme';
 import styled from '@emotion/styled';
+import React from 'react';
 
 const ThemeSwitcher = () => {
-	const { currentTheme, switchTheme } = useDxTheme();
+	const { currentTheme, changeTheme } = useDXTheme();
 
 	return (
 		<Switch className='dx-theme-background-color dx-theme-text-color dx-theme-border-color'>
@@ -12,10 +11,10 @@ const ThemeSwitcher = () => {
 			<i className='dx-icon-moon' />
 			<input
 				type='checkbox'
-				checked={currentTheme === 'light'}
+				checked={currentTheme === 'generic.light'}
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-					const theme = e.target.checked ? 'light' : 'dark';
-					switchTheme(theme);
+					const theme = e.target.checked ? 'generic.light' : 'generic.dark';
+					changeTheme(theme);
 				}}
 			/>
 			<i className='toggler' />
@@ -23,7 +22,7 @@ const ThemeSwitcher = () => {
 	);
 };
 
-const Switch = styled.label<{ theme?: Theme }>`
+const Switch = styled.label`
 	position: relative;
 	display: inline-block;
 	width: 48px;

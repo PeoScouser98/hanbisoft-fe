@@ -153,11 +153,11 @@ export const StyledLink = styled(Link)`
 export const HeroImage = styled.div`
 	display: block;
 	position: relative;
-	height: 100vh;
+	/* height: 100vh; */
 	width: 100%;
 	background-color: #111827;
 	padding: 24px;
-	box-shadow: 4px 0 32px #111827;
+	/* box-shadow: 4px 0 32px #111827; */
 `;
 
 export const GridPattern = () => (

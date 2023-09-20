@@ -47,7 +47,7 @@ const TabNavigation = () => {
 				<OutLetWrapper>
 					<ErrorBoundary>
 						<React.Suspense fallback={<LoadingProgressBar />}>
-							<Outlet context={{}} />
+							<Outlet />
 						</React.Suspense>
 					</ErrorBoundary>
 				</OutLetWrapper>
@@ -78,7 +78,7 @@ const TabNavigation = () => {
 					scrollByContent
 					itemTitleRender={renderTitle}
 					showNavButtons
-					deferRendering
+					// deferRendering
 					hoverStateEnabled={false}
 					focusStateEnabled={false}
 					repaintChangesOnly={true}

@@ -1,6 +1,6 @@
 import { Component, ErrorInfo } from 'react';
 import Typography from '../Typography';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 type State = {
 	hasError: boolean;
