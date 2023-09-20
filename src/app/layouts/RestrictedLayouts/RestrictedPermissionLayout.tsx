@@ -1,5 +1,5 @@
 import useAuth from '@/common/hooks/useAuth';
-import { UserRoleEnum } from '@/common/constants/user.const';
+import { UserRoleEnum } from '@/common/constants/_app.const';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 

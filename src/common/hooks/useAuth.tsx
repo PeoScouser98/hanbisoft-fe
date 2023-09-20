@@ -1,11 +1,9 @@
-import { IUser } from '@/type';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useSigninMutation } from '../../app/store/api/auth.api';
 import { useAppDispatch, useAppSelector } from '../../app/store/hook';
 import { signout } from '../../app/store/reducers/auth.reducer';
-import { useLocalStorage } from './useStorage';
 
 /**
  * @description Provides auth actions (signin/signout), and get user state
@@ -25,14 +23,14 @@ export default function useAuth() {
 			navigate('/');
 			return { data: data, isLoading, isError };
 		} catch (error) {
-			console.log(error.message);
+			toast.error(error.data?.message);
 		}
 	}, []);
 
 	const handleSignout = useCallback(() => {
 		dispatch(signout());
 		window.localStorage.removeItem('access_token');
-		toast.message(`You've signed out!`);
+		toast.success(`You've signed out!`);
 	}, []);
 
 	return { authState, signin: handleSignin, signout: handleSignout };

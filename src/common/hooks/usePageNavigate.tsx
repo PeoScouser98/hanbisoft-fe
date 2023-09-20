@@ -1,4 +1,3 @@
-import { IPage } from '@/type';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../app/store/hook';

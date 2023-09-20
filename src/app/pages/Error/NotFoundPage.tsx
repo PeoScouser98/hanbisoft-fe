@@ -1,22 +1,24 @@
 import { useAppDispatch, useAppSelector } from '@/app/store/hook';
 import { closePage } from '@/app/store/reducers/page.reducer';
 import Typography from '@/common/components/Typography';
+import { useTheme } from '@emotion/react';
 import { Button } from 'devextreme-react';
 import React from 'react';
+import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
 
 const NotFoundPage: React.FunctionComponent = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+
 	const { currentPage } = useAppSelector((state) => state.pages);
 
 	React.useEffect(() => {
-		dispatch(closePage(currentPage)); // Close current page that is not found
+		if (currentPage.path !== '/') dispatch(closePage(currentPage)); // Close current page that is not found
 	}, []);
 
 	return (
-		<Container>
+		<Container className='dx-theme-background-color dx-theme-text-color'>
 			<ContentArea>
 				<StatusCode>404</StatusCode>
 				<Typography variant='h1'>Page not found</Typography>
@@ -29,7 +31,7 @@ const NotFoundPage: React.FunctionComponent = () => {
 						type='default'
 						icon='home'
 						onClick={
-							() => navigate(currentPage.path) // Navigate to the previous page
+							() => navigate(-1) // Navigate to the previous page
 						}
 						text='Go back'
 					/>
@@ -40,7 +42,7 @@ const NotFoundPage: React.FunctionComponent = () => {
 	);
 };
 
-const Container = styled.div.attrs({ className: 'dx-theme-background-color dx-theme-text-color' })`
+const Container = styled.div`
 	height: 100vh;
 	width: 100%;
 	display: flex;
@@ -56,7 +58,7 @@ const ContentArea = styled.div`
 `;
 const StatusCode = styled.code`
 	font-size: 16px;
-	color: ${({ theme }) => theme.colors.danger};
+	color: ${({ theme }) => theme.colors?.danger};
 	font-weight: 600;
 `;
 

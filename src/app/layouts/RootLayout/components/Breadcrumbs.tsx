@@ -1,11 +1,10 @@
 import navigation from '@/app/configs/navigation.config';
 import Icon from '@/common/components/DxIcon';
-import { INavigation } from '@/type';
 import HomeIcon from '@mui/icons-material/Home';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, matchPath, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const Breadcrumbs = () => {
 	const { t, i18n } = useTranslation('common');

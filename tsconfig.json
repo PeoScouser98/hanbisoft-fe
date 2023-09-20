@@ -25,7 +25,14 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"]
-		}
+		},
+
+		/* Plugins */
+		"plugins": [
+			{
+				"tags": ["styled", "css", "sty"]
+			}
+		]
 	},
 	"include": ["src", "src/i18n"],
 	"references": [{ "path": "./tsconfig.node.json" }]

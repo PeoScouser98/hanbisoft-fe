@@ -1,15 +1,26 @@
-import Image from '@/assets/hero-image.png';
-import Icon from '@/common/components/DxIcon';
+import signinSchema from '@/app/validations/auth.validation';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import Typography from '@/common/components/Typography';
 import useAuth from '@/common/hooks/useAuth';
-import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Microsoft from '@mui/icons-material/Microsoft';
 import { Button } from 'devextreme-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {
+	Container,
+	Form,
+	FormWrapper,
+	GridPattern,
+	HeroImage,
+	Pattern1,
+	Pattern2,
+	StyledLink,
+	TypingTypography
+} from './components/Styled';
+import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import signinSchema from '../../../validations/auth.validation';
+import { ArrowForward } from '@mui/icons-material';
 
 const Signin: React.FC<unknown> = () => {
 	const { control, handleSubmit } = useForm({
@@ -19,24 +30,29 @@ const Signin: React.FC<unknown> = () => {
 	const { signin } = useAuth();
 
 	return (
-		<Container className='dx-theme-background-color dx-theme-text-color'>
+		<Container>
+			<HeroImage id='hero-image'>
+				<Logo variant='h4'>
+					<Microsoft /> Hanbisoft
+				</Logo>
+				<TypingTypography />
+				<Typography variant='p' css={{ color: 'white !important', position: 'absolute', bottom: '24px' }}>
+					© {new Date().getFullYear()} Hanbisoft, Inc. All rights reserved.
+				</Typography>
+			</HeroImage>
+			<GridPattern />
 			<FormWrapper>
+				<Pattern1 />
+				<Pattern2 />
+				<StyledLinkButton to='/about' className='dx-theme-text-color'>
+					About us <ArrowForward css={{ fontSize: '16px !important' }} />
+				</StyledLinkButton>
 				<Form onSubmit={handleSubmit(signin)}>
-					<Typography
-						variant='h3'
-						color='accent'
-						css={{
-							display: 'inline-flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							textAlign: 'center',
-							gap: '4px',
-							marginBottom: '8px'
-						}}>
-						<Icon type='mediumiconslayout' css={{ fontSize: '24px' }} /> Hanbisoft
-					</Typography>
-					<Typography variant='h2' css={{ textAlign: 'center', marginBottom: '32px' }}>
+					<Typography variant='h2' css={{ textAlign: 'center' }}>
 						Sign in to your account
+					</Typography>
+					<Typography variant='p' css={{ textAlign: 'center', marginBottom: '24px' }}>
+						Enter your email and password below to sign-in to your account
 					</Typography>
 
 					<TextFieldControl name='email' mode='text' control={control} label='Email' />
@@ -56,57 +72,30 @@ const Signin: React.FC<unknown> = () => {
 					/>
 				</Form>
 			</FormWrapper>
-
-			<HeroImage id='hero-image' src={Image} />
 		</Container>
 	);
 };
 
-const Container = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 1.5fr;
-	grid-auto-columns: minmax(1fr);
+const Logo = styled(Typography)`
+	display: inline-flex;
 	align-items: center;
-	height: 100vh;
-	width: 100%;
-	@media screen and (max-width: 767px) {
-		grid-template-columns: 1fr;
-		& #hero-image {
-			display: none;
-		}
-	}
+	justify-content: center;
+	text-align: center;
+	gap: 4px;
+	color: white !important;
+	font-weight: 700 !important;
+	margin-bottom: 5rem;
 `;
 
-const Form = styled.form`
-	padding: 24px;
-	border-radius: 8px;
-	width: 32rem;
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	@media screen and (max-width: 767px) {
-		width: 28rem;
-	}
-`;
-
-const FormWrapper = styled.div`
-	display: flex;
+const StyledLinkButton = styled(Link)`
+	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-`;
-
-const StyledLink = styled(Link)`
-	font-size: 12px;
+	gap: 8px;
 	text-decoration: none;
-	color: inherit;
-`;
-
-const HeroImage = styled.img`
-	display: block;
-	height: 100vh;
-	width: 100%;
-	object-fit: cover;
-	object-position: center;
+	position: fixed;
+	top: 16px;
+	right: 16px;
 `;
 
 export default Signin;
