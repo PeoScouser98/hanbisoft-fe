@@ -1,11 +1,10 @@
-import Icon from '@/common/components/DxIcon';
 import useAuth from '@/common/hooks/useAuth';
+import MicrosoftIcon from '@mui/icons-material/Microsoft';
 import { DropDownButton } from 'devextreme-react';
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { styled } from 'styled-components';
-import MicrosoftIcon from '@mui/icons-material/Microsoft';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -35,7 +34,7 @@ const Navbar = () => {
 
 	return (
 		<Header>
-			<NavLinkLogo to='/'>
+			<NavLinkLogo to='/' className='dx-theme-text-color'>
 				<MicrosoftIcon /> Hanbisoft
 			</NavLinkLogo>
 
@@ -77,7 +76,7 @@ const StyledDropdownButton = styled(DropDownButton)`
 	}
 `;
 
-const NavLinkLogo = styled(Link).attrs({ className: 'dx-theme-text-color' })`
+const NavLinkLogo = styled(Link)`
 	text-decoration: none;
 	align-self: center;
 	font-size: 18px;

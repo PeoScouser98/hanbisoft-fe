@@ -1,4 +1,3 @@
-import { AuthResponse } from '@/type';
 import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../api/auth.api';
 

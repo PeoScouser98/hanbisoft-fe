@@ -30,7 +30,8 @@ const DataGridExample = () => {
 		queryKey: ['employees'],
 		queryFn: getEmployees,
 		cacheTime: 60 * 1000,
-		staleTime: 30 * 1000
+		staleTime: 30 * 1000,
+		initialData: []
 		// refetchOnMount: true
 	});
 	const { t } = useTranslation();

@@ -1,17 +1,16 @@
-import usePageNavigate from '@/common/hooks/usePageNavigate';
 import { useAppSelector } from '@/app/store/hook';
 import { RootState } from '@/app/store/type';
 import ErrorBoundary from '@/common/components/ErrorBoundary';
 import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
 import Typography from '@/common/components/Typography';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { ScrollView, Sortable, TabPanel } from 'devextreme-react';
 import { DragStartEvent } from 'devextreme/ui/sortable';
 import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
-import { IPage } from '@/type';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const TabNavigation = () => {
 	const { openingPages, currentPage } = useAppSelector((state: RootState) => state.pages);
@@ -48,7 +47,7 @@ const TabNavigation = () => {
 				<OutLetWrapper>
 					<ErrorBoundary>
 						<React.Suspense fallback={<LoadingProgressBar />}>
-							<Outlet context={{ search: '' }} />
+							<Outlet context={{}} />
 						</React.Suspense>
 					</ErrorBoundary>
 				</OutLetWrapper>

@@ -26,7 +26,7 @@ i18n
 	.use(HttpBackend)
 	.use(initReactI18next)
 	.init({
-		backend: { loadPath: '/locales/{{lng}}/{{ns}}.json' },
+		backend: { loadPath: 'locales/{{lng}}/{{ns}}.json' },
 		defaultNS: 'common',
 		preload: ['common'],
 		ns: ['common', 'home'],

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/store/hook';
 import { setTheme } from '../../app/store/reducers/theme.reducer';
-import darkStyleSource from '@/styles/dx.dark.css?url';
-import lightStyleSource from '@/styles/dx.light.css?url';
-console.log(lightStyleSource);
+import darkStyleSource from '@/app/styles/dx.dark.css?url';
+import lightStyleSource from '@/app/styles/dx.light.css?url';
 
 export default function useDxTheme() {
 	const currentTheme = useAppSelector((state) => state.themes);

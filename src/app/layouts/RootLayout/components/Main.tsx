@@ -4,7 +4,7 @@ import { OpenedStateMode } from 'devextreme/ui/drawer';
 import { Drawer } from 'devextreme-react';
 import AsideNavigation from './AsideNavigation';
 import { css } from '@emotion/react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import PreferenceToolbar from './PreferenceToolbar';
 import TabNavigation from './TabNavigation';
 
@@ -43,7 +43,7 @@ const Main = () => {
 					backdrop-filter: blur(2px);
 				}
 			`}>
-			<DrawerContent>
+			<DrawerContent id='content'>
 				<PreferenceToolbar open={open} onOpenStateChange={handleOpenStateChange} />
 				<TabNavigation />
 			</DrawerContent>
@@ -51,7 +51,7 @@ const Main = () => {
 	);
 };
 
-const DrawerContent = styled.div.attrs({ id: 'content' })`
+const DrawerContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;

@@ -7,7 +7,6 @@ export declare interface ITypographyProps extends React.AllHTMLAttributes<HTMLEl
 	color?: 'accent' | 'danger' | 'success' | 'warning';
 	theme?: Theme;
 	as?: keyof HTMLElementTagNameMap;
-	[key: string]: any;
 }
 
 export default function Typography(props: ITypographyProps) {
@@ -30,21 +29,22 @@ export default function Typography(props: ITypographyProps) {
 }
 
 const H1 = styled.h1<ITypographyProps>`
-	font-size: 32px;
-	font-weight: 800;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
 	letter-spacing: -0.025em;
-
+	font-weight: 900 !important;
 	@media screen and (min-width: 384px) and (max-width: 767px) {
 		font-size: 20px;
 	}
-	@media screen and (max-width: 1365px) {
-		font-size: 48px;
+	@media screen and(min-width: 768px) and(max-width: 1365px) {
+		font-size: 40px;
+	}
+	@media screen and (min-width: 1366px) {
+		font-size: 48px !important;
 	}
 `;
 
 const H2 = styled.h2`
-	font-weight: 700;
+	font-weight: bold;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
 	@media screen and (min-width: 384px) and (max-width: 767px) {
 		font-size: 20px !important;
@@ -53,13 +53,13 @@ const H2 = styled.h2`
 		font-size: 24px !important;
 	}
 	@media screen and (min-width: 1366px) {
-		font-size: 28px !important;
+		font-size: 36px !important;
 	}
 `;
 
 const H3 = styled.h3`
 	font-size: 24px;
-	font-weight: 700;
+	font-weight: 800;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
 	@media screen and (max-width: 1365px) {
 		font-size: 22px;

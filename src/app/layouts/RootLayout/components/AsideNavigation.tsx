@@ -1,14 +1,11 @@
 import navigation from '@/app/configs/navigation.config';
 import { useAppSelector } from '@/app/store/hook';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
-import { useLocalStorage } from '@/common/hooks/useStorage';
-import { INavigation } from '@/type';
-
 import { ScrollView, TextBox, TreeView } from 'devextreme-react';
 import { ItemClickEvent } from 'devextreme/ui/tree_view';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const AsideNavigation = () => {
 	const { handleOpenPage } = usePageNavigate();
@@ -52,8 +49,8 @@ const AsideNavigation = () => {
 	);
 
 	return (
-		<Aside>
-			<TextBoxWrapper>
+		<Aside className='dx-theme-background-color'>
+			<TextBoxWrapper className='dx-theme-accent-as-background-color'>
 				<SearchBox
 					mode='search'
 					placeholder={'Search ...'}
@@ -66,8 +63,9 @@ const AsideNavigation = () => {
 					style={{ color: '#ffff' }}
 				/>
 			</TextBoxWrapper>
-			<StyledScrollView showScrollbar='onScroll' width='100%'>
+			<StyledScrollView showScrollbar='onScroll' width='100%' className='dx-theme-border-color'>
 				<StyledTreeView
+					className='panel-list'
 					dataSource={treeViewDataSource}
 					focusStateEnabled={false}
 					dataStructure='plain'
@@ -89,7 +87,7 @@ const AsideNavigation = () => {
 	);
 };
 
-const Aside = styled.aside.attrs({ className: 'dx-theme-background-color' })`
+const Aside = styled.aside`
 	height: 100%;
 	width: 320px;
 	display: flex;
@@ -99,7 +97,7 @@ const Aside = styled.aside.attrs({ className: 'dx-theme-background-color' })`
 	box-shadow: 8px 0 16px #ccc;
 `;
 
-const StyledScrollView = styled(ScrollView).attrs({ className: 'dx-theme-border-color' })`
+const StyledScrollView = styled(ScrollView)`
 	flex: 1;
 	border-right-width: 1px;
 	border-right-style: solid;
@@ -108,7 +106,7 @@ const StyledScrollView = styled(ScrollView).attrs({ className: 'dx-theme-border-
 	}
 `;
 
-const StyledTreeView = styled(TreeView).attrs({ className: 'panel-list' })`
+const StyledTreeView = styled(TreeView)`
 	& .dx-treeview-item-content {
 		font-size: 16px;
 		font-weight: 500;
@@ -125,7 +123,7 @@ const StyledTreeView = styled(TreeView).attrs({ className: 'panel-list' })`
 	}
 `;
 
-const TextBoxWrapper = styled.div.attrs({ className: 'dx-theme-accent-as-background-color' })`
+const TextBoxWrapper = styled.div`
 	width: 100%;
 	flex-basis: 3rem;
 	height: fit-content;

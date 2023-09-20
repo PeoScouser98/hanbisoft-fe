@@ -1,4 +1,4 @@
-import { UserRoleEnum } from '@/common/constants/user.const';
+import { UserRoleEnum } from '@/common/constants/_app.const';
 import * as yup from 'yup';
 
 const availableRoleValues = <number[]>Object.values(UserRoleEnum);

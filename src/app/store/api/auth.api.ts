@@ -1,6 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import axiosBaseQuery from '../helper';
-import { IUser, AuthResponse, HttpResponse } from '@/type';
 
 const authApi = createApi({
 	reducerPath: 'authApi',

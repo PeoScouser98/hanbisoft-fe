@@ -1,16 +1,16 @@
 import { useGetUsersQuery } from '@/app/store/api/userApi';
-import { UserRoleEnum } from '@/common/constants/user.const';
+import { UserRoleEnum } from '@/common/constants/_app.const';
 import handleExportExcel from '@/common/utils/exportExcel';
 import getDataGridChanges from '@/common/utils/getDataGridChanges';
 import DataGrid, { Column, ColumnFixing, Editing, Export, IColumnProps } from 'devextreme-react/data-grid';
 import { SavedEvent } from 'devextreme/ui/data_grid';
 import React from 'react';
 import styled from 'styled-components';
+import '@/common/utils/string';
 
 const UserList: React.FC<unknown> = () => {
 	const { data: users } = useGetUsersQuery({});
-	console.log(users);
-	const dataGridRef = React.useRef<typeof DataGrid.prototype>();
+	const dataGridRef = React.useRef<typeof DataGrid.prototype>(null);
 	const columns = React.useMemo<IColumnProps[]>(
 		() => [
 			{
@@ -36,6 +36,11 @@ const UserList: React.FC<unknown> = () => {
 				allowSorting: true
 			},
 			{
+				dataField: 'dateOfBirth',
+				dataType: 'date',
+				format: 'dd/MM/yyyy'
+			},
+			{
 				dataField: 'email',
 				allowSorting: true,
 				validationRules: [
@@ -55,7 +60,7 @@ const UserList: React.FC<unknown> = () => {
 				allowSorting: false,
 				cellRender: (instance) => {
 					const role = instance.value as keyof typeof UserRoleEnum;
-					return UserRoleEnum[role];
+					return UserRoleEnum[role].toString().capitalize();
 				}
 			}
 		],
@@ -78,6 +83,10 @@ const UserList: React.FC<unknown> = () => {
 			}}
 			onSaved={handleSaveChanges}
 			onExporting={(e) => handleExportExcel(e.component, 'Users.xlsx')}
+			onEditingStart={(e) => {
+				console.log(e.component);
+				// e.component.option('editing.popup.title',)
+			}}
 			cacheEnabled
 			showBorders
 			showColumnLines
