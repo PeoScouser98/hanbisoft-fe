@@ -1,5 +1,7 @@
 import useDxTheme from '@/common/hooks/useDxTheme';
 import React from 'react';
+import lightTheme from '@/app/styles/dx.light.css?url';
+import darkTheme from '@/app/styles/dx.dark.css?url';
 
 const PredefineTheme = ({ children }: React.PropsWithChildren) => {
 	const { currentTheme } = useDxTheme();
@@ -9,13 +11,13 @@ const PredefineTheme = ({ children }: React.PropsWithChildren) => {
 		(async () => {
 			switch (currentTheme) {
 				case 'light':
-					await import('@/app/styles/dx.light.css');
+					await import(lightTheme /* @vite-ignore */);
 					break;
 				case 'dark':
-					await import('@/app/styles/dx.dark.css');
+					await import(darkTheme /* @vite-ignore */);
 					break;
 				default:
-					await import('@/app/styles/dx.light.css');
+					await import(lightTheme /* @vite-ignore */);
 					break;
 			}
 			setLoading(false);
