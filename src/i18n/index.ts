@@ -1,5 +1,7 @@
 import i18n from 'i18next';
 import HttpBackend from 'i18next-http-backend';
+import ChainedBackend from 'i18next-chained-backend';
+import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
 
 export const locales = {
@@ -23,16 +25,27 @@ const lng = (() => {
 })();
 
 i18n
-	.use(HttpBackend)
 	.use(initReactI18next)
+	.use(ChainedBackend)
 	.init({
-		backend: { loadPath: '/locales/{{lng}}/{{ns}}.json' },
-		defaultNS: 'common',
-		preload: ['common'],
-		ns: ['common', 'home'],
+		backend: {
+			backends: [
+				HttpBackend
+				// resourcesToBackend((lng, ns) => import(`/locales/${lng}/${ns}.json`))
+				//   resourcesToBackend(bundledResources)
+			],
+			backendOptions: [
+				{
+					loadPath: '/locales/{{lng}}/{{ns}}.json'
+				}
+			]
+		},
+		defaultNS: ['common', 'home'],
+		preload: ['en'],
+		ns: ['common', 'home', 'equipment'],
 		lng,
 		fallbackLng: 'en',
-		fallbackNS: ['common'],
+		fallbackNS: ['common', 'home'],
 		saveMissing: true,
 		appendNamespaceToMissingKey: true,
 		debug: false,

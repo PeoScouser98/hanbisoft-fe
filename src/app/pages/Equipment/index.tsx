@@ -1,10 +1,10 @@
-import equpimentService from '@/app/services/equipment.service';
+import equipmentService from '@/app/services/equipment.service';
 import useColumnsDef from '@/common/hooks/useColumnsDef';
 import useScreenSize from '@/common/hooks/useScreenSize';
 import handleExportExcel from '@/common/utils/exportExcel';
 import styled from '@emotion/styled';
 import { SearchOutlined } from '@mui/icons-material';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryKey, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, DataGrid } from 'devextreme-react';
 import { Column } from 'devextreme-react/data-grid';
 import { ContentReadyEvent, SavedEvent } from 'devextreme/ui/data_grid';
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { columns, renderSearchFields, toolbarItems } from './predefine';
 import { IButtonOptions } from 'devextreme-react/button';
+import ErrorBoundary from '@/common/components/ErrorBoundary';
 
 const EquipmentList = () => {
 	// const [skip, setSkip] = React.useState<number>(0);
@@ -23,36 +24,45 @@ const EquipmentList = () => {
 	const [selectedRowKeys, setSelectedRowKeys] = React.useState<Array<string>>([]);
 	const columnsDef = useColumnsDef(columns, { ns: 'equipment' });
 	const screenSize = useScreenSize();
-	const [dataSource, setDataSource] = React.useState([]);
+	const [dataSource, setDataSource] = React.useState<IEquipment[]>([]);
 
 	const queryClient = useQueryClient();
 
-	const { data, isLoading } = useQuery({
+	const { isFetching } = useQuery<HttpResponse<IEquipment[]>, Error, HttpResponse<IEquipment[]>, QueryKey>({
 		queryKey: ['equipment'],
-		queryFn: () => equpimentService.getAll({ limit: 50, skip: 0 }),
-		keepPreviousData: true,
-		initialData: [],
-		select: (res) => res.data || [],
-		onSuccess: (data: HttpResponse<IEquipment[]>['data']) => {
-			setDataSource(data);
+		queryFn: () => equipmentService.getAll(),
+		initialData: { data: [], message: null },
+		onSuccess: (res) => {
+			console.log(res);
+			setDataSource(res?.data);
+		}
+	});
+
+	const { data: lookupFieldValues } = useQuery<any>({
+		queryKey: ['equipment', 'equipment_lookup'],
+		queryFn: equipmentService.getLookupFieldsValue,
+		initialData: { saleCodes: [], saleStatus: [], prodType: [], proType1: [], prodType2: [], prodType3: [] },
+		enabled: true,
+		select: (res) => res.data,
+		onSuccess: (res) => {
+			console.log(res);
 		}
 	});
 
 	const { mutateAsync: searchAsync } = useMutation({
 		mutationKey: ['equipment'],
-		mutationFn: equpimentService.search,
-		useErrorBoundary: true,
+		mutationFn: equipmentService.search,
 		onSuccess: (res) => setDataSource(res?.data || [])
 	});
 
 	const { mutateAsync: saveMutation } = useMutation({
 		mutationKey: ['equipment'],
-		mutationFn: equpimentService.save,
+		mutationFn: equipmentService.save,
 		onSuccess: () => queryClient.invalidateQueries(['equipment'])
 	});
 	const { mutateAsync: deleteMutation } = useMutation({
-		mutationKey: ['equipment'],
-		mutationFn: equpimentService.delete,
+		mutationKey: ['equipment', selectedRowKeys],
+		mutationFn: equipmentService.delete,
 		onSuccess: (res) => queryClient.invalidateQueries(['equipment'])
 	});
 
@@ -87,7 +97,7 @@ const EquipmentList = () => {
 				onClick: () => handleDelete()
 			}
 		],
-		[]
+		[selectedRowKeys]
 	);
 
 	const handleSearch = async (data) => {
@@ -111,11 +121,13 @@ const EquipmentList = () => {
 	};
 
 	const handleDelete = async () => {
-		toast.promise(deleteMutation(selectedRowKeys), {
-			loading: 'Deleting data ...',
-			success: (res) => res.message,
-			error: 'Failed to delete'
-		});
+		console.log('selectedRowKeys :>> ', selectedRowKeys);
+		if (confirm('Aggree to delete data?'))
+			toast.promise(async () => await deleteMutation(selectedRowKeys), {
+				loading: 'Deleting data ...',
+				success: (res) => res.message,
+				error: 'Failed to delete'
+			});
 	};
 
 	const handleScrollToBottom = async (e: ContentReadyEvent) => {
@@ -139,64 +151,69 @@ const EquipmentList = () => {
 			<SearchBox
 				onSubmit={handleSubmit(handleSearch)}
 				className='dx-theme-border-color-as-background-color dx-theme-border-color'>
-				{renderSearchFields(control)}
+				{renderSearchFields(control, lookupFieldValues)}
 				<button type='submit' id={id} />
 			</SearchBox>
-
-			<StyledDataGrid
-				height={dxTableHeight}
-				ref={dataGridRef}
-				dataSource={dataSource}
-				keyExpr='_id'
-				loadPanel={{ enabled: isLoading }}
-				scrolling={{
-					mode: 'infinite',
-					rowRenderingMode: 'virtual',
-					columnRenderingMode: 'virtual',
-					preloadEnabled: true,
-					showScrollbar: 'onHover',
-					scrollByContent: true
-				}}
-				columnFixing={{
-					enabled: true
-				}}
-				onContentReady={handleScrollToBottom}
-				columnResizingMode='widget'
-				allowColumnReordering
-				allowColumnResizing
-				columnAutoWidth
-				showBorders
-				showColumnLines
-				showRowLines
-				export={{
-					enabled: true,
-					allowExportSelectedData: true,
-					formats: ['excel', 'pdf']
-				}}
-				selection={{
-					showCheckBoxesMode: 'always',
-					selectAllMode: 'allPages',
-					mode: 'multiple',
-					allowSelectAll: true
-				}}
-				toolbar={{ items: toolbarItems }}
-				editing={{
-					mode: 'batch',
-					useIcons: true,
-					allowAdding: true,
-					allowDeleting: true,
-					allowUpdating: true
-				}}
-				onSaved={handleSave}
-				onSelectionChanged={(e) => {
-					console.log(e.selectedRowKeys);
-					setSelectedRowKeys(e.selectedRowKeys as Array<string>);
-				}}
-				onExporting={(e) => handleExportExcel(e.component, 'Equipments list.xlsx')}>
-				{columnsDef.map((colProps, index) => (
-					<Column key={index} {...colProps} />
-				))}
-			</StyledDataGrid>
+			<ErrorBoundary>
+				<StyledDataGrid
+					height={dxTableHeight}
+					ref={dataGridRef}
+					dataSource={dataSource}
+					keyExpr='_id'
+					loadPanel={{ enabled: isFetching }}
+					scrolling={{
+						mode: 'infinite',
+						rowRenderingMode: 'virtual',
+						columnRenderingMode: 'virtual',
+						preloadEnabled: true,
+						showScrollbar: 'onHover',
+						scrollByContent: true
+					}}
+					columnFixing={{
+						enabled: true
+					}}
+					onContentReady={handleScrollToBottom}
+					columnResizingMode='widget'
+					allowColumnReordering
+					allowColumnResizing
+					columnAutoWidth
+					showBorders
+					showColumnLines
+					showRowLines
+					export={{
+						enabled: true,
+						allowExportSelectedData: true,
+						formats: ['excel', 'pdf']
+					}}
+					selection={{
+						showCheckBoxesMode: 'always',
+						selectAllMode: 'allPages',
+						mode: 'multiple',
+						allowSelectAll: true
+					}}
+					toolbar={{ items: toolbarItems }}
+					editing={{
+						mode: 'batch',
+						useIcons: true,
+						allowAdding: true,
+						// allowDeleting: true,
+						allowUpdating: true
+					}}
+					onSaved={handleSave}
+					// onSelectionChanged={(e) => {
+					// 	console.log(e.selectedRowKeys);
+					// 	setSelectedRowKeys(e.selectedRowKeys as Array<string>);
+					// }}
+					onSelectedRowKeysChange={(value) => {
+						console.log('value :>> ', value);
+						setSelectedRowKeys(value);
+					}}
+					onExporting={(e) => handleExportExcel(e.component, 'Equipments list.xlsx')}>
+					{columnsDef.map((colProps, index) => (
+						<Column key={index} {...colProps} />
+					))}
+				</StyledDataGrid>
+			</ErrorBoundary>
 		</Container>
 	);
 };

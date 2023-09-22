@@ -45,11 +45,11 @@ const TabNavigation = () => {
 		() => (
 			<ScrollView showScrollbar='onScroll'>
 				<OutLetWrapper>
-					<ErrorBoundary>
-						<React.Suspense fallback={<LoadingProgressBar />}>
+					<React.Suspense fallback={<LoadingProgressBar />}>
+						<ErrorBoundary>
 							<Outlet />
-						</React.Suspense>
-					</ErrorBoundary>
+						</ErrorBoundary>
+					</React.Suspense>
 				</OutLetWrapper>
 			</ScrollView>
 		),

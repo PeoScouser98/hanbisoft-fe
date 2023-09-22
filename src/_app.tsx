@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			enabled: true,
-			useErrorBoundary: true,
+			useErrorBoundary: false,
 			staleTime: Infinity,
 			retryOnMount: true,
 			refetchOnMount: 'always',

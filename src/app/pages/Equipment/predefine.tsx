@@ -79,7 +79,7 @@ export const toolbarItems: Array<typeof Item.prototype.props> = [
 	}
 ];
 
-export const renderSearchFields = (control: Control<FieldValues>) => {
+export const renderSearchFields = (control: Control<FieldValues>, lookupValues: any) => {
 	return [
 		{
 			key: 'item_cd',
@@ -94,7 +94,6 @@ export const renderSearchFields = (control: Control<FieldValues>) => {
 			key: 'carcass_cd',
 			component: TextFieldControl,
 			name: 'carcass_cd' as TTextFieldProps['name'],
-
 			labelMode: 'hidden' as TTextFieldProps['labelMode'],
 			control: control as TTextFieldProps['control'],
 			placeholder: 'Search by carcass'
@@ -102,7 +101,7 @@ export const renderSearchFields = (control: Control<FieldValues>) => {
 		{
 			key: 'sale_status',
 			component: SelectFieldControl,
-			dataSource: [],
+			dataSource: lookupValues?.saleStatus,
 			name: 'sale_status' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
 			control: control as TSelectFieldProps['control'],
@@ -111,7 +110,7 @@ export const renderSearchFields = (control: Control<FieldValues>) => {
 		{
 			key: 'prod_type1',
 			component: SelectFieldControl,
-			dataSource: [],
+			dataSource: lookupValues?.prodType1,
 			name: 'prod_type1' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
 			control: control as TSelectFieldProps['control'],
@@ -120,7 +119,7 @@ export const renderSearchFields = (control: Control<FieldValues>) => {
 		{
 			key: 'prod_type2',
 			component: SelectFieldControl,
-			dataSource: [],
+			dataSource: lookupValues?.prodType2,
 			name: 'prod_type2' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
 			control: control as TSelectFieldProps['control'],
@@ -129,7 +128,7 @@ export const renderSearchFields = (control: Control<FieldValues>) => {
 		{
 			key: 'prod_type3',
 			component: SelectFieldControl,
-			dataSource: [],
+			dataSource: lookupValues?.prodType3,
 			name: 'prod_type3' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
 			control: control as TSelectFieldProps['control'],
