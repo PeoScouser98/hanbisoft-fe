@@ -1,6 +1,7 @@
 import { Component, ErrorInfo } from 'react';
 import Typography from '../Typography';
 import styled from '@emotion/styled';
+import { ErrorOutlineOutlined, WarningRounded } from '@mui/icons-material';
 
 type State = {
 	hasError: boolean;
@@ -28,7 +29,7 @@ class ErrorBoundary extends Component<React.PropsWithChildren, State> {
 		if (this.state.hasError) {
 			return (
 				<Wrapper>
-					<span className='material-symbols-outlined'>error</span>
+					<ErrorOutlineOutlined />
 					<div>
 						<Typography variant='h3' css={{ marginBottom: '8px' }}>
 							Something went wrong

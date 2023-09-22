@@ -6,9 +6,9 @@ import RootLayout from '../layouts/RootLayout';
 import PermissionDeniedPage from '../pages/Error/PermissionDeniedPage';
 import Home from '../pages/Home';
 
-const UserLayout = React.lazy(() => import('@/app/pages/User'));
-const RegisterPage = React.lazy(() => import('@/app/pages/User/RegisterPage'));
-const UserListPage = React.lazy(() => import('@/app/pages/User/UserList'));
+const UserListPage = React.lazy(() => import('@/app/pages/User'));
+const EquipmentsPage = React.lazy(() => import('@/app/pages/Equipment'));
+const ProfilePage = React.lazy(() => import('@/app/pages/Auth/Profile'));
 
 const routesConfig: Array<RouteObject> = [
 	{ path: '*', element: <NotFoundPage /> },
@@ -24,11 +24,15 @@ const routesConfig: Array<RouteObject> = [
 			},
 			{
 				path: '/users',
-				element: <UserLayout />,
-				children: [
-					{ index: true, element: <UserListPage /> },
-					{ path: 'create', element: <RegisterPage /> }
-				]
+				element: <UserListPage />
+			},
+			{
+				path: '/equipments',
+				element: <EquipmentsPage />
+			},
+			{
+				path: '/profile',
+				element: <ProfilePage />
 			}
 		]
 	},

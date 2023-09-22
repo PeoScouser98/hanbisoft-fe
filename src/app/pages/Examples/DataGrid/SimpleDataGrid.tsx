@@ -1,7 +1,8 @@
 import React from 'react';
-import { addMultiEmployees, getEmployees, updateMultiEmployees } from '@/app/services/employee.service';
 
 import handleExportExcel from '@/common/utils/exportExcel';
+import styled from '@emotion/styled';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import DataGrid, {
 	Column,
@@ -21,14 +22,12 @@ import DataGrid, {
 } from 'devextreme-react/data-grid';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import { DataChange } from 'devextreme/common/grids';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 
 const DataGridExample = () => {
 	const { data: employees } = useQuery({
 		queryKey: ['employees'],
-		queryFn: getEmployees,
+		// queryFn: getEmployees,
 		cacheTime: 60 * 1000,
 		staleTime: 30 * 1000,
 		initialData: []
@@ -38,12 +37,12 @@ const DataGridExample = () => {
 
 	const { mutateAsync: handleAddEmployees } = useMutation({
 		mutationKey: ['employees'],
-		mutationFn: (data: Array<Partial<any>>) => addMultiEmployees(data),
+		// mutationFn: (data: Array<Partial<any>>) => addMultiEmployees(data),
 		useErrorBoundary: true
 	});
 	const { mutateAsync: handleUpdateEmployees } = useMutation({
 		mutationKey: ['employees'],
-		mutationFn: (data: Array<Partial<any>>) => updateMultiEmployees(data),
+		// mutationFn: (data: Array<Partial<any>>) => updateMultiEmployees(data),
 		useErrorBoundary: true
 	});
 
@@ -96,7 +95,7 @@ const DataGridExample = () => {
 		try {
 			const newEmployees = data.filter((item) => item.type === 'insert').map((item) => item.data);
 			const updatedEmployees = data.filter((item) => item.type === 'update').map((item) => item.data);
-			return await Promise.all([handleAddEmployees(newEmployees), handleUpdateEmployees(updatedEmployees)]);
+			// return await Promise.all([handleAddEmployees(newEmployees), handleUpdateEmployees(updatedEmployees)]);
 		} catch (error) {
 			const err = error as AxiosError;
 			console.log(err);

@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from '@/app/store/api/userApi';
+import { useGetUsersQuery } from '@/app/store/apis/user.api';
 import { UserRoleEnum } from '@/common/constants/_app.const';
 import handleExportExcel from '@/common/utils/exportExcel';
 import getDataGridChanges from '@/common/utils/getDataGridChanges';

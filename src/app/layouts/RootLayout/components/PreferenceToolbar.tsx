@@ -1,10 +1,10 @@
-import TranslateIcon from '@/assets/translate.svg?raw';
+import React from 'react';
+import TranslateIcon from '@/assets/svg/translate.svg?raw';
 import ThemeSwitcher from '@/app/layouts/RootLayout/components/ThemeSwitcher';
 import { useLocalStorage } from '@/common/hooks/useStorage';
 import { locales } from '@/i18n';
 import { DropDownButton } from 'devextreme-react';
 import Button, { IButtonOptions } from 'devextreme-react/button';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -24,7 +24,7 @@ const PreferenceToolbar = (props: Props) => {
 
 	return (
 		<Toolbar className='dx-theme-accent-as-background-color'>
-			<FlexBox horizontalDivide>
+			<FlexBox divide>
 				<div>
 					<StyledButton
 						id='toggle-panel-btn'
@@ -41,7 +41,6 @@ const PreferenceToolbar = (props: Props) => {
 			</FlexBox>
 			<FlexBox style={{ justifyContent: 'flex-end' }}>
 				<ThemeSwitcher />
-
 				<DropDownButton
 					icon={TranslateIcon}
 					width='100%'
@@ -83,7 +82,7 @@ const StyledButton = styled(Button)<React.PropsWithChildren & IButtonOptions>`
 	}
 `;
 
-const horizontalDivide = css`
+const divide = css`
 	& > * + * {
 		border-width: 0 0 0 2px;
 		border-style: solid;
@@ -98,11 +97,11 @@ const horizontalDivide = css`
 	}
 `;
 
-const FlexBox = styled.div<{ horizontalDivide?: boolean }>`
+const FlexBox = styled.div<{ divide?: boolean }>`
 	display: flex;
 	align-items: center;
-	gap: ${(props) => (props.horizontalDivide ? 0 : '16px')};
-	${(props) => (props.horizontalDivide ? horizontalDivide : undefined)}
+	gap: ${(props) => (props.divide ? 0 : '16px')};
+	${(props) => (props.divide ? divide : undefined)}
 `;
 
 export default React.memo(PreferenceToolbar);

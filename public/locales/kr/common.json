@@ -9,14 +9,12 @@
 		"users": "사용자",
 		"create_new_user": "새 사용자 만들기",
 		"create": "창조하다",
-		"data_grid": "데이터 그리드",
-		"header_group": "헤더 그룹",
-		"simple_data_grid": "간단한 데이터 그리드",
-		"scheduler": "스케줄러"
+		"equipments": "장비"
 	},
 	"btn": {
-		"search": "찾다",
-		"save": "구해내다",
-		"revert": "되돌릴"
+		"search": "조회",
+		"save": "저장",
+		"delete": "삭제",
+		"revert": "초기화"
 	}
 }

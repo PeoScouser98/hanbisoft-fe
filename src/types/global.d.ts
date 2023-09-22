@@ -2,6 +2,11 @@ import { IEmployee } from '@/common/types/employee.type';
 import { dxTreeViewItem } from 'devextreme/ui/tree_view';
 import { DxIconType } from '../common/components/DxIcon';
 import store from '@/app/store/store';
+import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
+import SelectFieldControl from '@/common/components/FormControls/SelectFieldControl';
+import NumberFieldControl from '@/common/components/FormControls/NumberFieldControl';
+import RadioGroupFieldControl from '@/common/components/FormControls/RadioGroupFieldControl';
+import TextAreaFieldControl from '@/common/components/FormControls/TextAreaFieldControl';
 
 declare global {
 	interface Window {
@@ -56,4 +61,28 @@ declare global {
 		items?: dxTreeViewItem['items'] & INavigation['breadcrumbs'];
 		breadcrumbs?: Array<Pick<INavigation, 'i18nKey' | 'path'>>;
 	}
+
+	export declare interface IEquipment {
+		prod_etc1: string;
+		sale_status: string;
+		sale_dept_cd: string;
+		spec: string;
+		sales_cd: string;
+		width: number;
+		carcass_cd: string;
+		weight: number;
+		area: number;
+		yag: string;
+		prod_type3: string;
+		pyeong: number;
+		prod_type1: string;
+		prod_type: string;
+		item_cd: string;
+	}
+
+	export declare type TextFieldControl = typeof TextFieldControl;
+	export declare type SelectFieldControl = typeof SelectFieldControl;
+	export declare type NumberFieldControl = typeof NumberFieldControl;
+	export declare type RadioGroupFieldControl = typeof TextFieldControl;
+	export declare type TextAreaFieldControl = typeof TextAreaFieldControl;
 }

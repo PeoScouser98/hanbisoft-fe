@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import authApi from './api/auth.api';
-import userApi from './api/userApi';
+import authApi from './apis/auth.api';
+import userApi from './apis/user.api';
 import authSlice from './reducers/auth.reducer';
 import pageSlice from './reducers/page.reducer';
 

@@ -1,4 +1,4 @@
-import { useCreateUsersMutation } from '@/app/store/api/userApi';
+import { useCreateUsersMutation } from '@/app/store/apis/user.api';
 import { newUserSchema } from '@/app/validations/user.validation';
 import RadioGroupFieldControl, { TRadioGroupProps } from '@/common/components/FormControls/RadioGroupFieldControl';
 import SelectFieldControl, { TSelectFieldProps } from '@/common/components/FormControls/SelectFieldControl';

@@ -1,0 +1,19 @@
+{
+	"prod_etc1": "Product ETC",
+	"sale_status": "Sale status",
+	"sale_dept_cd": "Sale dept code",
+	"spec": "Spec",
+	"sales_cd": "Sales",
+	"fg_cd": "FG",
+	"width": "Width(m)",
+	"carcass_cd": "CARCASS",
+	"weight": "Weight(kg)",
+	"area": "Volumn(m²)",
+	"yag": "YAG",
+	"pyeong": "Square (footage)",
+	"prod_type3": "Product type (3)",
+	"prod_type2": "Product type (2)",
+	"prod_type1": "Product type (1)",
+	"prod_type": "Product type",
+	"item_cd": "Item code"
+}

@@ -17,8 +17,11 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			enabled: true,
+			useErrorBoundary: true,
+			staleTime: Infinity,
 			retryOnMount: true,
-			useErrorBoundary: true
+			refetchOnMount: 'always',
+			refetchOnReconnect: 'always'
 		}
 	}
 });

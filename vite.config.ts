@@ -4,17 +4,17 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	envDir: 'env',
+	envDir: '.env',
 	build: {
 		outDir: 'dist',
 		cssMinify: true,
-		cssCodeSplit: true,
+		cssCodeSplit: false,
 		chunkSizeWarningLimit: 1024,
 		copyPublicDir: true,
 		minify: 'esbuild'
 	},
 	server: {
-		port: 8008
+		port: 8000
 	},
 	preview: {
 		port: 9000

@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import authApi from '../api/auth.api';
+import authApi from '../apis/auth.api';
 
-const initialState: Omit<AuthResponse, 'accessToken'> = {
+const initialState: AuthResponse = {
 	user: null,
+	accessToken: null,
 	authenticated: false
 };
 
@@ -18,7 +19,7 @@ const authSlice = createSlice({
 		build.addMatcher(authApi.endpoints.signin.matchFulfilled, (_, { payload }) => {
 			const { data } = payload;
 			return {
-				user: data.user,
+				...data,
 				authenticated: true
 			};
 		});

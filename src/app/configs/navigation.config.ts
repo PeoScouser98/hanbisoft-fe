@@ -21,28 +21,26 @@ const navigation: Array<INavigation> = [
 		id: '2',
 		i18nKey: 'common:navigation.users',
 		icon: 'group',
+		path: '/users',
 		hasItems: true,
 		breadcrumbs: [{ i18nKey: 'common:navigation.users', path: '/users' }]
 	},
 	{
-		id: '2.1',
-		parentId: '2',
-		i18nKey: 'common:navigation.list_all_users',
-		path: '/users',
-		icon: 'group',
-		breadcrumbs: [{ i18nKey: 'users', path: '/users' }]
-	},
-	{
-		id: '2.2',
-		parentId: '2',
-		i18nKey: 'common:navigation.create_new_user',
-		path: '/users/create',
-		icon: 'plus',
-		breadcrumbs: [
-			{ i18nKey: 'common:navigation.users', path: '/users' },
-			{ i18nKey: 'common:navigation.create', path: '/users/create' }
-		]
+		id: '3',
+		i18nKey: 'common:navigation.equipments',
+		path: '/equipments',
+		icon: 'file',
+		breadcrumbs: [{ i18nKey: 'common:navigation.equipments', path: '/equipments' }]
 	}
+	// {
+	// 	id: '4',
+	// 	i18nKey: 'common:navigation.scheduler',
+	// 	path: '/scheduler',
+	// 	icon: 'file',
+	// 	hasItems: false,
+	// 	breadcrumbs: [{ i18nKey: 'scheduler', path: '/scheduler' }]
+	// }
+
 	// {
 	// 	id: '3',
 	// 	i18nKey: 'common:navigation.data_grid',
@@ -70,14 +68,6 @@ const navigation: Array<INavigation> = [
 	// 		{ i18nKey: 'common:navigation.header_group', path: '/data-grid/header-grouping' },
 	// 		{ i18nKey: 'common:navigation.header_group', path: '/data-grid/header-grouping' }
 	// 	]
-	// }
-	// {
-	// 	id: '4',
-	// 	i18nKey: 'common:navigation.scheduler',
-	// 	path: '/scheduler',
-	// 	icon: 'file',
-	// 	hasItems: false,
-	// 	breadcrumbs: [{ i18nKey: 'scheduler', path: '/scheduler' }]
 	// }
 ];
 

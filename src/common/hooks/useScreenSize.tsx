@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react';
-import useEventListener from './useEventListener';
+import React from 'react';
 
-/**
- * @description Check screen size match with media query
- * @param {string} mediaQuery
- * @example const isLargeScreen = useMediaQuery('(min-width: 1366px)')
- * @returns {boolean}
- */
+export default function useScreenSize() {
+	const [screenSize, setScreenSize] = React.useState(getCurrentDimension());
 
-export default function useMediaQuery(mediaQuery: string) {
-	const [isMatch, setIsMatch] = useState<boolean>(false);
-	const [mediaQueryList, setMediaQueryList] = useState<MediaQueryList>();
+	function getCurrentDimension() {
+		return {
+			width: window.innerWidth,
+			height: window.innerHeight
+		};
+	}
 
-	useEffect(() => {
-		const list = window.matchMedia(mediaQuery);
-		setMediaQueryList(list);
-		setIsMatch(list.matches);
-	}, [mediaQuery]);
+	React.useEffect(() => {
+		const updateDimension = () => {
+			setScreenSize(getCurrentDimension());
+		};
+		window.addEventListener('resize', updateDimension);
 
-	useEventListener('change', (e: MediaQueryListEventInit) => setIsMatch(e.matches!), mediaQueryList);
+		return () => {
+			window.removeEventListener('resize', updateDimension);
+		};
+	}, [screenSize]);
 
-	return isMatch;
+	return screenSize;
 }

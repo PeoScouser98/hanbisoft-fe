@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/app/store/hook';
-import { RootState } from '@/app/store/type';
+import { RootState } from '@/app/store/reduxjs';
 import ErrorBoundary from '@/common/components/ErrorBoundary';
 import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
 import Typography from '@/common/components/Typography';
@@ -108,7 +108,7 @@ const StyledTabPanel = styled(TabPanel)`
 const TabItem = styled.div`
 	position: relative;
 	width: 10rem;
-	text-align: left;
+	text-align: center;
 `;
 
 const CloseButton = styled.i`
@@ -127,4 +127,4 @@ const OutLetWrapper = styled.div`
 	padding: 1em;
 `;
 
-export default React.memo(TabNavigation);
+export default TabNavigation;

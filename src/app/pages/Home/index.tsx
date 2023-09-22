@@ -1,5 +1,5 @@
 import navigation from '@/app/configs/navigation.config';
-import { useGetUsersQuery } from '@/app/store/api/userApi';
+import { useGetUsersQuery } from '@/app/store/apis/user.api';
 import Typography from '@/common/components/Typography';
 import styled from '@emotion/styled';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';

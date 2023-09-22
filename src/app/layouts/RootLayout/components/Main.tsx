@@ -1,5 +1,5 @@
 import React from 'react';
-import useMediaQuery from '@/common/hooks/useScreenSize';
+import useMediaQuery from '@/common/hooks/useMediaQuery';
 import { OpenedStateMode } from 'devextreme/ui/drawer';
 import { Drawer } from 'devextreme-react';
 import AsideNavigation from './AsideNavigation';

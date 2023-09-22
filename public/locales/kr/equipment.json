@@ -1,0 +1,19 @@
+{
+	"prod_etc1": "상품화대상",
+	"sale_status": "판매상태",
+	"sale_dept_cd": "판매부서",
+	"spec": "규격",
+	"sales_cd": "Sales",
+	"fg_cd": "FG",
+	"width": "가로(m)",
+	"carcass_cd": "CARCASS",
+	"weight": "Weight",
+	"area": "면적(m²)",
+	"yag": "YAG",
+	"pyeong": "평수",
+	"prod_type3": "소분류",
+	"prod_type2": "중분류",
+	"prod_type1": "대분류",
+	"prod_type": "제품분류코드",
+	"item_cd": "제품코드"
+}
