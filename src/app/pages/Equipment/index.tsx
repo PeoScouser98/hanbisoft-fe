@@ -67,6 +67,7 @@ const EquipmentList = () => {
 	});
 
 	const dataGridRef = React.useRef<typeof DataGrid.prototype>(null);
+	console.log(dataGridRef.current);
 	const actionButtonsGroup = React.useMemo<IButtonOptions[]>(
 		() => [
 			{
@@ -85,6 +86,7 @@ const EquipmentList = () => {
 				icon: 'save',
 				text: t('common:btn.save'),
 				type: 'default',
+				// disabled:dataGridRef.current.instance.get ,
 				onClick: function () {
 					if (confirm('Aggree to save data?')) dataGridRef.current.instance?.saveEditData();
 				}
@@ -94,6 +96,7 @@ const EquipmentList = () => {
 				icon: 'trash',
 				text: t('common:btn.delete'),
 				type: 'danger',
+				disabled: selectedRowKeys.length === 0,
 				onClick: () => handleDelete()
 			}
 		],
@@ -160,6 +163,8 @@ const EquipmentList = () => {
 					ref={dataGridRef}
 					dataSource={dataSource}
 					keyExpr='_id'
+					// onEditingStart={(e) => console.log(e.data)}
+					// onEditCanceling={e=>console.log(e.changes)}
 					loadPanel={{ enabled: isFetching }}
 					scrolling={{
 						mode: 'infinite',
@@ -196,16 +201,10 @@ const EquipmentList = () => {
 						mode: 'batch',
 						useIcons: true,
 						allowAdding: true,
-						// allowDeleting: true,
 						allowUpdating: true
 					}}
 					onSaved={handleSave}
-					// onSelectionChanged={(e) => {
-					// 	console.log(e.selectedRowKeys);
-					// 	setSelectedRowKeys(e.selectedRowKeys as Array<string>);
-					// }}
 					onSelectedRowKeysChange={(value) => {
-						console.log('value :>> ', value);
 						setSelectedRowKeys(value);
 					}}
 					onExporting={(e) => handleExportExcel(e.component, 'Equipments list.xlsx')}>
