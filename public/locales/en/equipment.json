@@ -9,6 +9,7 @@
 	"carcass_cd": "CARCASS",
 	"weight": "Weight(kg)",
 	"area": "Volumn(m²)",
+	"length": "Length(m)",
 	"yag": "YAG",
 	"pyeong": "Square (footage)",
 	"prod_type3": "Product type (3)",

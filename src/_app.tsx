@@ -5,7 +5,7 @@ import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import __configs from './app/configs/env.config';
+import __configs from './app/configs/ecosystem.config';
 import theme from './app/configs/theme.config';
 import GlobalStyles from './app/layouts/RootLayout/GlobalStyle';
 import ToastContainer from './app/layouts/RootLayout/ToastContainer';
@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 		queries: {
 			enabled: true,
 			useErrorBoundary: false,
-			staleTime: Infinity,
+			staleTime: 5 * 60 * 1000,
 			retryOnMount: true,
 			refetchOnMount: 'always',
 			refetchOnReconnect: 'always'

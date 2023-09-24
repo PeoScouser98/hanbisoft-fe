@@ -1,9 +1,19 @@
 import SelectFieldControl, { TSelectFieldProps } from '@/common/components/FormControls/SelectFieldControl';
 import TextFieldControl, { TTextFieldProps } from '@/common/components/FormControls/TextFieldControl';
-import { IColumnProps, Item } from 'devextreme-react/data-grid';
-import { Control, FieldValues } from 'react-hook-form';
+import { IColumnProps, Scrolling } from 'devextreme-react/data-grid';
+import { ColumnFixing, Editing, Selection, Toolbar } from 'devextreme/ui/data_grid';
 
-export const columns: Array<IColumnProps> = [
+type TPredefine = {
+	export: any;
+	columnFixing: ColumnFixing;
+	editing: Editing;
+	selection: Selection;
+	toolbar: Toolbar;
+	scrolling: Scrolling['props'];
+	searchFields: Array<any>;
+};
+
+const columns: Array<IColumnProps> = [
 	{
 		dataField: 'item_cd'
 	},
@@ -30,9 +40,6 @@ export const columns: Array<IColumnProps> = [
 	},
 	{
 		dataField: 'sales_cd'
-	},
-	{
-		dataField: 'sale_cd'
 	},
 	{
 		dataField: 'prod_etc1'
@@ -64,78 +71,98 @@ export const columns: Array<IColumnProps> = [
 	}
 ];
 
-export const toolbarItems: Array<typeof Item.prototype.props> = [
-	{
-		name: 'addRowButton',
-		location: 'after'
+const predefine: TPredefine = {
+	export: {
+		enabled: true,
+		allowExportSelectedData: true,
+		formats: ['excel', 'pdf']
 	},
-	{
-		name: 'revertButton',
-		location: 'after'
-	},
-	{
-		name: 'exportButton',
-		location: 'after'
-	}
-];
-
-export const renderSearchFields = (control: Control<FieldValues>, lookupValues: any) => {
-	return [
+	searchFields: [
 		{
 			key: 'item_cd',
 			component: TextFieldControl,
+			type: 'text',
 			name: 'item_cd' as TTextFieldProps['name'],
-
-			labelMode: 'hidden' as TTextFieldProps['labelMode'],
-			control: control as TTextFieldProps['control'],
-			placeholder: 'Search by item'
+			labelMode: 'static' as TTextFieldProps['labelMode'],
+			i18nKey: 'equipment:item_cd'
 		},
 		{
 			key: 'carcass_cd',
 			component: TextFieldControl,
+			type: 'text',
 			name: 'carcass_cd' as TTextFieldProps['name'],
 			labelMode: 'hidden' as TTextFieldProps['labelMode'],
-			control: control as TTextFieldProps['control'],
-			placeholder: 'Search by carcass'
+			i18nKey: 'equipment:carcass_cd'
 		},
 		{
 			key: 'sale_status',
 			component: SelectFieldControl,
-			dataSource: lookupValues?.saleStatus,
+			type: 'select',
 			name: 'sale_status' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
-			control: control as TSelectFieldProps['control'],
-			placeholder: 'Search by sale status'
+			i18nKey: 'equipment:sale_status'
 		},
 		{
 			key: 'prod_type1',
 			component: SelectFieldControl,
-			dataSource: lookupValues?.prodType1,
+			type: 'select',
 			name: 'prod_type1' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
-			control: control as TSelectFieldProps['control'],
-			placeholder: 'Search by prod type (1)'
+			i18nKey: 'equipment:prod_type1'
 		},
 		{
 			key: 'prod_type2',
 			component: SelectFieldControl,
-			dataSource: lookupValues?.prodType2,
+			type: 'select',
 			name: 'prod_type2' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
-			control: control as TSelectFieldProps['control'],
-			placeholder: 'Search by prod type (1)'
+			i18nKey: 'equipment:prod_type2'
 		},
 		{
 			key: 'prod_type3',
 			component: SelectFieldControl,
-			dataSource: lookupValues?.prodType3,
+			type: 'select',
 			name: 'prod_type3' as TSelectFieldProps['name'],
 			labelMode: 'hidden' as TSelectFieldProps['labelMode'],
-			control: control as TSelectFieldProps['control'],
-			placeholder: 'Search by prod type (1)'
+			i18nKey: 'equipment:prod_type3'
 		}
-	].map((options) => {
-		const { component: Element, ...rest } = options;
-		return <Element {...rest} />;
-	});
+	],
+
+	columnFixing: {
+		enabled: true
+	},
+	editing: { mode: 'batch', useIcons: true, allowAdding: true, allowUpdating: true } as Editing,
+	selection: {
+		showCheckBoxesMode: 'always',
+		selectAllMode: 'allPages',
+		mode: 'multiple',
+		allowSelectAll: true
+	},
+	toolbar: {
+		items: [
+			{
+				name: 'addRowButton',
+				location: 'after'
+			},
+			{
+				name: 'revertButton',
+				location: 'after'
+			},
+			{
+				name: 'exportButton',
+				location: 'after'
+			}
+		]
+	},
+	scrolling: {
+		mode: 'infinite',
+		rowRenderingMode: 'virtual',
+		columnRenderingMode: 'virtual',
+		preloadEnabled: true,
+		showScrollbar: 'onHover',
+		scrollByContent: true
+	}
 };
+
+export { columns };
+export default predefine;

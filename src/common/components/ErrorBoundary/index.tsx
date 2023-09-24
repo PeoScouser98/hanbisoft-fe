@@ -1,3 +1,7 @@
+/**
+ * @copyright @PeoScouser98
+ */
+
 import { Component, ErrorInfo } from 'react';
 import Typography from '../Typography';
 import styled from '@emotion/styled';

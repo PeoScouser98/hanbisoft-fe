@@ -1,4 +1,4 @@
-import signinSchema from '@/app/validations/auth.validation';
+import { signinSchema } from '@/app/validations/auth.validation';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import Typography from '@/common/components/Typography';
 import useAuth from '@/common/hooks/useAuth';
@@ -40,7 +40,7 @@ export default function Signin() {
 					<Microsoft /> Hanbisoft
 				</Logo>
 				<TypingTypography />
-				<Typography variant='p' css={{ color: 'white !important', position: 'absolute', bottom: '24px' }}>
+				<Typography variant='p' css={{ position: 'absolute', bottom: '24px' }}>
 					© {new Date().getFullYear()} Hanbisoft, Inc. All rights reserved.
 				</Typography>
 			</HeroImage>
@@ -59,8 +59,22 @@ export default function Signin() {
 						Enter your email and password below to sign-in to your account
 					</Typography>
 
-					<TextFieldControl name='email' mode='text' control={control} label='Email' />
-					<TextFieldControl name='password' mode='password' control={control} label='Password' />
+					<TextFieldControl
+						name='email'
+						mode='text'
+						control={control}
+						label='Email'
+						height={36}
+						css={{ fontSize: '14px' }}
+					/>
+					<TextFieldControl
+						name='password'
+						mode='password'
+						control={control}
+						label='Password'
+						height={36}
+						css={{ fontSize: '14px' }}
+					/>
 					<StyledLink to='/forgot-password'>Forgot password?</StyledLink>
 					<Button
 						type='default'
@@ -68,7 +82,14 @@ export default function Signin() {
 						useSubmitBehavior
 						render={() => {
 							return (
-								<div css={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 4 }}>
+								<div
+									css={{
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+										gap: 4,
+										fontSize: '16px'
+									}}>
 									Sign in <LoginOutlinedIcon />
 								</div>
 							);
@@ -86,7 +107,6 @@ const Logo = styled(Typography)`
 	justify-content: center;
 	text-align: center;
 	gap: 4px;
-	color: white !important;
 	font-weight: 700 !important;
 	margin-bottom: 5rem;
 `;

@@ -2,54 +2,66 @@ import navigation from '@/app/configs/navigation.config';
 import { useGetUsersQuery } from '@/app/store/apis/user.api';
 import Typography from '@/common/components/Typography';
 import styled from '@emotion/styled';
+import { TaskAltOutlined } from '@mui/icons-material';
 import BlockOutlinedIcon from '@mui/icons-material/BlockOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Home = () => {
 	const { data } = useGetUsersQuery({});
-	const { t } = useTranslation('home');
+	const { t, i18n } = useTranslation('home');
 
-	const resource: Array<{
-		title: string;
-		icon: any;
-		description: string;
-	}> = [
-		{
-			title: t('Users'),
-			icon: Groups2OutlinedIcon,
-			description: `${data?.length || 0} users`
-		},
-		{
-			title: t('Number of systems'),
-			icon: DnsOutlinedIcon,
-			description: '1 system'
-		},
-		{
-			title: t('Number of menus'),
-			icon: MenuOutlinedIcon,
-			description: `${navigation.filter((item) => !!item.path).length} menus`
-		},
-		{
-			title: t('Completed'),
-			icon: CheckOutlinedIcon,
-			description: '0 task'
-		},
-		{
-			title: t('In progress'),
-			icon: HourglassTopOutlinedIcon,
-			description: '0 task'
-		},
-		{
-			title: t('Rejected'),
-			icon: BlockOutlinedIcon,
-			description: '0 rejected'
-		}
-	];
+	const resource = React.useMemo<
+		Array<{
+			title: string;
+			icon: any;
+			description: string;
+		}>
+	>(
+		() => [
+			{
+				title: t('number_of_users'),
+				icon: Groups2OutlinedIcon,
+				description: `${data?.length || 0} users`
+			},
+			{
+				title: t('number_of_systems'),
+				icon: DnsOutlinedIcon,
+				description: '1 system'
+			},
+			{
+				title: t('number_of_menus'),
+				icon: MenuOutlinedIcon,
+				description: `${navigation.filter((item) => !!item.path).length} menus`
+			},
+			{
+				title: t('task'),
+				icon: TaskAltOutlined,
+				description: '0'
+			},
+			{
+				title: t('completed'),
+				icon: CheckOutlinedIcon,
+				description: '0 task'
+			},
+			{
+				title: t('in_progress'),
+				icon: HourglassTopOutlinedIcon,
+				description: '0 task'
+			},
+			{
+				title: t('rejected'),
+				icon: BlockOutlinedIcon,
+				description: '0 rejected'
+			}
+		],
+		[t, i18n.language]
+	);
 
 	return (
 		<Grid>

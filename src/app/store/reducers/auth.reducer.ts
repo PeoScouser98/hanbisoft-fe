@@ -23,6 +23,13 @@ const authSlice = createSlice({
 				authenticated: true
 			};
 		});
+		build.addMatcher(authApi.endpoints.updateUserInfo.matchFulfilled, (state, { payload }) => {
+			console.log(payload.data);
+			return {
+				...state,
+				user: payload.data
+			};
+		});
 	}
 });
 

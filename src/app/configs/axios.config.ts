@@ -1,6 +1,6 @@
 import axios, { AxiosError, HttpStatusCode } from 'axios';
 import { signout } from '../store/reducers/auth.reducer';
-import __configs from './env.config';
+import __configs from './ecosystem.config';
 
 const axiosInstance = axios.create({
 	baseURL: __configs.BASE_URL
@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
 	(response) => response.data,
 	async (error: AxiosError) => {
-		// const controller = new AbortController();
+		const controller = new AbortController();
 		try {
 			if (error.response.status === HttpStatusCode.Unauthorized) {
 				console.log('[ERROR] ::: Signin session has expired.');
@@ -29,12 +29,15 @@ axiosInstance.interceptors.response.use(
 					window.store.dispatch(signout());
 					return Promise.reject(error);
 				}
-				const { data } = await axiosInstance.get('/refresh-token/' + authState.user._id);
+				const { data } = await axiosInstance.get('/auth/refresh-token/' + authState.user._id, {
+					signal: controller.signal
+				});
+				console.log('[SUCCESS] ::: Refresh token :>> ', data);
 				axiosInstance.setAccessToken(data);
-				await axiosInstance.request(error.config);
+				await axiosInstance.request({ ...error.config, signal: controller.signal });
 			}
 		} catch (error) {
-			// controller.abort();
+			controller.abort();
 			window.store.dispatch(signout());
 			return Promise.reject(error);
 		}

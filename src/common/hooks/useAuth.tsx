@@ -25,7 +25,7 @@ export default function useAuth() {
 				return message;
 			},
 			error: ({ data }) => {
-				return data.message || 'Failed to sign in';
+				return data?.message || 'Failed to sign in';
 			}
 		});
 	}, []);

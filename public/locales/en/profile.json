@@ -1,0 +1,15 @@
+{
+	"fields": {
+		"display_name": "Full name",
+		"email": "Email",
+		"phone": "Phone",
+		"address": "Address",
+		"current_password": "Current password",
+		"new_password": "New password",
+		"confirm_password": "Confirm password"
+	},
+	"title": {
+		"profile_settings": "Profile settings",
+		"change_password": "Change password"
+	}
+}

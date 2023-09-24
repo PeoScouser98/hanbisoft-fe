@@ -4,16 +4,33 @@ import { AxiosRequestConfig } from 'axios';
 
 const authApi = createApi({
 	reducerPath: 'authApi',
-	tagTypes: ['Auth'],
+	tagTypes: ['Auth', 'Info', 'Users'],
 	baseQuery: axiosBaseQuery(),
 	endpoints: (build) => ({
 		signin: build.mutation<HttpResponse<AuthResponse>, Pick<IUser, 'email' | 'password'>>({
-			query: (payload) => ({ url: '/signin', data: payload, method: 'POST' }),
+			query: (payload) => ({ url: '/auth/signin', data: payload, method: 'POST' }),
 			invalidatesTags: ['Auth']
+		}),
+		getUserInfo: build.query<Partial<IUser>, void>({
+			query: () => ({ url: '/auth/info', method: 'GET' }),
+			providesTags: [{ type: 'Info', id: 'INFO' }],
+			transformResponse: (response: HttpResponse<Partial<IUser>>): Partial<IUser> => {
+				return response?.data;
+			}
+		}),
+		updateUserInfo: build.mutation<HttpResponse<Omit<IUser, 'password'>>, Partial<IUser>>({
+			query: (payload) => ({ url: '/auth/update-info', method: 'PATCH', data: payload }),
+			invalidatesTags: (_, error) => (error ? [] : ['Auth', 'Info'])
+		}),
+		changePassword: build.mutation<
+			HttpResponse<Omit<IUser, 'password'>>,
+			{ currentPassword: string; newPassword: string }
+		>({
+			query: (payload) => ({ url: '/auth/change-password', method: 'PATCH', data: payload })
 		})
 	})
 });
 
-export const { useSigninMutation } = authApi;
+export const { useSigninMutation, useGetUserInfoQuery, useUpdateUserInfoMutation, useChangePasswordMutation } = authApi;
 
 export default authApi;

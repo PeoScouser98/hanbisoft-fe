@@ -1,10 +1,11 @@
+import React from 'react';
 import useAuth from '@/common/hooks/useAuth';
 import MicrosoftIcon from '@mui/icons-material/Microsoft';
 import { DropDownButton } from 'devextreme-react';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -13,14 +14,23 @@ const Navbar = () => {
 		signout,
 		authState: { user }
 	} = useAuth();
+	const { handleOpenPage } = usePageNavigate();
 
 	const profileSettings = React.useMemo(
 		() => [
 			{
 				id: 1,
-				name: t('common:actions.profile'),
+				name: t('actions.profile'),
 				icon: 'user',
-				onClick: () => navigate('/profile')
+				onClick: () =>
+					handleOpenPage({
+						id: '0',
+						i18nKey: 'actions.profile',
+						path: '/profile',
+						text: t('actions.profile'),
+						canClose: true,
+						canReorder: true
+					})
 			},
 			{
 				id: 2,
@@ -29,13 +39,13 @@ const Navbar = () => {
 				onClick: signout
 			}
 		],
-		[i18n.language]
+		[t, i18n.language]
 	);
 
 	return (
 		<Header>
 			<NavLinkLogo to='/' className='dx-theme-text-color'>
-				<MicrosoftIcon /> Hanbisoft
+				<MicrosoftIcon css={{ fontSize: '18px' }} /> Hanbisoft
 			</NavLinkLogo>
 
 			<StyledDropdownButton
@@ -56,7 +66,7 @@ const Navbar = () => {
 
 const Header = styled.div`
 	padding: 8px;
-	height: 3rem;
+	height: 2.5rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -70,8 +80,8 @@ const StyledDropdownButton = styled(DropDownButton)`
 	}
 	& .dx-button-content > .dx-icon {
 		border-radius: 9999px;
-		width: 32px;
-		height: 32px;
+		width: 28px;
+		height: 28px;
 		aspect-ratio: 1;
 	}
 `;
@@ -79,7 +89,7 @@ const StyledDropdownButton = styled(DropDownButton)`
 const NavLinkLogo = styled(Link)`
 	text-decoration: none;
 	align-self: center;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 600;
 	display: inline-flex;
 	align-items: center;

@@ -1,3 +1,7 @@
+/**
+ * @copyright @PeoScouser98
+ */
+
 import { NumberBox } from 'devextreme-react';
 import { INumberBoxOptions } from 'devextreme-react/number-box';
 import React from 'react';

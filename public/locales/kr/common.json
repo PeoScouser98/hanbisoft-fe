@@ -4,7 +4,7 @@
 		"sign_out": "로그아웃"
 	},
 	"navigation": {
-		"dashboard": "계기반",
+		"dashboard": "게시판",
 		"list_all_users": "모든 사용자 나열",
 		"users": "사용자",
 		"create_new_user": "새 사용자 만들기",
@@ -16,5 +16,10 @@
 		"save": "저장",
 		"delete": "삭제",
 		"revert": "초기화"
+	},
+	"notify": {
+		"saving": "저장 중",
+		"success": "성공적으로",
+		"failed": "저장 실패"
 	}
 }

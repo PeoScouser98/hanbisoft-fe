@@ -35,7 +35,9 @@ declare global {
 		picture: string;
 		password: string;
 		displayName: string;
+		phone: string;
 		dateOfBirth: Date | string;
+		address: string;
 		role: UserRoleEnum; // 0 | 1
 	}
 

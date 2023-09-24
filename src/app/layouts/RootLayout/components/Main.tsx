@@ -36,6 +36,9 @@ const Main = () => {
 			focusStateEnabled={false}
 			shading={openedStateMode === 'overlap'}
 			css={css`
+				& .dx-drawer-panel-content {
+					width: fit-content;
+				}
 				& .dx-drawer-wrapper {
 					height: calc(100vh - 2.5rem);
 				}
@@ -56,7 +59,7 @@ const DrawerContent = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	height: inherit;
-	height: 100%;
+	width: 100%;
 	font-size: 16px;
 `;
 

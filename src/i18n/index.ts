@@ -29,11 +29,7 @@ i18n
 	.use(ChainedBackend)
 	.init({
 		backend: {
-			backends: [
-				HttpBackend
-				// resourcesToBackend((lng, ns) => import(`/locales/${lng}/${ns}.json`))
-				//   resourcesToBackend(bundledResources)
-			],
+			backends: [HttpBackend],
 			backendOptions: [
 				{
 					loadPath: '/locales/{{lng}}/{{ns}}.json'

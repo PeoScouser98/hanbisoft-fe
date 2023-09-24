@@ -2,7 +2,12 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
 import { ExportingEvent } from 'devextreme/ui/data_grid';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
-// @emotion/babel-preset-css-prop
+
+/**
+ * @description Handle export excel from data grid
+ * @param  component
+ * @param fileName
+ */
 export default function handleExportExcel<T>(component: ExportingEvent<T>['component'], fileName: string) {
 	const workbook = new Workbook();
 	const worksheet = workbook.addWorksheet('Main sheet');

@@ -15,12 +15,30 @@ declare module '@emotion/react' {
 				dark: string;
 				light: string;
 			};
-			accent: string;
-			success: string;
-			danger: string;
-			warning: string;
-			shadow: string;
-			disabled: string;
+			accent: {
+				light: string;
+				dark: string;
+			};
+			success: {
+				light: string;
+				dark: string;
+			};
+			danger: {
+				light: string;
+				dark: string;
+			};
+			warning: {
+				light: string;
+				dark: string;
+			};
+			shadow: {
+				light: string;
+				dark: string;
+			};
+			disabled: {
+				light: string;
+				dark: string;
+			};
 		};
 		breakpoints: {
 			mobile: string;

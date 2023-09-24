@@ -1,23 +1,21 @@
-import React from 'react';
+import { useAppDispatch, useAppSelector } from '@/app/store/hook';
+import { setTheme } from '@/app/store/reducers/theme.reducer';
 import themes from 'devextreme/ui/themes';
-import { refreshTheme, currentTheme } from 'devextreme/viz/themes';
-import { useLocalStorage } from './useStorage';
+import { refreshTheme } from 'devextreme/viz/themes';
+import React from 'react';
 
 export default function useDXTheme() {
-	const [theme, setTheme] = useLocalStorage('theme', currentTheme());
+	const currentTheme = useAppSelector((state) => state.theme);
+	const dispatch = useAppDispatch();
 
 	const changeTheme = React.useCallback((theme: DataTheme) => {
-		setTheme(theme);
+		dispatch(setTheme(theme));
 		themes.current(theme);
 		themes.ready(refreshTheme);
 	}, []);
 
-	React.useEffect(() => {
-		themes.current(theme);
-	}, []);
-
 	return {
-		currentTheme: theme,
+		currentTheme,
 		changeTheme
 	};
 }

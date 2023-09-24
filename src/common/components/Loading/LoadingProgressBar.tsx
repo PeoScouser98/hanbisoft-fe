@@ -1,3 +1,7 @@
+/**
+ * @copyright @PeoScouser98
+ */
+
 import React from 'react';
 import nProgress from 'nprogress';
 import './nprogress.css';

@@ -1,3 +1,7 @@
+/**
+ * @copyright @PeoScouser98
+ */
+
 import React from 'react';
 import { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -43,7 +47,7 @@ const H1 = styled.h1<ITypographyProps>`
 	}
 `;
 
-const H2 = styled.h2`
+const H2 = styled.h2<ITypographyProps>`
 	font-weight: bold;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
 	@media screen and (min-width: 384px) and (max-width: 767px) {
@@ -57,7 +61,7 @@ const H2 = styled.h2`
 	}
 `;
 
-const H3 = styled.h3`
+const H3 = styled.h3<ITypographyProps>`
 	font-size: 24px;
 	font-weight: 800;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
@@ -65,7 +69,7 @@ const H3 = styled.h3`
 		font-size: 22px;
 	}
 `;
-const H4 = styled.h4`
+const H4 = styled.h4<ITypographyProps>`
 	font-size: 18px;
 	font-weight: 600;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
@@ -74,7 +78,7 @@ const H4 = styled.h4`
 	}
 `;
 
-const P = styled.p`
+const P = styled.p<ITypographyProps>`
 	font-size: 16px;
 	line-height: 24px;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
@@ -82,7 +86,7 @@ const P = styled.p`
 		font-size: 14px;
 	}
 `;
-const Small = styled.span`
+const Small = styled.span<ITypographyProps>`
 	font-size: 14px;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
 `;

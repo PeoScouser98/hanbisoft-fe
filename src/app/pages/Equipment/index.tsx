@@ -1,73 +1,41 @@
-import equipmentService from '@/app/services/equipment.service';
+import React from 'react';
+import ErrorBoundary from '@/common/components/ErrorBoundary';
 import useColumnsDef from '@/common/hooks/useColumnsDef';
 import useScreenSize from '@/common/hooks/useScreenSize';
 import handleExportExcel from '@/common/utils/exportExcel';
-import styled from '@emotion/styled';
 import { SearchOutlined } from '@mui/icons-material';
-import { QueryKey, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, DataGrid } from 'devextreme-react';
+import { AxiosRequestConfig } from 'axios';
+import { Button, DataGrid, ScrollView } from 'devextreme-react';
+import { IButtonOptions } from 'devextreme-react/button';
 import { Column } from 'devextreme-react/data-grid';
-import { ContentReadyEvent, SavedEvent } from 'devextreme/ui/data_grid';
-import React from 'react';
+import { SavedEvent } from 'devextreme/ui/data_grid';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { columns, renderSearchFields, toolbarItems } from './predefine';
-import { IButtonOptions } from 'devextreme-react/button';
-import ErrorBoundary from '@/common/components/ErrorBoundary';
+import predefine, { columns } from './_predefine';
+import { ButtonGroup, Container, SearchBox, SearchSubmitLabel, StyledDataGrid } from './components/Styled';
+import useDeleteEquipmentsMutation from './hooks/useDeleteEquipmentMutation';
+import useGetEquipmentQuery from './hooks/useGetEquipmentQuery';
+import useSaveEquipmentsMutation from './hooks/useSaveEquipmentMutation';
+import qs from 'qs';
+import useGetLookupFieldsQuery from './hooks/useGetLookupFieldsQuery';
+import useDXTheme from '@/common/hooks/useDXTheme';
 
 const EquipmentList = () => {
-	// const [skip, setSkip] = React.useState<number>(0);
-	const { t } = useTranslation('common');
+	const { t } = useTranslation(['common', 'equipment']);
 	const { control, handleSubmit } = useForm();
 	const id = React.useId();
 	const [selectedRowKeys, setSelectedRowKeys] = React.useState<Array<string>>([]);
 	const columnsDef = useColumnsDef(columns, { ns: 'equipment' });
 	const screenSize = useScreenSize();
-	const [dataSource, setDataSource] = React.useState<IEquipment[]>([]);
-
-	const queryClient = useQueryClient();
-
-	const { isFetching } = useQuery<HttpResponse<IEquipment[]>, Error, HttpResponse<IEquipment[]>, QueryKey>({
-		queryKey: ['equipment'],
-		queryFn: () => equipmentService.getAll(),
-		initialData: { data: [], message: null },
-		onSuccess: (res) => {
-			console.log(res);
-			setDataSource(res?.data);
-		}
-	});
-
-	const { data: lookupFieldValues } = useQuery<any>({
-		queryKey: ['equipment', 'equipment_lookup'],
-		queryFn: equipmentService.getLookupFieldsValue,
-		initialData: { saleCodes: [], saleStatus: [], prodType: [], proType1: [], prodType2: [], prodType3: [] },
-		enabled: true,
-		select: (res) => res.data,
-		onSuccess: (res) => {
-			console.log(res);
-		}
-	});
-
-	const { mutateAsync: searchAsync } = useMutation({
-		mutationKey: ['equipment'],
-		mutationFn: equipmentService.search,
-		onSuccess: (res) => setDataSource(res?.data || [])
-	});
-
-	const { mutateAsync: saveMutation } = useMutation({
-		mutationKey: ['equipment'],
-		mutationFn: equipmentService.save,
-		onSuccess: () => queryClient.invalidateQueries(['equipment'])
-	});
-	const { mutateAsync: deleteMutation } = useMutation({
-		mutationKey: ['equipment', selectedRowKeys],
-		mutationFn: equipmentService.delete,
-		onSuccess: (res) => queryClient.invalidateQueries(['equipment'])
-	});
-
+	const [searchTerms, setSearchTerms] = React.useState<string>('');
+	const { data, isFetching, refetch } = useGetEquipmentQuery(searchTerms);
+	const { data: lookupFields, refetch: refetchLookupFields } = useGetLookupFieldsQuery();
+	const { mutateAsync: deleteAsync } = useDeleteEquipmentsMutation();
+	const { mutateAsync: saveAsync } = useSaveEquipmentsMutation();
+	const { currentTheme } = useDXTheme();
 	const dataGridRef = React.useRef<typeof DataGrid.prototype>(null);
-	console.log(dataGridRef.current);
+	const dtgr_height = React.useMemo<number>(() => screenSize.height - 286, [screenSize.height]);
 	const actionButtonsGroup = React.useMemo<IButtonOptions[]>(
 		() => [
 			{
@@ -78,15 +46,14 @@ const EquipmentList = () => {
 					</SearchSubmitLabel>
 				),
 				icon: 'search',
-				text: t('common:btn.search'),
-				type: 'success'
+				type: 'default',
+				text: t('common:btn.search')
 			},
 			{
 				key: 'save',
 				icon: 'save',
 				text: t('common:btn.save'),
-				type: 'default',
-				// disabled:dataGridRef.current.instance.get ,
+				type: 'success',
 				onClick: function () {
 					if (confirm('Aggree to save data?')) dataGridRef.current.instance?.saveEditData();
 				}
@@ -103,45 +70,48 @@ const EquipmentList = () => {
 		[selectedRowKeys]
 	);
 
-	const handleSearch = async (data) => {
-		const searchTermsObj = {};
+	React.useEffect(() => {
+		refetch({ exact: true, queryKey: ['equipment', searchTerms] });
+	}, [searchTerms]);
+
+	React.useEffect(() => {
+		refetchLookupFields();
+	}, []);
+
+	const handleSearch = (data) => {
+		const searchTermsVal = {};
 		Object.keys(data).forEach((key) => {
-			if (data[key]) searchTermsObj[key] = data[key];
+			if (data[key]) searchTermsVal[key] = data[key];
 		});
-		return await searchAsync(searchTermsObj);
+		const searchParams = !!searchTermsVal ? '?' + qs.stringify(searchTermsVal) : '';
+		setSearchTerms(searchParams);
 	};
 
 	const handleSave = async (e: SavedEvent) => {
-		console.log(e.changes);
-		toast.promise(saveMutation(e.changes), {
-			loading: 'Saving data ...',
-			success: (res) => {
-				const _res = res as unknown as HttpResponse<IEquipment>;
-				return _res.message;
-			},
-			error: 'Failed to save data'
+		toast.promise(saveAsync(e.changes), {
+			loading: t('notify.saving'),
+			success: t('notify.success'),
+			error: t('notify.failed')
 		});
 	};
 
 	const handleDelete = async () => {
-		console.log('selectedRowKeys :>> ', selectedRowKeys);
-		if (confirm('Aggree to delete data?'))
-			toast.promise(async () => await deleteMutation(selectedRowKeys), {
-				loading: 'Deleting data ...',
-				success: (res) => res.message,
-				error: 'Failed to delete'
+		if (confirm('Aggree to delete data?')) {
+			toast.promise(async () => await deleteAsync({ _ids: selectedRowKeys.join(',') }), {
+				loading: t('notify.saving'),
+				success: t('notify.success'),
+				error: t('notify.failed')
 			});
+		}
 	};
 
-	const handleScrollToBottom = async (e: ContentReadyEvent) => {
-		e.component.getScrollable().on('scroll', function (e) {
-			if (e.reachedBottom) {
-				console.log('bottom reached');
-			}
-		});
-	};
-
-	const dxTableHeight = React.useMemo(() => screenSize.height - 286, [screenSize.height]);
+	// const handleScrollToBottom = async (e: ContentReadyEvent) => {
+	// 	e.component.getScrollable().on('scroll', function (e) {
+	// 		if (e.reachedBottom) {
+	// 			console.log('bottom reached');
+	// 		}
+	// 	});
+	// };
 
 	return (
 		<Container>
@@ -150,34 +120,37 @@ const EquipmentList = () => {
 					<Button {...props} />
 				))}
 			</ButtonGroup>
-
-			<SearchBox
-				onSubmit={handleSubmit(handleSearch)}
-				className='dx-theme-border-color-as-background-color dx-theme-border-color'>
-				{renderSearchFields(control, lookupFieldValues)}
-				<button type='submit' id={id} />
-			</SearchBox>
+			<ScrollView>
+				<SearchBox
+					onSubmit={handleSubmit(handleSearch)}
+					className='dx-theme-border-color-as-background-color dx-theme-border-color'>
+					{predefine.searchFields.map((options) => {
+						const { component: Element, type, name, i18nKey, ...rest } = options;
+						if (type === 'select')
+							return (
+								<Element
+									control={control}
+									label={t(i18nKey)}
+									dataSource={lookupFields?.[name]}
+									name={name}
+									{...rest}
+								/>
+							);
+						return <Element control={control} placeholder={t(i18nKey)} name={name} {...rest} />;
+					})}
+					<button type='submit' id={id} />
+				</SearchBox>
+			</ScrollView>
 			<ErrorBoundary>
 				<StyledDataGrid
-					height={dxTableHeight}
+					currentTheme={currentTheme}
+					height={dtgr_height}
 					ref={dataGridRef}
-					dataSource={dataSource}
+					dataSource={data}
 					keyExpr='_id'
-					// onEditingStart={(e) => console.log(e.data)}
-					// onEditCanceling={e=>console.log(e.changes)}
 					loadPanel={{ enabled: isFetching }}
-					scrolling={{
-						mode: 'infinite',
-						rowRenderingMode: 'virtual',
-						columnRenderingMode: 'virtual',
-						preloadEnabled: true,
-						showScrollbar: 'onHover',
-						scrollByContent: true
-					}}
-					columnFixing={{
-						enabled: true
-					}}
-					onContentReady={handleScrollToBottom}
+					scrolling={predefine.scrolling}
+					columnFixing={predefine.columnFixing}
 					columnResizingMode='widget'
 					allowColumnReordering
 					allowColumnResizing
@@ -185,24 +158,10 @@ const EquipmentList = () => {
 					showBorders
 					showColumnLines
 					showRowLines
-					export={{
-						enabled: true,
-						allowExportSelectedData: true,
-						formats: ['excel', 'pdf']
-					}}
-					selection={{
-						showCheckBoxesMode: 'always',
-						selectAllMode: 'allPages',
-						mode: 'multiple',
-						allowSelectAll: true
-					}}
-					toolbar={{ items: toolbarItems }}
-					editing={{
-						mode: 'batch',
-						useIcons: true,
-						allowAdding: true,
-						allowUpdating: true
-					}}
+					export={predefine.export}
+					selection={predefine.selection}
+					toolbar={predefine.toolbar}
+					editing={predefine.editing}
 					onSaved={handleSave}
 					onSelectedRowKeysChange={(value) => {
 						setSelectedRowKeys(value);
@@ -216,65 +175,5 @@ const EquipmentList = () => {
 		</Container>
 	);
 };
-
-const Container = styled.div`
-	/* overflow: hidden; */
-	display: flex;
-	justify-content: flex-start;
-	gap: 8px;
-	align-items: stretch;
-	flex-direction: column;
-`;
-
-const StyledDataGrid = styled(DataGrid)`
-	& div.dx-datagrid-header-panel {
-		position: sticky;
-		top: 0;
-
-		/*z-index is applied so that this element appears in front*/
-	}
-	& .dx-datagrid-headers.dx-datagrid-nowrap {
-		position: sticky;
-		top: 0px;
-	}
-`;
-
-const SearchBox = styled.form`
-	flex: 1;
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);
-	row-gap: 8px;
-	column-gap: 4px;
-	padding: 4px;
-	& > * {
-		min-width: 10rem;
-	}
-	@media (min-width: 384px) and (max-width: 767px) {
-		grid-template-columns: repeat(6, 2fr);
-	}
-	@media (min-width: 768px) and (max-width: 1365px) {
-		grid-template-columns: repeat(6, 4fr);
-	}
-	& button[type='submit'] {
-		display: none;
-	}
-`;
-
-const ButtonGroup = styled.div`
-	display: flex;
-	justify-content: flex-start;
-	align-items: stretch;
-	gap: 4px;
-`;
-
-const SearchSubmitLabel = styled.label`
-	display: inline-flex;
-	align-items: start;
-	padding: 0;
-	gap: 4px;
-	& .MuiSvgIcon-root {
-		font-size: 20px;
-	}
-`;
 
 export default EquipmentList;

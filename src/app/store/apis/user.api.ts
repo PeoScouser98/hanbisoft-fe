@@ -6,6 +6,9 @@ const userApi = createApi({
 	reducerPath: 'users',
 	tagTypes: ['Users'],
 	baseQuery: axiosBaseQuery(),
+	keepUnusedDataFor: 5 * 60,
+	refetchOnMountOrArgChange: true,
+	refetchOnReconnect: true,
 	endpoints: (build) => ({
 		getUsers: build.query<Array<IUser>, AxiosRequestConfig['params']>({
 			query: (params) => ({ url: '/users', method: 'GET', params: params }),
@@ -19,7 +22,7 @@ const userApi = createApi({
 			}
 		}),
 		createUsers: build.mutation<HttpResponse<Array<IUser>>, Omit<IUser, 'id'>>({
-			query: (payload) => ({ url: '/users', method: 'POST', data: payload }),
+			query: (payload) => ({ url: '/users/create-user', method: 'POST', data: payload }),
 			invalidatesTags: (_, error) => (error ? [] : [{ type: 'Users', id: 'LIST' }])
 		})
 	})

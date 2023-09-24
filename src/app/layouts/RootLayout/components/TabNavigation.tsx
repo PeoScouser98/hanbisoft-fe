@@ -78,10 +78,10 @@ const TabNavigation = () => {
 					scrollByContent
 					itemTitleRender={renderTitle}
 					showNavButtons
-					// deferRendering
+					deferRendering={false}
 					hoverStateEnabled={false}
 					focusStateEnabled={false}
-					repaintChangesOnly={true}
+					repaintChangesOnly
 					onTitleClick={({ itemData }) => handleOpenPage(itemData as unknown as IPage)}
 					css={css`
 						& .dx-tabs-wrapper > .dx-item .dx-tab {
@@ -102,7 +102,7 @@ const Container = styled.div`
 `;
 
 const StyledTabPanel = styled(TabPanel)`
-	height: calc(100vh - 8rem);
+	height: calc(100vh - 6.75rem);
 `;
 
 const TabItem = styled.div`
@@ -116,7 +116,7 @@ const CloseButton = styled.i`
 	top: 0;
 	right: 0;
 	font-size: 12px !important;
-	transition: cubic-bezier(0.445, 0.05, 0.55, 0.95) 0.2s;
+	transition: 0.2s ease-in-out;
 	opacity: 0.5;
 	&:hover {
 		opacity: 1;

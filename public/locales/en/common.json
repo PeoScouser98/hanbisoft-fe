@@ -16,5 +16,10 @@
 		"save": "Save",
 		"revert": "Revert",
 		"delete": "Delete"
+	},
+	"notify": {
+		"saving": "Saving data",
+		"failed": "Failed to save",
+		"success": "Saved successfully"
 	}
 }

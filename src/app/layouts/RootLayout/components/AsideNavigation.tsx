@@ -31,7 +31,7 @@ const AsideNavigation = () => {
 					}))
 				};
 			}),
-		[currentPage, i18n.language]
+		[currentPage, i18n.language, t]
 	);
 
 	const handleItemClick = React.useCallback(
@@ -63,7 +63,7 @@ const AsideNavigation = () => {
 					style={{ color: '#ffff' }}
 				/>
 			</TextBoxWrapper>
-			<StyledScrollView showScrollbar='onScroll' width='100%' className='dx-theme-border-color'>
+			<StyledScrollView showScrollbar='onScroll' width={300} className='dx-theme-border-color'>
 				<StyledTreeView
 					className='panel-list'
 					dataSource={treeViewDataSource}
@@ -89,7 +89,7 @@ const AsideNavigation = () => {
 
 const Aside = styled.aside`
 	height: 100%;
-	width: 320px;
+	width: fit-content;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -102,35 +102,40 @@ const StyledScrollView = styled(ScrollView)`
 	border-right-width: 1px;
 	border-right-style: solid;
 	& .dx-scrollable-content {
-		padding: 8px;
+		padding: 4px;
 	}
 `;
 
 const StyledTreeView = styled(TreeView)`
+	& .dx-treeview-item {
+		margin-right: 12px;
+	}
 	& .dx-treeview-item-content {
 		font-size: 16px;
-		font-weight: 500;
-		line-height: 32px;
+		line-height: 28px;
 		vertical-align: middle;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		width: 100%;
 		white-space: nowrap;
+		& .dx-icon {
+			font-size: 18px !important;
+			margin-right: 16px;
+		}
 	}
 	& .dx-icon {
-		line-height: 32px;
+		line-height: inherit;
 		font-size: 16px;
 	}
 `;
 
 const TextBoxWrapper = styled.div`
-	width: 100%;
-	flex-basis: 3rem;
 	height: fit-content;
+	flex-basis: content;
 `;
 
 const SearchBox = styled(TextBox)`
-	height: 100%;
+	height: 2.25rem;
 	background-color: transparent;
 	& .dx-texteditor-input-container > * {
 		color: white;

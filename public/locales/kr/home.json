@@ -1,8 +1,9 @@
 {
-	"Users": "사용자",
-	"Number of systems": "시스템 수",
-	"Number of menus": "메뉴 수",
-	"Completed": "완전한",
-	"In progress": "진행 중",
-	"Rejected": "거부됨"
+	"number_of_users": "사용자",
+	"number_of_systems": "시스템 수",
+	"number_of_menus": "메뉴 수",
+	"completed": "완전한",
+	"in_progress": "진행 중",
+	"rejected": "거부됨",
+	"task": "완료함"
 }

@@ -1,7 +1,7 @@
 import { useGetUsersQuery } from '@/app/store/apis/user.api';
 import { UserRoleEnum } from '@/common/constants/_app.const';
 import handleExportExcel from '@/common/utils/exportExcel';
-import getDataGridChanges from '@/common/utils/getDataGridChanges';
+import getDataChanges from '@/common/utils/getDataGridChanges';
 import DataGrid, { Column, ColumnFixing, Editing, Export, IColumnProps } from 'devextreme-react/data-grid';
 import { SavedEvent } from 'devextreme/ui/data_grid';
 import React from 'react';
@@ -67,7 +67,7 @@ const UserList: React.FC<unknown> = () => {
 		[]
 	);
 	const handleSaveChanges = async (e: SavedEvent<any, any>) => {
-		const { newData, updatedData, deletedData } = getDataGridChanges(e);
+		const { newData, updatedData, deletedData } = getDataChanges(e);
 		console.log(newData);
 	};
 	return (
@@ -96,7 +96,6 @@ const UserList: React.FC<unknown> = () => {
 			))}
 			<Editing
 				mode='popup'
-				// refreshMode='full'
 				useIcons
 				allowUpdating
 				allowDeleting

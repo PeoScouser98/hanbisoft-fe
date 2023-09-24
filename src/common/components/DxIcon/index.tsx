@@ -1,3 +1,7 @@
+/**
+ * @copyright @PeoScouser98
+ */
+
 export default function Icon(props: DxIconProps) {
 	return <i className={`dx-icon-${props.type}`} {...props}></i>;
 }

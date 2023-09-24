@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { ChevronRight } from '@mui/icons-material';
 
 const Breadcrumbs = () => {
 	const { t, i18n } = useTranslation('common');
@@ -25,13 +26,13 @@ const Breadcrumbs = () => {
 	return (
 		<BreadCrumbsWrapper>
 			<StyledLink to='/'>
-				<HomeIcon />
+				<HomeIcon css={{ fontSize: '20px !important' }} />
 			</StyledLink>
 
 			{Array.isArray(breadcrumbs) &&
 				breadcrumbs.map((item: Pick<INavigation, 'id' | 'i18nKey' | 'path'>, index) => (
 					<React.Fragment key={index}>
-						<Icon type='chevronright' key={index} />
+						<ChevronRight />
 						<StyledLink to={item?.path}>{t(item?.i18nKey)}</StyledLink>
 					</React.Fragment>
 				))}
@@ -41,9 +42,10 @@ const Breadcrumbs = () => {
 
 const BreadCrumbsWrapper = styled.div`
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
-	gap: 0.75em;
+	gap: 0.5em;
+
 	& * + *,
 	& * {
 		color: white;
@@ -59,6 +61,9 @@ const StyledLink = styled(Link)`
 	justify-content: center;
 	align-items: center;
 	gap: 0.5em;
+	font-size: 14px !important;
+	line-height: 16px;
+	vertical-align: middle !important;
 	white-space: nowrap;
 	color: white !important;
 	transition: linear 300ms ease-in-out;

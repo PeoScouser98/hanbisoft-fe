@@ -44,7 +44,6 @@ const PreferenceToolbar = (props: Props) => {
 				<DropDownButton
 					icon={TranslateIcon}
 					width='100%'
-					height={32}
 					dataSource={Object.values(locales)}
 					stylingMode='contained'
 					useSelectMode
@@ -66,7 +65,7 @@ const PreferenceToolbar = (props: Props) => {
 
 const Toolbar = styled.nav`
 	height: 100%;
-	max-height: 3rem;
+	max-height: 2.25rem;
 	padding: 8px;
 	display: flex;
 	justify-content: space-between;
@@ -84,7 +83,7 @@ const StyledButton = styled(Button)<React.PropsWithChildren & IButtonOptions>`
 
 const divide = css`
 	& > * + * {
-		border-width: 0 0 0 2px;
+		border-width: 0 0 0 1px;
 		border-style: solid;
 		border-color: white;
 		padding: 0 16px;

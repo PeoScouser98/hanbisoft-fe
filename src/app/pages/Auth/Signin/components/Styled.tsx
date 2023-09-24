@@ -6,18 +6,18 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export const Pattern1 = styled.div`
-	position: absolute;
+	position: fixed;
 	top: 0;
-	opacity: 0.3;
+	opacity: 0.25;
 	filter: blur(3rem);
 	&::before {
 		content: '';
 		position: inherit;
 		aspect-ratio: 1280/768;
 		top: 0;
-		transform: translate(-16rem, 4rem);
-		width: 30rem;
-		background-image: linear-gradient(to right, #6366f1 50%, transparent 20%, #4f46e5 30%);
+		transform: translate(-50%, -25%);
+		width: 48rem;
+		background-image: linear-gradient(to right, #337ab7 60%, transparent 10%, #1ca8dd 30%);
 		clip-path: polygon(
 			80.1% 44.1%,
 			100% 61.6%,
@@ -39,7 +39,40 @@ export const Pattern1 = styled.div`
 	}
 `;
 export const Pattern2 = styled.div`
-	position: absolute;
+	position: fixed;
+	top: 0;
+	opacity: 0.25;
+	filter: blur(3rem);
+	&::before {
+		content: '';
+		position: inherit;
+		aspect-ratio: 1280/768;
+		top: 0;
+		transform: translate(-125%, 65%);
+		width: 60rem;
+		background-image: linear-gradient(to right, #337ab7 50%, transparent 20%, #1ca8dd 30%);
+		clip-path: polygon(
+			52.1% 44.1%,
+			75% 61.6%,
+			31.5% 26.9%,
+			85.5% 0.1%,
+			80.7% 2%,
+			43.5% 32.5%,
+			42.2% 62.4%,
+			21.4% 68.1%,
+			37.5% 58.3%,
+			92.2% 34.5%,
+			32.5% 76.7%,
+			25% 64.9%,
+			17.9% 100%,
+			27.6% 76.8%,
+			76.1% 97.7%,
+			84.1% 44.1%
+		);
+	}
+`;
+export const Pattern3 = styled.div`
+	position: fixed;
 	top: 0;
 	opacity: 0.3;
 	filter: blur(3rem);
@@ -48,26 +81,26 @@ export const Pattern2 = styled.div`
 		position: inherit;
 		aspect-ratio: 1280/768;
 		top: 0;
-		transform: translate(8rem, 32rem);
+		transform: translate(-215%, 85%);
 		width: 32rem;
 		background-image: linear-gradient(to right, #6366f1 50%, transparent 20%, #4f46e5 30%);
 		clip-path: polygon(
-			74.1% 44.1%,
-			100% 61.6%,
-			97.5% 26.9%,
+			52.1% 44.1%,
+			75% 61.6%,
+			31.5% 26.9%,
 			85.5% 0.1%,
 			80.7% 2%,
-			72.5% 32.5%,
-			60.2% 62.4%,
-			52.4% 68.1%,
-			47.5% 58.3%,
-			45.2% 34.5%,
-			27.5% 76.7%,
-			0.1% 64.9%,
+			43.5% 32.5%,
+			42.2% 62.4%,
+			21.4% 68.1%,
+			37.5% 58.3%,
+			92.2% 34.5%,
+			32.5% 76.7%,
+			25% 64.9%,
 			17.9% 100%,
 			27.6% 76.8%,
 			76.1% 97.7%,
-			74.1% 44.1%
+			84.1% 44.1%
 		);
 	}
 `;
@@ -81,7 +114,7 @@ export const TypingTypography = () => {
 	}, [typedPhase]);
 
 	return (
-		<Typography variant='h1' css={{ color: 'white !important' }}>
+		<Typography variant='h1'>
 			<Typography variant='h1' color='accent' css={{ marginBottom: '12px' }}>
 				Enterprise Resource Planning <br /> web application.
 			</Typography>
@@ -100,18 +133,20 @@ const blink = keyframes`
 const StyledTypography = styled(Typography)`
 	font-weight: 900 !important;
 	user-select: none;
-	color: white !important;
+	/* color: white !important; */
 	&::after {
 		content: '|';
 		color: inherit;
 		font-weight: bold;
+		display: inline-block;
+		margin: 0 4px;
 		animation: ${blink} 1s step-start infinite;
 	}
 `;
 
 export const Container = styled.div`
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: 1fr 1.25fr;
 	align-items: stretch;
 	height: 100vh;
 	width: 100%;
@@ -126,7 +161,9 @@ export const Container = styled.div`
 export const Form = styled.form`
 	padding: 24px;
 	border-radius: 8px;
-	width: 32rem;
+	max-width: 36rem;
+	width: 100%;
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
@@ -153,11 +190,8 @@ export const StyledLink = styled(Link)`
 export const HeroImage = styled.div`
 	display: block;
 	position: relative;
-	/* height: 100vh; */
 	width: 100%;
-	background-color: #111827;
 	padding: 24px;
-	/* box-shadow: 4px 0 32px #111827; */
 `;
 
 export const GridPattern = () => (
