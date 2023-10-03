@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	currentPage: {
 		id: '1',
-		i18nKey: 'common:navigation.dashboard',
+		locale: 'common:navigation.dashboard',
 		path: '/',
 		canClose: false,
 		canReorder: false
@@ -12,7 +12,7 @@ const initialState = {
 	openingPages: [
 		{
 			id: '1',
-			i18nKey: 'common:navigation.dashboard',
+			locale: 'common:navigation.dashboard',
 			path: '/',
 			canClose: false,
 			canReorder: false

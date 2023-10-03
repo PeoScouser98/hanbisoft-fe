@@ -68,7 +68,7 @@ export declare interface IUser {
 export declare interface IPage {
 	id: string;
 	text?: string;
-	i18nKey: string;
+	locale: string;
 	path: string;
 	canClose: boolean;
 	canReorder?: boolean;
@@ -76,9 +76,9 @@ export declare interface IPage {
 export declare interface TNavigation extends dxTreeViewItem {
 	icon: DxIconType;
 	path?: string;
-	i18nKey: string;
+	locale: string;
 	items?: dxTreeViewItem['items'] & TNavigation['breadcrumbs'];
-	breadcrumbs?: Array<Pick<TNavigation, 'i18nKey' | 'path'>>;
+	breadcrumbs?: Array<Pick<TNavigation, 'locale' | 'path'>>;
 }
 export declare interface IEquipment {
 	prod_etc1: string;

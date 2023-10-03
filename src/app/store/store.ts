@@ -10,7 +10,7 @@ import rootReducer from './root.reducer';
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['auth', 'language', 'theme', 'pages']
+	whitelist: ['auth', 'language', 'theme']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer); // Provide a way to combine redux's root reducer

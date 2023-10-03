@@ -28,7 +28,7 @@ const TabNavigation: React.FunctionComponent = () => {
 		(page: IPage) => (
 			<TabItem onClick={() => handleOpenPage(page)}>
 				<Typography variant='p' css={{ width: '85%', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-					{t(page?.i18nKey)}
+					{t(page?.locale)}
 				</Typography>
 				{page?.canClose && (
 					<CloseButton

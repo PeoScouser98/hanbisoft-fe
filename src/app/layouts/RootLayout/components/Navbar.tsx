@@ -21,7 +21,7 @@ const Navbar: React.FunctionComponent = () => {
 				onClick: () =>
 					handleOpenPage({
 						id: '0',
-						i18nKey: 'actions.profile',
+						locale: 'actions.profile',
 						path: '/profile',
 						text: t('actions.profile'),
 

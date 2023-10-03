@@ -1,5 +1,6 @@
 import navigation from '@/app/configs/navigation.config';
 import { useAppSelector } from '@/app/store/hook';
+import useAuth from '@/common/hooks/useAuth';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
 import { TNavigation } from '@/types/global';
 import styled from '@emotion/styled';
@@ -13,6 +14,7 @@ const AsideNavigation: React.FunctionComponent = () => {
 	const { currentPage } = useAppSelector((state) => state.pages);
 	const [searchValue, setSearchValue] = React.useState<string>('');
 	const { t, i18n } = useTranslation('common');
+	const { isAdmin, isSuperAdmin } = useAuth();
 
 	const treeViewDataSource = React.useMemo(
 		() =>
@@ -20,15 +22,18 @@ const AsideNavigation: React.FunctionComponent = () => {
 				if (!nav.items)
 					return {
 						...nav,
-						text: t(nav.i18nKey)
+						visible: nav.checkAdmin ? isAdmin || isSuperAdmin : true,
+						text: t(nav.locale)
 					};
+
 				return {
 					...nav,
 					text: t(nav.text),
+					visible: nav.checkAdmin ? isAdmin || isSuperAdmin : true,
 					selected: nav.id === currentPage.id,
 					items: nav.items.map((childNav) => ({
 						...childNav,
-						text: t(childNav.i18nKey)
+						text: t(childNav.locale)
 					}))
 				};
 			}),
@@ -40,7 +45,7 @@ const AsideNavigation: React.FunctionComponent = () => {
 			if (!itemData?.path) return;
 			handleOpenPage({
 				id: itemData?.id as string,
-				i18nKey: itemData?.i18nKey as string,
+				locale: itemData?.locale as string,
 				path: itemData?.path,
 				canClose: itemData?.path !== '/',
 				canReorder: itemData?.path !== '/'

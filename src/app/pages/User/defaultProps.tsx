@@ -59,10 +59,15 @@ const defaultProps: TDataGridProps = {
 	editing: {
 		mode: 'batch',
 		refreshMode: 'repaint',
-		allowAdding: true,
-		allowUpdating: true,
 		newRowPosition: 'viewportTop',
-		useIcons: true
+		useIcons: true,
+		allowAdding: true,
+		allowUpdating: true
+	},
+	selection: {
+		selectAllMode: 'allPages',
+		mode: 'multiple',
+		showCheckBoxesMode: 'always'
 	},
 	filterRow: {
 		visible: true

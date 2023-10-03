@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useSigninMutation } from '../../app/store/apis/auth.api';
@@ -17,8 +17,8 @@ export default function useAuth() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const isSuperAdmin = user?.role === UserRoleEnum.SUPER_ADMIN;
-	const isAdmin = user?.role === UserRoleEnum.ADMIN;
+	const isSuperAdmin = React.useMemo(() => user?.role === UserRoleEnum.SUPER_ADMIN, [user]);
+	const isAdmin = React.useMemo(() => user?.role === UserRoleEnum.ADMIN, [user]);
 
 	const handleSignin = useCallback((payload: Pick<IUser, 'email' | 'password'>) => {
 		toast.promise(signinMutation(payload).unwrap(), {

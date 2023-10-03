@@ -10,4 +10,7 @@ export default class UserService {
 	static updateUsersList = async (payload: DataChange<IUser>[]) => {
 		return await axiosInstance.put('/users', payload);
 	};
+	static deleteUsers = async (params: AxiosRequestConfig['params']) => {
+		return await axiosInstance.delete('/users/deactivate', { params });
+	};
 }

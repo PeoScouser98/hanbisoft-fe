@@ -32,10 +32,10 @@ const Breadcrumbs: React.FunctionComponent = () => {
 			</StyledLink>
 
 			{Array.isArray(breadcrumbs) &&
-				breadcrumbs.map((item: Pick<TNavigation, 'id' | 'i18nKey' | 'path'>, index) => (
+				breadcrumbs.map((item: Pick<TNavigation, 'id' | 'locale' | 'path'>, index) => (
 					<React.Fragment key={index}>
 						<ChevronRight css={{ fontSize: '18px' }} />
-						<StyledLink to={item?.path}>{t(item?.i18nKey)}</StyledLink>
+						<StyledLink to={item?.path}>{t(item?.locale)}</StyledLink>
 					</React.Fragment>
 				))}
 		</BreadCrumbsWrapper>

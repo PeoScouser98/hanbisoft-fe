@@ -1,38 +1,42 @@
+import { UserRoleEnum } from '@/common/constants/_app.const';
 import { TNavigation } from '@/types/global';
 
 /**
- * @example const navigation ={
+ * @example 
+   const navigation ={
 		id: '1',
-		i18nKey: 'common:navigation.dashboard',
+		locale: 'common:navigation.dashboard',
 		path: '/',
 		icon: 'home',
 		hasItems: false,
-		breadcrumbs: [{ i18nKey: 'common:navigation.dashboard', path: '/' }]
+		breadcrumbs: [{ locale: 'common:navigation.dashboard', path: '/' }]
 	}
- */
+*/
+
 const navigation: Array<TNavigation> = [
 	{
 		id: '1',
-		i18nKey: 'common:navigation.dashboard',
+		locale: 'common:navigation.dashboard',
 		path: '/',
 		icon: 'home',
 		hasItems: false,
-		breadcrumbs: [{ i18nKey: 'common:navigation.dashboard', path: '/' }]
+		breadcrumbs: [{ locale: 'common:navigation.dashboard', path: '/' }]
 	},
 	{
 		id: '2',
-		i18nKey: 'common:navigation.users',
+		locale: 'common:navigation.users',
 		icon: 'group',
 		path: '/users',
 		hasItems: false,
-		breadcrumbs: [{ i18nKey: 'common:navigation.users', path: '/users' }]
+		checkAdmin: true,
+		breadcrumbs: [{ locale: 'common:navigation.users', path: '/users' }]
 	},
 	{
 		id: '3',
-		i18nKey: 'common:navigation.equipments',
+		locale: 'common:navigation.equipments',
 		path: '/equipments',
 		icon: 'file',
-		breadcrumbs: [{ i18nKey: 'common:navigation.equipments', path: '/equipments' }]
+		breadcrumbs: [{ locale: 'common:navigation.equipments', path: '/equipments' }]
 	}
 ];
 
