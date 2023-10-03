@@ -1,3 +1,19 @@
 {
-	"form_title": "Create new user"
+	"fields": {
+		"display_name": "Full name",
+		"email": "Email",
+		"phone": "Phone",
+		"address": "Address",
+		"current_password": "Current password",
+		"new_password": "New password",
+		"dateOfBirth": "Date of birth",
+		"confirm_password": "Confirm password",
+		"role": "Role"
+	},
+	"title": {
+		"profile_settings": "Profile settings",
+		"change_password": "Change password",
+		"create_new_user": "Create new user",
+		"user_list": "Users list"
+	}
 }

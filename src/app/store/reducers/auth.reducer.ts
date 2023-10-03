@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../apis/auth.api';
+import { AuthResponse } from '@/types/global';
 
 const initialState: AuthResponse = {
 	user: null,
@@ -17,17 +18,17 @@ const authSlice = createSlice({
 	},
 	extraReducers: (build) => {
 		build.addMatcher(authApi.endpoints.signin.matchFulfilled, (_, { payload }) => {
-			const { data } = payload;
+			const { metadata } = payload;
 			return {
-				...data,
+				...metadata,
 				authenticated: true
 			};
 		});
 		build.addMatcher(authApi.endpoints.updateUserInfo.matchFulfilled, (state, { payload }) => {
-			console.log(payload.data);
+			console.log(payload.metadata);
 			return {
 				...state,
-				user: payload.data
+				user: payload.metadata
 			};
 		});
 	}

@@ -1,13 +1,14 @@
 import navigation from '@/app/configs/navigation.config';
 import { useAppSelector } from '@/app/store/hook';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
-import { ScrollView, TextBox, TreeView } from 'devextreme-react';
+import { TNavigation } from '@/types/global';
+import styled from '@emotion/styled';
+import { TextBox, TreeView } from 'devextreme-react';
 import { ItemClickEvent } from 'devextreme/ui/tree_view';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 
-const AsideNavigation = () => {
+const AsideNavigation: React.FunctionComponent = () => {
 	const { handleOpenPage } = usePageNavigate();
 	const { currentPage } = useAppSelector((state) => state.pages);
 	const [searchValue, setSearchValue] = React.useState<string>('');
@@ -35,7 +36,7 @@ const AsideNavigation = () => {
 	);
 
 	const handleItemClick = React.useCallback(
-		(itemData: ItemClickEvent<INavigation>['itemData']) => {
+		(itemData: ItemClickEvent<TNavigation>['itemData']) => {
 			if (!itemData?.path) return;
 			handleOpenPage({
 				id: itemData?.id as string,
@@ -63,26 +64,27 @@ const AsideNavigation = () => {
 					style={{ color: '#ffff' }}
 				/>
 			</TextBoxWrapper>
-			<StyledScrollView showScrollbar='onScroll' width={300} className='dx-theme-border-color'>
-				<StyledTreeView
-					className='panel-list'
-					dataSource={treeViewDataSource}
-					focusStateEnabled={false}
-					dataStructure='plain'
-					searchMode='contains'
-					expandIcon='chevronright'
-					collapseIcon='chevrondown'
-					searchTimeout={500}
-					searchValue={searchValue}
-					keyExpr='id'
-					expandNodesRecursive
-					expandedExpr='selected'
-					displayExpr='text'
-					searchExpr={['text', 'path']}
-					onItemClick={({ itemData }) => handleItemClick(itemData)}
-					selectionMode='single'
-				/>
-			</StyledScrollView>
+
+			<StyledTreeView
+				width={288}
+				scrollDirection='both'
+				className='dx-theme-border-color'
+				dataSource={treeViewDataSource}
+				focusStateEnabled={false}
+				dataStructure='plain'
+				searchMode='contains'
+				expandIcon='chevronright'
+				collapseIcon='chevrondown'
+				searchTimeout={500}
+				searchValue={searchValue}
+				keyExpr='id'
+				expandNodesRecursive
+				expandedExpr='selected'
+				displayExpr='text'
+				searchExpr={['text', 'path']}
+				onItemClick={({ itemData }) => handleItemClick(itemData)}
+				selectionMode='single'
+			/>
 		</Aside>
 	);
 };
@@ -97,35 +99,39 @@ const Aside = styled.aside`
 	box-shadow: 8px 0 16px #ccc;
 `;
 
-const StyledScrollView = styled(ScrollView)`
-	flex: 1;
+const StyledTreeView = styled(TreeView)`
 	border-right-width: 1px;
 	border-right-style: solid;
-	& .dx-scrollable-content {
-		padding: 4px;
-	}
-`;
-
-const StyledTreeView = styled(TreeView)`
-	& .dx-treeview-item {
-		margin-right: 12px;
-	}
+	padding: 8px 8px 8px 0;
 	& .dx-treeview-item-content {
-		font-size: 16px;
-		line-height: 28px;
+		height: 2rem;
+		font-size: 1rem;
+		line-height: 2rem;
 		vertical-align: middle;
 		overflow: hidden;
+		font-weight: normal;
 		text-overflow: ellipsis;
 		width: 100%;
 		white-space: nowrap;
 		& .dx-icon {
-			font-size: 18px !important;
-			margin-right: 16px;
+			font-size: 20px !important;
+			margin-right: 0.75em;
 		}
 	}
-	& .dx-icon {
-		line-height: inherit;
-		font-size: 16px;
+	& .dx-treeview-node.dx-treeview-item-without-checkbox.dx-treeview-item-with-custom-expander-icon {
+		padding-left: 8px !important;
+	}
+
+	& .dx-treeview-custom-expand-icon,
+	& .dx-treeview-custom-collapse-icon {
+		top: 0;
+		bottom: auto;
+		right: 1rem;
+		left: auto;
+		font-size: 1rem;
+		vertical-align: middle;
+		font-size: 1rem;
+		top: 14px;
 	}
 `;
 
@@ -135,7 +141,7 @@ const TextBoxWrapper = styled.div`
 `;
 
 const SearchBox = styled(TextBox)`
-	height: 2.25rem;
+	height: 2rem;
 	background-color: transparent;
 	& .dx-texteditor-input-container > * {
 		color: white;

@@ -1,11 +1,9 @@
+import type { TTextFieldProps } from '@/types/global';
 import { TextBox } from 'devextreme-react';
-import { ITextBoxOptions } from 'devextreme-react/text-box';
 import React from 'react';
-import { Control, FieldValues, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
-export type TTextFieldProps = { name: string; control: Control<FieldValues> } & ITextBoxOptions;
-
-const TextFieldControl = (props: TTextFieldProps) => {
+const TextFieldControl: React.FC<TTextFieldProps> = (props) => {
 	const { field, fieldState } = useController({
 		control: props.control,
 		name: props.name,
@@ -32,7 +30,9 @@ const TextFieldControl = (props: TTextFieldProps) => {
 TextFieldControl.defaultProps = {
 	validationMessageMode: 'auto',
 	validationMessagePosition: 'bottom',
-	valueChangeEvent: 'input'
+	valueChangeEvent: 'input',
+	height: 28,
+	showClearButton: true
 };
 
 // export type { TTextFieldProps };

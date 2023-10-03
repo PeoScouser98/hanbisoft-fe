@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import PreferenceToolbar from './PreferenceToolbar';
 import TabNavigation from './TabNavigation';
 
-const Main = () => {
+const Main: React.FunctionComponent = () => {
 	const isLargeScreen = useMediaQuery('(min-width: 1366px)');
 
 	const [open, setOpenState] = React.useState<boolean>(isLargeScreen);
@@ -19,7 +19,7 @@ const Main = () => {
 		setOpenState(isLargeScreen);
 	}, [isLargeScreen]);
 
-	const handleOpenStateChange = React.useCallback(setOpenState, []);
+	const handleOpenStateChange = React.useCallback(setOpenState, [isLargeScreen]);
 	return (
 		<Drawer
 			opened={open}
@@ -28,6 +28,7 @@ const Main = () => {
 			defaultOpened={isLargeScreen}
 			openedStateMode={openedStateMode}
 			closeOnOutsideClick={!isLargeScreen}
+			maxSize={288}
 			onOpenedChange={handleOpenStateChange}
 			revealMode='expand'
 			position='left'

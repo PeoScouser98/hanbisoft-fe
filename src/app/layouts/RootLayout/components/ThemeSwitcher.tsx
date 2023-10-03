@@ -1,22 +1,22 @@
-import useDXTheme from '@/common/hooks/useDXTheme';
+import useDarkMode from '@/common/hooks/useDarkMode';
 import styled from '@emotion/styled';
 import React from 'react';
 
-const ThemeSwitcher = () => {
-	const { currentTheme, changeTheme } = useDXTheme();
+const ThemeSwitcher: React.FunctionComponent = () => {
+	const { currentTheme, changeTheme } = useDarkMode();
 	return (
 		<Switch className='dx-theme-background-color dx-theme-text-color dx-theme-border-color'>
 			<i className='dx-icon-sun' />
 			<i className='dx-icon-moon' />
 			<input
 				type='checkbox'
-				checked={currentTheme === 'generic.light'}
+				checked={currentTheme.mode === 'light'}
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 					const theme = e.target.checked ? 'generic.light' : 'generic.dark';
 					changeTheme(theme);
 				}}
 			/>
-			<Toggler className='toggler' currentTheme={currentTheme.replace('generic.', '')} />
+			<Toggler className='toggler' mode={currentTheme.mode} />
 		</Switch>
 	);
 };
@@ -25,7 +25,6 @@ const Switch = styled.label`
 	position: relative;
 	display: inline-block;
 	width: 40px;
-	min-width: 40px;
 	border-radius: 20px;
 	height: 20px;
 	z-index: 3;
@@ -35,7 +34,6 @@ const Switch = styled.label`
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
-		z-index: -1;
 		font-size: 16px;
 	}
 	& .dx-icon-moon {
@@ -55,26 +53,22 @@ const Switch = styled.label`
 	}
 `;
 
-const Toggler = styled.i<{ currentTheme: string }>`
+const Toggler = styled.i<{ mode: string }>`
 	cursor: pointer;
 	border-radius: 20px;
-	z-index: 99 !important;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	z-index: 1 !important;
 	transition: background-color 0.2s ease-in-out;
 	& ::before {
 		position: absolute;
 		content: '';
-		left: 1px;
-		top: 1px;
-		bottom: 1px;
-		width: 18px;
-		height: 18px;
+		left: 2px;
+		top: 2px;
+		bottom: 2px;
+		width: 17px;
+		height: 17px;
 		z-index: 3;
-		background-color: ${({ theme, currentTheme }) => {
-			return theme?.colors?.accent[currentTheme];
+		background-color: ${({ theme, mode }) => {
+			return theme.colors.accent[mode];
 		}};
 		border-radius: 50%;
 		transition: cubic-bezier(0.19, 1, 0.22, 1) 0.5s;

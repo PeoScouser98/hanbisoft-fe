@@ -1,17 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './root.reducer';
-import storage from 'redux-persist/lib/storage';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import __configs from '../configs/system.config';
 import authApi from './apis/auth.api';
 import userApi from './apis/user.api';
-import __configs from '../configs/ecosystem.config';
-import { setupListeners } from '@reduxjs/toolkit/dist/query';
-import equipmentApi from './apis/equipment.api';
+import rootReducer from './root.reducer';
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['auth', 'language', 'theme']
+	whitelist: ['auth', 'language', 'theme', 'pages']
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer); // Provide a way to combine redux's root reducer
@@ -23,7 +22,7 @@ const store = configureStore({
 			serializableCheck: {
 				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
 			}
-		}).concat([authApi.middleware, userApi.middleware, equipmentApi.middleware]),
+		}).concat([authApi.middleware, userApi.middleware]),
 	devTools: __configs.ENV === 'development'
 });
 

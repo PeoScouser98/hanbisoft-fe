@@ -4,7 +4,7 @@
 	"number_of_users": "Number of users",
 	"completed": "Completed",
 	"in_progress": "In progress",
+	"approval": "Approval",
 	"rejected": "Rejected",
-	"in_process": "In process",
 	"task": "Tasks"
 }

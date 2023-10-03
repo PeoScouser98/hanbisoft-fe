@@ -1,14 +1,17 @@
-import Signin from '@/app/pages/Auth/Signin';
 import NotFoundPage from '@/app/pages/Error/NotFoundPage';
 import React from 'react';
 import { RouteObject } from 'react-router-dom';
 import RootLayout from '../layouts/RootLayout';
 import PermissionDeniedPage from '../pages/Error/PermissionDeniedPage';
 import Home from '../pages/Home';
+import AuthLayout from '../pages/Auth';
+import ErrorBoundary from '@/common/components/ErrorBoundary';
 
 const UserListPage = React.lazy(() => import('@/app/pages/User'));
 const EquipmentsPage = React.lazy(() => import('@/app/pages/Equipment'));
-const ProfilePage = React.lazy(() => import('@/app/pages/Auth/Profile'));
+const Signin = React.lazy(() => import('@/app/pages/Auth/Signin'));
+const ProfilePage = React.lazy(() => import('@/app/pages/Profile'));
+const ForgotPasswordPage = React.lazy(() => import('@/app/pages/Auth/ForgotPassword'));
 
 const routesConfig: Array<RouteObject> = [
 	{ path: '*', element: <NotFoundPage /> },
@@ -16,7 +19,7 @@ const routesConfig: Array<RouteObject> = [
 	{
 		path: '/',
 		element: <RootLayout />,
-		errorElement: <div>Error</div>,
+		errorElement: <ErrorBoundary />,
 		children: [
 			{
 				index: true,
@@ -37,8 +40,18 @@ const routesConfig: Array<RouteObject> = [
 		]
 	},
 	{
-		path: '/signin',
-		element: <Signin />
+		path: '/auth',
+		element: <AuthLayout />,
+		children: [
+			{
+				path: 'signin',
+				element: <Signin />
+			},
+			{
+				path: 'forgot-password',
+				element: <ForgotPasswordPage />
+			}
+		]
 	}
 ];
 

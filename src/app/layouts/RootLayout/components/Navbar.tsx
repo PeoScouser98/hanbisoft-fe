@@ -1,19 +1,15 @@
-import React from 'react';
 import useAuth from '@/common/hooks/useAuth';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
+import styled from '@emotion/styled';
 import MicrosoftIcon from '@mui/icons-material/Microsoft';
 import { DropDownButton } from 'devextreme-react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import usePageNavigate from '@/common/hooks/usePageNavigate';
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
-	const navigate = useNavigate();
+const Navbar: React.FunctionComponent = () => {
 	const { t, i18n } = useTranslation('common');
-	const {
-		signout,
-		authState: { user }
-	} = useAuth();
+	const { signout, user } = useAuth();
 	const { handleOpenPage } = usePageNavigate();
 
 	const profileSettings = React.useMemo(
@@ -28,6 +24,7 @@ const Navbar = () => {
 						i18nKey: 'actions.profile',
 						path: '/profile',
 						text: t('actions.profile'),
+
 						canClose: true,
 						canReorder: true
 					})
@@ -51,7 +48,7 @@ const Navbar = () => {
 			<StyledDropdownButton
 				splitButton={false}
 				useSelectMode={false}
-				text={user?.displayName}
+				text={user?.display_name}
 				icon={user?.picture}
 				focusStateEnabled={false}
 				hoverStateEnabled={false}

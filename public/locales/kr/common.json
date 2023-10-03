@@ -5,10 +5,7 @@
 	},
 	"navigation": {
 		"dashboard": "게시판",
-		"list_all_users": "모든 사용자 나열",
 		"users": "사용자",
-		"create_new_user": "새 사용자 만들기",
-		"create": "창조하다",
 		"equipments": "장비"
 	},
 	"btn": {
@@ -18,8 +15,12 @@
 		"revert": "초기화"
 	},
 	"notify": {
-		"saving": "저장 중",
+		"confirm_title": "공고",
+		"loading": "저장 중",
 		"success": "성공적으로",
-		"failed": "저장 실패"
+		"error": "저장 실패",
+		"confirm_delete": "삭제 확인?",
+		"confirm_save_changes": "변경사항을 저장하시겠습니까?",
+		"no_data": "데이터 없음"
 	}
 }

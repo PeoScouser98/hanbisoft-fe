@@ -2,8 +2,9 @@
 	"number_of_users": "사용자",
 	"number_of_systems": "시스템 수",
 	"number_of_menus": "메뉴 수",
-	"completed": "완전한",
+	"completed": "완전함",
 	"in_progress": "진행 중",
 	"rejected": "거부됨",
-	"task": "완료함"
+	"task": "완료함",
+	"approval": "승인됨"
 }

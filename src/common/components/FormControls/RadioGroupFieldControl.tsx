@@ -1,8 +1,6 @@
+import type { TRadioGroupProps } from '@/types/global';
 import { RadioGroup } from 'devextreme-react';
-import { IRadioGroupOptions } from 'devextreme-react/radio-group';
-import { Control, FieldValues, useController } from 'react-hook-form';
-
-declare type TRadioGroupProps = { name: string; control: Control<FieldValues> } & IRadioGroupOptions;
+import { useController } from 'react-hook-form';
 
 const RadioGroupFieldControl: React.FC<TRadioGroupProps> = (props): React.JSX.Element => {
 	const { field, fieldState } = useController({

@@ -28,3 +28,6 @@ dist-ssr
 
 # Typescript loader
 .swc
+
+# Testing UI
+html

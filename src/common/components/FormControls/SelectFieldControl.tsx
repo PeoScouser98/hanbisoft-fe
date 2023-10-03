@@ -1,9 +1,7 @@
-import React from 'react';
+import type { TSelectFieldProps } from '@/types/global';
 import { SelectBox } from 'devextreme-react';
-import { Control, FieldValues, useController } from 'react-hook-form';
-import { ISelectBoxOptions } from 'devextreme-react/select-box';
-
-declare type TSelectFieldProps = { name: string; control: Control<FieldValues> } & ISelectBoxOptions;
+import React from 'react';
+import { useController } from 'react-hook-form';
 
 const SelectFieldControl: React.FC<TSelectFieldProps> = (props): React.JSX.Element => {
 	const { fieldState, field } = useController({
@@ -28,5 +26,11 @@ const SelectFieldControl: React.FC<TSelectFieldProps> = (props): React.JSX.Eleme
 	);
 };
 
-export type { TSelectFieldProps };
+SelectFieldControl.defaultProps = {
+	showClearButton: true,
+	height: 28,
+	labelMode: 'static',
+	validationMessageMode: 'auto'
+};
+
 export default SelectFieldControl;

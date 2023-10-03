@@ -11,6 +11,7 @@ const styles = css`
 		box-sizing: border-box;
 	}
 	body {
+		font-family: 'Roboto', sans-serif;
 		margin: 0;
 		padding: 0;
 	}

@@ -1,17 +1,9 @@
 /**
- * @copyright @PeoScouser98
+ * @copyright PeoScouser98
  */
 
-import React from 'react';
-import { Theme } from '@emotion/react';
+import { ITypographyProps } from '@/types/global';
 import styled from '@emotion/styled';
-
-export declare interface ITypographyProps extends React.AllHTMLAttributes<HTMLElement>, React.PropsWithChildren {
-	variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'small';
-	color?: 'accent' | 'danger' | 'success' | 'warning';
-	theme?: Theme;
-	as?: keyof HTMLElementTagNameMap;
-}
 
 export default function Typography(props: ITypographyProps) {
 	switch (props.variant) {
@@ -36,13 +28,13 @@ const H1 = styled.h1<ITypographyProps>`
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
 	letter-spacing: -0.025em;
 	font-weight: 900 !important;
-	@media screen and (min-width: 384px) and (max-width: 767px) {
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
 		font-size: 20px;
 	}
-	@media screen and(min-width: 768px) and(max-width: 1365px) {
+	@media screen and(${({ theme }) => theme.breakpoints.tablet}) {
 		font-size: 40px;
 	}
-	@media screen and (min-width: 1366px) {
+	@media screen and (${({ theme }) => theme.breakpoints.desktop}) {
 		font-size: 48px !important;
 	}
 `;
@@ -50,10 +42,10 @@ const H1 = styled.h1<ITypographyProps>`
 const H2 = styled.h2<ITypographyProps>`
 	font-weight: bold;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
-	@media screen and (min-width: 384px) and (max-width: 767px) {
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
 		font-size: 20px !important;
 	}
-	@media screen and (min-width: 768px) and (max-width: 1365px) {
+	@media screen and (${({ theme }) => theme.breakpoints.tablet}) {
 		font-size: 24px !important;
 	}
 	@media screen and (min-width: 1366px) {
@@ -62,11 +54,13 @@ const H2 = styled.h2<ITypographyProps>`
 `;
 
 const H3 = styled.h3<ITypographyProps>`
-	font-size: 24px;
-	font-weight: 800;
+	font-size: 28px !important;
 	color: ${(props) => (props.color ? props.theme.colors[props.color] : 'inherit')};
-	@media screen and (max-width: 1365px) {
-		font-size: 22px;
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
+		font-size: 20px !important;
+	}
+	@media screen and (${({ theme }) => theme.breakpoints.tablet}) {
+		font-size: 22px !important;
 	}
 `;
 const H4 = styled.h4<ITypographyProps>`

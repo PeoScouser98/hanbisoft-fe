@@ -5,7 +5,7 @@ export default function useSaveEquipmentsMutation() {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationKey: ['equipment'],
-		mutationFn: equipmentService.save,
+		mutationFn: equipmentService.saveEquipmentsChanges,
 		onSuccess: () => queryClient.invalidateQueries(['equipment'])
 	});
 }

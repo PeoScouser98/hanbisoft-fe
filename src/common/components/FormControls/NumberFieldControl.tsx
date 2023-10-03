@@ -1,13 +1,11 @@
 /**
- * @copyright @PeoScouser98
+ * @copyright quanghiep03198
  */
 
+import type { TNumberFieldProps } from '@/types/global';
 import { NumberBox } from 'devextreme-react';
-import { INumberBoxOptions } from 'devextreme-react/number-box';
 import React from 'react';
-import { Control, FieldValues, useController } from 'react-hook-form';
-
-declare type TNumberFieldProps = { name: string; control: Control<FieldValues> } & INumberBoxOptions;
+import { useController } from 'react-hook-form';
 
 const NumberFieldControl: React.FC<TNumberFieldProps> = (props): React.JSX.Element => {
 	const { field, fieldState } = useController({
@@ -35,8 +33,9 @@ const NumberFieldControl: React.FC<TNumberFieldProps> = (props): React.JSX.Eleme
 NumberFieldControl.defaultProps = {
 	validationMessageMode: 'auto',
 	validationMessagePosition: 'bottom',
-	valueChangeEvent: 'input'
+	valueChangeEvent: 'input',
+	height: 28,
+	showClearButton: true
 };
 
-export type { TNumberFieldProps };
 export default NumberFieldControl;

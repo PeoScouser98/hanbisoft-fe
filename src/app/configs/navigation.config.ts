@@ -1,3 +1,5 @@
+import { TNavigation } from '@/types/global';
+
 /**
  * @example const navigation ={
 		id: '1',
@@ -8,7 +10,7 @@
 		breadcrumbs: [{ i18nKey: 'common:navigation.dashboard', path: '/' }]
 	}
  */
-const navigation: Array<INavigation> = [
+const navigation: Array<TNavigation> = [
 	{
 		id: '1',
 		i18nKey: 'common:navigation.dashboard',
@@ -22,7 +24,7 @@ const navigation: Array<INavigation> = [
 		i18nKey: 'common:navigation.users',
 		icon: 'group',
 		path: '/users',
-		hasItems: true,
+		hasItems: false,
 		breadcrumbs: [{ i18nKey: 'common:navigation.users', path: '/users' }]
 	},
 	{
@@ -32,20 +34,6 @@ const navigation: Array<INavigation> = [
 		icon: 'file',
 		breadcrumbs: [{ i18nKey: 'common:navigation.equipments', path: '/equipments' }]
 	}
-	// {
-	// 	id: '4',
-	// 	i18nKey: 'common:navigation.equipments',
-	// 	path: '/equipments',
-	// 	icon: 'folder',
-	// 	breadcrumbs: [{ i18nKey: 'common:navigation.equipments', path: '/equipments' }]
-	// },
-	// {
-	// 	id: '4.1',
-	// 	parentId: '4',
-	// 	i18nKey: 'common:navigation.equipments',
-	// 	path: '/',
-	// 	icon: 'file'
-	// }
 ];
 
 export default navigation;

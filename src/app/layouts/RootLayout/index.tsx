@@ -3,7 +3,7 @@ import PrivateLayout from '../RestrictedLayouts/PrivateLayout';
 import Main from './components/Main';
 import Header from './components/Navbar';
 
-export default function RootLayout() {
+const RootLayout: React.FunctionComponent = () => {
 	return (
 		<PrivateLayout>
 			<Container>
@@ -12,7 +12,7 @@ export default function RootLayout() {
 			</Container>
 		</PrivateLayout>
 	);
-}
+};
 
 const Container = styled.main`
 	position: relative;
@@ -23,3 +23,5 @@ const Container = styled.main`
 	justify-content: space-between;
 	overflow: hidden;
 `;
+
+export default RootLayout;

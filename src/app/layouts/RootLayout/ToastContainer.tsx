@@ -1,11 +1,11 @@
-import useDXTheme from '@/common/hooks/useDXTheme';
+import { useAppSelector } from '@/app/store/hook';
 import { Toaster } from 'sonner';
 
-export default function ToastContainer() {
-	const { currentTheme } = useDXTheme();
+const ToastContainer: React.FunctionComponent = () => {
+	const currentTheme = useAppSelector((state) => state.theme);
 
 	const className =
-		currentTheme === 'generic.light'
+		currentTheme.mode === 'light'
 			? 'dx-theme-background-color dx-theme-text-color'
 			: 'dx-theme-border-color-as-background-color dx-state-active dx-theme-text-color';
 
@@ -18,4 +18,6 @@ export default function ToastContainer() {
 			toastOptions={{ className, style: { border: 'none', margin: 16 } }}
 		/>
 	);
-}
+};
+
+export default ToastContainer;

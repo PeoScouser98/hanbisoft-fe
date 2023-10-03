@@ -1,17 +1,19 @@
 import navigation from '@/app/configs/navigation.config';
-import Icon from '@/common/components/DxIcon';
+import { useAppSelector } from '@/app/store/hook';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
+import { TNavigation } from '@/types/global';
+import styled from '@emotion/styled';
+import { ChevronRight } from '@mui/icons-material';
 import HomeIcon from '@mui/icons-material/Home';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, matchPath, useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ChevronRight } from '@mui/icons-material';
 
-const Breadcrumbs = () => {
+const Breadcrumbs: React.FunctionComponent = () => {
 	const { t, i18n } = useTranslation('common');
-
 	const { pathname } = useLocation();
-	const breadcrumbs: Array<Pick<INavigation, 'text' | 'path' | 'breadcrumbs'>> = React.useMemo(() => {
+
+	const breadcrumbs: Array<Pick<TNavigation, 'text' | 'path' | 'breadcrumbs'>> = React.useMemo(() => {
 		const matchedNavigationItem = navigation.find((item) => {
 			return item.path
 				? !!matchPath(item?.path as string, pathname)
@@ -21,18 +23,18 @@ const Breadcrumbs = () => {
 		return matchedNavigationItem?.hasItems
 			? matchedNavigationItem.items?.find((item) => !!matchPath(item?.path as string, pathname))?.breadcrumbs
 			: matchedNavigationItem?.breadcrumbs;
-	}, [pathname, i18n.language]);
+	}, [pathname, i18n.language, t]);
 
 	return (
 		<BreadCrumbsWrapper>
-			<StyledLink to='/'>
-				<HomeIcon css={{ fontSize: '20px !important' }} />
+			<StyledLink to='/' id='home-breacrumbs'>
+				<HomeIcon css={{ fontSize: '18px !important' }} />
 			</StyledLink>
 
 			{Array.isArray(breadcrumbs) &&
-				breadcrumbs.map((item: Pick<INavigation, 'id' | 'i18nKey' | 'path'>, index) => (
+				breadcrumbs.map((item: Pick<TNavigation, 'id' | 'i18nKey' | 'path'>, index) => (
 					<React.Fragment key={index}>
-						<ChevronRight />
+						<ChevronRight css={{ fontSize: '18px' }} />
 						<StyledLink to={item?.path}>{t(item?.i18nKey)}</StyledLink>
 					</React.Fragment>
 				))}
@@ -45,12 +47,11 @@ const BreadCrumbsWrapper = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	gap: 0.5em;
-
 	& * + *,
 	& * {
 		color: white;
 	}
-	@media screen and (max-width: 767px) {
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
 		display: none;
 	}
 `;

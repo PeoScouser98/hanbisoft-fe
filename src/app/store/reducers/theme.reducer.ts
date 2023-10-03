@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = 'generic.light';
+const initialState = { value: 'generic.light', mode: 'light' };
 
 const themeSlice = createSlice({
 	name: 'theme',
 	initialState,
 	reducers: {
 		setTheme: (_, { payload }) => {
-			return payload;
+			return { value: payload, mode: payload.replace('generic.', '') };
 		}
 	}
 });

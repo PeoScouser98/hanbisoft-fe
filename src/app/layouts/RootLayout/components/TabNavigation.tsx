@@ -1,9 +1,10 @@
 import { useAppSelector } from '@/app/store/hook';
-import { RootState } from '@/app/store/reduxjs';
 import ErrorBoundary from '@/common/components/ErrorBoundary';
 import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
 import Typography from '@/common/components/Typography';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
+import { useSessionStorage } from '@/common/hooks/useStorage';
+import { IPage } from '@/types/global';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ScrollView, Sortable, TabPanel } from 'devextreme-react';
@@ -12,11 +13,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-const TabNavigation = () => {
-	const { openingPages, currentPage } = useAppSelector((state: RootState) => state.pages);
+const TabNavigation: React.FunctionComponent = () => {
+	const { openingPages, currentPage } = useAppSelector((state) => state.pages);
 	const { handleOpenPage, handleClosePage, handleReorderPage } = usePageNavigate();
 	const navigate = useNavigate();
 	const { t, i18n } = useTranslation();
+	const [outletContext, setOutletContext] = useSessionStorage('outlet_context', {});
 
 	React.useEffect(() => {
 		navigate(currentPage.path);
@@ -41,19 +43,17 @@ const TabNavigation = () => {
 		),
 		[i18n.language]
 	);
-	const renderOutlet = React.useCallback(
+	const handleRenderItem = React.useCallback(
 		() => (
-			<ScrollView showScrollbar='onScroll'>
-				<OutLetWrapper>
-					<React.Suspense fallback={<LoadingProgressBar />}>
-						<ErrorBoundary>
-							<Outlet />
-						</ErrorBoundary>
-					</React.Suspense>
-				</OutLetWrapper>
-			</ScrollView>
+			<OutLetWrapper>
+				<React.Suspense fallback={<LoadingProgressBar />}>
+					<ErrorBoundary>
+						<Outlet context={{ outletContext, setOutletContext }} />
+					</ErrorBoundary>
+				</React.Suspense>
+			</OutLetWrapper>
 		),
-		[openingPages, i18n.language]
+		[]
 	);
 
 	const handleTabDragStart = React.useCallback((e: DragStartEvent) => {
@@ -76,12 +76,15 @@ const TabNavigation = () => {
 					dataSource={openingPages}
 					scrollingEnabled
 					scrollByContent
-					itemTitleRender={renderTitle}
 					showNavButtons
-					deferRendering={false}
+					itemTitleRender={renderTitle}
 					hoverStateEnabled={false}
 					focusStateEnabled={false}
 					repaintChangesOnly
+					deferRendering={false}
+					selectedIndex={openingPages.indexOf(currentPage)}
+					activeStateEnabled
+					keyExpr='id'
 					onTitleClick={({ itemData }) => handleOpenPage(itemData as unknown as IPage)}
 					css={css`
 						& .dx-tabs-wrapper > .dx-item .dx-tab {
@@ -89,7 +92,7 @@ const TabNavigation = () => {
 						}
 					`}
 					selectedItem={currentPage}
-					itemRender={renderOutlet}
+					itemRender={handleRenderItem}
 				/>
 			</Sortable>
 		</Container>
@@ -102,7 +105,7 @@ const Container = styled.div`
 `;
 
 const StyledTabPanel = styled(TabPanel)`
-	height: calc(100vh - 6.75rem);
+	height: calc(100vh - 6.5rem);
 `;
 
 const TabItem = styled.div`
@@ -124,7 +127,7 @@ const CloseButton = styled.i`
 `;
 
 const OutLetWrapper = styled.div`
-	padding: 1em;
+	padding: 1rem;
 `;
 
 export default TabNavigation;

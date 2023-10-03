@@ -5,7 +5,7 @@ export default function useDeleteEquipmentsMutation() {
 	const queryClient = useQueryClient();
 	return useMutation({
 		mutationKey: ['equipment'],
-		mutationFn: equipmentService.delete,
+		mutationFn: equipmentService.deleteEquipments,
 		onSuccess: () => queryClient.invalidateQueries(['equipment'])
 	});
 }

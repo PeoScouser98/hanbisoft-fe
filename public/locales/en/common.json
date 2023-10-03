@@ -6,9 +6,6 @@
 	"navigation": {
 		"dashboard": "Dashboard",
 		"users": "Users",
-		"list_all_users": "List all users",
-		"create_new_user": "Create new user",
-		"create": "Create",
 		"equipments": "Equipments"
 	},
 	"btn": {
@@ -18,8 +15,12 @@
 		"delete": "Delete"
 	},
 	"notify": {
-		"saving": "Saving data",
-		"failed": "Failed to save",
-		"success": "Saved successfully"
+		"confirm_title": "Message",
+		"loading": "Your request is being sent ...",
+		"success": "Saved successfully",
+		"error": "Failed to save",
+		"confirm_delete": "Aggree to delete?",
+		"confirm_save_changes": "Save those changes?",
+		"no_data": "No data"
 	}
 }

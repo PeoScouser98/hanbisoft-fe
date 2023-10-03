@@ -8,9 +8,9 @@ export default function useGetLookupFieldsQuery() {
 		queryKey: ['equipment_lookup'],
 		queryFn: equipmentService.getLookupFieldsValue,
 		initialData,
+		refetchOnMount: 'always',
 		keepPreviousData: true,
-		enabled: false,
-
-		select: (res) => res?.data || initialData
+		enabled: true,
+		select: (res) => res?.metadata || initialData
 	});
 }

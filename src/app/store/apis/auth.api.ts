@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import axiosBaseQuery from '../helper';
 import { AxiosRequestConfig } from 'axios';
+import { AuthResponse, HttpResponse, IUser } from '@/types/global';
 
 const authApi = createApi({
 	reducerPath: 'authApi',
@@ -15,7 +16,7 @@ const authApi = createApi({
 			query: () => ({ url: '/auth/info', method: 'GET' }),
 			providesTags: [{ type: 'Info', id: 'INFO' }],
 			transformResponse: (response: HttpResponse<Partial<IUser>>): Partial<IUser> => {
-				return response?.data;
+				return response?.metadata;
 			}
 		}),
 		updateUserInfo: build.mutation<HttpResponse<Omit<IUser, 'password'>>, Partial<IUser>>({

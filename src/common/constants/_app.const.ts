@@ -1,6 +1,7 @@
 export enum UserRoleEnum {
-	USER = 0,
-	ADMIN = 1
+	SUPER_ADMIN = 0,
+	ADMIN = 1,
+	USER = 2
 }
 
 export enum TypePhase {
@@ -8,3 +9,8 @@ export enum TypePhase {
 	Pausing,
 	Deleting
 }
+
+export const ROLE_MAP = new Map([
+	[1, 'Admin'],
+	[2, 'Member']
+]);

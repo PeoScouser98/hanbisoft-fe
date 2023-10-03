@@ -1,9 +1,6 @@
-import useDXTheme from '@/common/hooks/useDXTheme';
 import styled from '@emotion/styled';
-import { DataGrid } from 'devextreme-react';
 
 const Container = styled.div`
-	/* overflow: hidden; */
 	display: flex;
 	justify-content: flex-start;
 	gap: 8px;
@@ -11,43 +8,20 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const StyledDataGrid = styled(DataGrid)<{ currentTheme?: string }>`
-	& div.dx-datagrid-header-panel {
-		position: sticky;
-		color: white;
-		top: 0;
-	}
-	& .dx-datagrid-headers.dx-datagrid-nowrap {
-		position: sticky;
-		background-color: ${({ theme, currentTheme }) => {
-			const _theme = currentTheme.replace('generic.', '');
-			return theme.colors.accent[_theme];
-		}};
-		color: white;
-		top: 0px;
-		text-align: center !important;
-	}
-
-	& td[role='columnheader'] {
-		text-align: center !important;
-	}
-`;
-
 const SearchBox = styled.form`
 	flex: 1;
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 	row-gap: 8px;
 	column-gap: 4px;
+	row-gap: 8px;
 	padding: 4px;
-	& > * {
-		min-width: 10rem;
+
+	@media (${({ theme }) => theme.breakpoints.mobile}) {
+		grid-template-columns: repeat(2, 2fr);
 	}
-	@media (min-width: 384px) and (max-width: 767px) {
-		grid-template-columns: repeat(6, 2fr);
-	}
-	@media (min-width: 768px) and (max-width: 1365px) {
-		grid-template-columns: repeat(6, 4fr);
+	@media (${({ theme }) => theme.breakpoints.tablet}) {
+		grid-template-columns: repeat(3, 4fr);
 	}
 	& button[type='submit'] {
 		display: none;
@@ -71,4 +45,4 @@ const SearchSubmitLabel = styled.label`
 	}
 `;
 
-export { Container, StyledDataGrid, SearchBox, ButtonGroup, SearchSubmitLabel };
+export { ButtonGroup, Container, SearchBox, SearchSubmitLabel };

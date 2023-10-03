@@ -6,7 +6,7 @@ export const signinSchema = yup.object({
 });
 
 export const updateUserSchema = yup.object({
-	displayName: yup.string().required('Provide a display name'),
+	display_name: yup.string().required('Provide a display name'),
 	phone: yup.string().required('Provide a phone number'),
 	email: yup.string().email('Invalid email').required('Provide an email'),
 	address: yup.string().required('Provide an address')

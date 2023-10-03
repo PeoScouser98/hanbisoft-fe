@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useEventListener from './useEventListener';
 
 /**
- * @description Check screen size match with media query
+ * Check screen size match with media query
  * @param {string} mediaQuery
  * @example const isLargeScreen = useMediaQuery('(min-width: 1366px)')
  * @returns {boolean}

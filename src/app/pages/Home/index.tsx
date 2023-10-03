@@ -1,5 +1,6 @@
+import React from 'react';
 import navigation from '@/app/configs/navigation.config';
-import { useGetUsersQuery } from '@/app/store/apis/user.api';
+
 import Typography from '@/common/components/Typography';
 import styled from '@emotion/styled';
 import { TaskAltOutlined } from '@mui/icons-material';
@@ -8,56 +9,62 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
+import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
+import useGetUsersQuery from '../User/hooks/useGetUserQuery';
 
-const Home = () => {
+const Home: React.FunctionComponent = () => {
 	const { data } = useGetUsersQuery({});
 	const { t, i18n } = useTranslation('home');
 
 	const resource = React.useMemo<
 		Array<{
-			title: string;
+			title: string | number;
 			icon: any;
 			description: string;
 		}>
 	>(
 		() => [
 			{
-				title: t('number_of_users'),
+				description: t('number_of_users'),
 				icon: Groups2OutlinedIcon,
-				description: `${data?.length || 0} users`
+				title: data?.length || 0
 			},
 			{
-				title: t('number_of_systems'),
+				description: t('number_of_systems'),
 				icon: DnsOutlinedIcon,
-				description: '1 system'
+				title: 1
 			},
 			{
-				title: t('number_of_menus'),
+				description: t('number_of_menus'),
 				icon: MenuOutlinedIcon,
-				description: `${navigation.filter((item) => !!item.path).length} menus`
+				title: navigation.filter((item) => !!item.path).length
 			},
 			{
-				title: t('task'),
+				description: t('task'),
 				icon: TaskAltOutlined,
-				description: '0'
+				title: 0
 			},
 			{
-				title: t('completed'),
+				description: t('completed'),
 				icon: CheckOutlinedIcon,
-				description: '0 task'
+				title: 0
 			},
 			{
-				title: t('in_progress'),
+				description: t('in_progress'),
 				icon: HourglassTopOutlinedIcon,
-				description: '0 task'
+				title: 0
 			},
 			{
-				title: t('rejected'),
+				description: t('rejected'),
 				icon: BlockOutlinedIcon,
-				description: '0 rejected'
+				title: 0
+			},
+			{
+				description: t('approval'),
+				icon: SwipeRightOutlinedIcon,
+				title: 0
 			}
 		],
 		[t, i18n.language]
@@ -67,9 +74,11 @@ const Home = () => {
 		<Grid>
 			{resource.map((item, index) => (
 				<Card key={index} className='dx-card'>
-					<item.icon style={{ fontSize: '40px' }} />
+					<item.icon style={{ fontSize: '3rem' }} />
 					<CardBody>
-						<Typography variant='h3'>{item.title}</Typography>
+						<Typography variant='h3' css={{ fontWeight: '600 !important' }}>
+							{item.title}
+						</Typography>
 						<Typography variant='p' className='disabled'>
 							{item.description}
 						</Typography>
@@ -86,32 +95,36 @@ const Grid = styled.div`
 	grid-template-columns: repeat(4, 1fr);
 	align-items: stretch;
 	gap: 24px;
-	@media screen and (min-width: 384px) and (max-width: 767px) {
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
 		grid-template-columns: repeat(2, 1fr);
 	}
-	@media screen and (min-width: 768px) and (max-width: 1365px) {
+	@media screen and (${({ theme }) => theme.breakpoints.tablet}) {
 		grid-template-columns: repeat(3, 1fr);
 	}
 `;
 
 const Card = styled.div`
-	height: 10rem;
+	height: 8rem;
 	border-radius: 8px;
-	padding: 16px;
-	display: flex;
-	justify-content: flex-start;
-	gap: 32px;
-	align-items: start;
-	@media screen and (min-width: 384px) and (max-width: 767px) {
+	padding: 1.5rem;
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	gap: 2rem;
+	align-items: center;
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
 		gap: 16px;
+		padding: 16px;
 	}
 `;
 
 const CardBody = styled.div`
 	border-radius: 8px;
 	display: flex;
-	align-items: flex-start;
-	align-self: flex-start;
+	align-items: center;
+	text-align: center;
+	justify-self: center;
+	align-self: center;
+	justify-content: center;
 	flex-direction: column;
 	gap: 6px;
 `;

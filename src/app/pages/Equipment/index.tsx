@@ -1,41 +1,46 @@
-import React from 'react';
-import ErrorBoundary from '@/common/components/ErrorBoundary';
+import SelectFieldControl from '@/common/components/FormControls/SelectFieldControl';
+import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
+import StyledDataGrid from '@/common/components/StyledDataGrid';
 import useColumnsDef from '@/common/hooks/useColumnsDef';
+import useDebounce from '@/common/hooks/useDebounce';
 import useScreenSize from '@/common/hooks/useScreenSize';
-import handleExportExcel from '@/common/utils/exportExcel';
+import { handleExportExcel } from '@/common/utils/dataGridUtils';
 import { SearchOutlined } from '@mui/icons-material';
 import { AxiosRequestConfig } from 'axios';
-import { Button, DataGrid, ScrollView } from 'devextreme-react';
+import { Button, ScrollView } from 'devextreme-react';
 import { IButtonOptions } from 'devextreme-react/button';
-import { Column } from 'devextreme-react/data-grid';
-import { SavedEvent } from 'devextreme/ui/data_grid';
+import { ContentReadyEvent, SavedEvent } from 'devextreme/ui/data_grid';
+import { confirm } from 'devextreme/ui/dialog';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import predefine, { columns } from './_predefine';
-import { ButtonGroup, Container, SearchBox, SearchSubmitLabel, StyledDataGrid } from './components/Styled';
+import { ButtonGroup, Container, SearchBox, SearchSubmitLabel } from './components/Styled';
+import defaultProps, { searchFields } from './defaultProps';
 import useDeleteEquipmentsMutation from './hooks/useDeleteEquipmentMutation';
 import useGetEquipmentQuery from './hooks/useGetEquipmentQuery';
-import useSaveEquipmentsMutation from './hooks/useSaveEquipmentMutation';
-import qs from 'qs';
 import useGetLookupFieldsQuery from './hooks/useGetLookupFieldsQuery';
-import useDXTheme from '@/common/hooks/useDXTheme';
+import useSaveEquipmentsMutation from './hooks/useSaveEquipmentMutation';
 
-const EquipmentList = () => {
-	const { t } = useTranslation(['common', 'equipment']);
+const { columns, ...restProps } = defaultProps;
+
+const EquipmentList: React.FunctionComponent = () => {
+	const { t, i18n } = useTranslation(['common', 'equipment']);
 	const { control, handleSubmit } = useForm();
 	const id = React.useId();
 	const [selectedRowKeys, setSelectedRowKeys] = React.useState<Array<string>>([]);
-	const columnsDef = useColumnsDef(columns, { ns: 'equipment' });
 	const screenSize = useScreenSize();
-	const [searchTerms, setSearchTerms] = React.useState<string>('');
-	const { data, isFetching, refetch } = useGetEquipmentQuery(searchTerms);
-	const { data: lookupFields, refetch: refetchLookupFields } = useGetLookupFieldsQuery();
+	const [searchTerms, setSearchTerms] = React.useState<AxiosRequestConfig['params']>();
+	const { data: lookupFields, isFetching: isFetchingLookupValues } = useGetLookupFieldsQuery();
+	const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useGetEquipmentQuery(searchTerms);
+	const columnsDef = useColumnsDef(columns, { ns: 'equipment' }, lookupFields);
 	const { mutateAsync: deleteAsync } = useDeleteEquipmentsMutation();
-	const { mutateAsync: saveAsync } = useSaveEquipmentsMutation();
-	const { currentTheme } = useDXTheme();
-	const dataGridRef = React.useRef<typeof DataGrid.prototype>(null);
-	const dtgr_height = React.useMemo<number>(() => screenSize.height - 286, [screenSize.height]);
+	const { mutateAsync: saveAsync, isLoading: isSaving } = useSaveEquipmentsMutation();
+	const lazyFetchNextPage = useDebounce(fetchNextPage, 100);
+	const dataGridRef = React.useRef<typeof StyledDataGrid.prototype>(null);
+	const [hasEditedData, setHasEditedData] = React.useState<boolean>(() => dataGridRef.current?.instance.hasEditData());
+	const dataGridHeight = React.useMemo<number>(() => screenSize.height - 254, [screenSize.height]);
+
 	const actionButtonsGroup = React.useMemo<IButtonOptions[]>(
 		() => [
 			{
@@ -54,9 +59,8 @@ const EquipmentList = () => {
 				icon: 'save',
 				text: t('common:btn.save'),
 				type: 'success',
-				onClick: function () {
-					if (confirm('Aggree to save data?')) dataGridRef.current.instance?.saveEditData();
-				}
+				disabled: isSaving || !hasEditedData,
+				onClick: () => dataGridRef.current.instance?.saveEditData()
 			},
 			{
 				key: 'delete',
@@ -67,51 +71,49 @@ const EquipmentList = () => {
 				onClick: () => handleDelete()
 			}
 		],
-		[selectedRowKeys]
+		[selectedRowKeys, i18n.language, t, hasEditedData]
 	);
 
-	React.useEffect(() => {
-		refetch({ exact: true, queryKey: ['equipment', searchTerms] });
-	}, [searchTerms]);
-
-	React.useEffect(() => {
-		refetchLookupFields();
-	}, []);
-
 	const handleSearch = (data) => {
-		const searchTermsVal = {};
+		const searchParams = {};
 		Object.keys(data).forEach((key) => {
-			if (data[key]) searchTermsVal[key] = data[key];
+			if (data[key]) searchParams[key] = data[key];
 		});
-		const searchParams = !!searchTermsVal ? '?' + qs.stringify(searchTermsVal) : '';
 		setSearchTerms(searchParams);
 	};
 
 	const handleSave = async (e: SavedEvent) => {
-		toast.promise(saveAsync(e.changes), {
-			loading: t('notify.saving'),
-			success: t('notify.success'),
-			error: t('notify.failed')
-		});
+		const result = await confirm(/* html */ `<i>Accept those changes?</i>`, 'Confirm changes');
+		if (result) {
+			toast.promise(saveAsync(e.changes), {
+				loading: t('notify.loading'),
+				success: t('notify.success'),
+				error: t('notify.error')
+			});
+		}
+		return result;
 	};
 
 	const handleDelete = async () => {
-		if (confirm('Aggree to delete data?')) {
+		const result = await confirm(/* html */ `<i>Are you sure?</i>`, 'Confirm delete');
+		if (result === true) {
 			toast.promise(async () => await deleteAsync({ _ids: selectedRowKeys.join(',') }), {
-				loading: t('notify.saving'),
+				loading: t('notify.loading'),
 				success: t('notify.success'),
-				error: t('notify.failed')
+				error: t('notify.error')
 			});
 		}
 	};
 
-	// const handleScrollToBottom = async (e: ContentReadyEvent) => {
-	// 	e.component.getScrollable().on('scroll', function (e) {
-	// 		if (e.reachedBottom) {
-	// 			console.log('bottom reached');
-	// 		}
-	// 	});
-	// };
+	const handleScrollToBottom = async (e: ContentReadyEvent) => {
+		e.component.getScrollable().on('scroll', function ({ reachedBottom }) {
+			if (reachedBottom) this.off('scroll');
+			const canFetchNextPage = reachedBottom && isFetchingNextPage === false && hasNextPage;
+			if (canFetchNextPage) {
+				lazyFetchNextPage();
+			}
+		});
+	};
 
 	return (
 		<Container>
@@ -121,57 +123,55 @@ const EquipmentList = () => {
 				))}
 			</ButtonGroup>
 			<ScrollView>
-				<SearchBox
-					onSubmit={handleSubmit(handleSearch)}
-					className='dx-theme-border-color-as-background-color dx-theme-border-color'>
-					{predefine.searchFields.map((options) => {
-						const { component: Element, type, name, i18nKey, ...rest } = options;
-						if (type === 'select')
+				<SearchBox onSubmit={handleSubmit(handleSearch)}>
+					{searchFields.map((options) => {
+						const { type, name, i18nKey, ...rest } = options;
+						if (type === 'Select')
 							return (
-								<Element
+								<SelectFieldControl
 									control={control}
+									dataSource={lookupFields[name]}
 									label={t(i18nKey)}
-									dataSource={lookupFields?.[name]}
 									name={name}
+									disabled={isFetchingLookupValues}
+									labelMode='floating'
+									placeholder=''
+									showClearButton
 									{...rest}
 								/>
 							);
-						return <Element control={control} placeholder={t(i18nKey)} name={name} {...rest} />;
+						return (
+							<TextFieldControl
+								showClearButton
+								mode='search'
+								control={control}
+								labelMode='floating'
+								label={t(i18nKey)}
+								name={name}
+								{...rest}
+							/>
+						);
 					})}
 					<button type='submit' id={id} />
 				</SearchBox>
 			</ScrollView>
-			<ErrorBoundary>
-				<StyledDataGrid
-					currentTheme={currentTheme}
-					height={dtgr_height}
-					ref={dataGridRef}
-					dataSource={data}
-					keyExpr='_id'
-					loadPanel={{ enabled: isFetching }}
-					scrolling={predefine.scrolling}
-					columnFixing={predefine.columnFixing}
-					columnResizingMode='widget'
-					allowColumnReordering
-					allowColumnResizing
-					columnAutoWidth
-					showBorders
-					showColumnLines
-					showRowLines
-					export={predefine.export}
-					selection={predefine.selection}
-					toolbar={predefine.toolbar}
-					editing={predefine.editing}
-					onSaved={handleSave}
-					onSelectedRowKeysChange={(value) => {
-						setSelectedRowKeys(value);
-					}}
-					onExporting={(e) => handleExportExcel(e.component, 'Equipments list.xlsx')}>
-					{columnsDef.map((colProps, index) => (
-						<Column key={index} {...colProps} />
-					))}
-				</StyledDataGrid>
-			</ErrorBoundary>
+
+			<StyledDataGrid
+				ref={dataGridRef}
+				height={dataGridHeight}
+				columns={columnsDef}
+				dataSource={data.pages.flat()}
+				loadPanel={{ enabled: isLoading || isFetchingNextPage }}
+				onContentReady={(e) => {
+					setHasEditedData(e.component.hasEditData());
+					handleScrollToBottom(e);
+				}}
+				onSaved={handleSave}
+				noDataText={t('common:notify.no_data')}
+				onSelectedRowKeysChange={setSelectedRowKeys}
+				onExporting={(e) => handleExportExcel(e.component, 'Equipments list.xlsx')}
+				{...restProps}
+			/>
 		</Container>
 	);
 };

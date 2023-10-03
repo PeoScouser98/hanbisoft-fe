@@ -9,13 +9,14 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Breadcrumbs from './Breadcrumbs';
+import { Link } from 'react-router-dom';
 
 type Props = {
 	open: boolean;
 	onOpenStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PreferenceToolbar = (props: Props) => {
+const PreferenceToolbar: React.FunctionComponent<Props> = (props) => {
 	const { i18n } = useTranslation();
 	const [currentLanguage, setCurrentLanguage] = useLocalStorage(
 		'language',
@@ -25,7 +26,7 @@ const PreferenceToolbar = (props: Props) => {
 	return (
 		<Toolbar className='dx-theme-accent-as-background-color'>
 			<FlexBox divide>
-				<div>
+				<FlexBox>
 					<StyledButton
 						id='toggle-panel-btn'
 						icon={props.open ? 'chevrondoubleleft' : 'chevrondoubleright'}
@@ -36,14 +37,14 @@ const PreferenceToolbar = (props: Props) => {
 							props.onOpenStateChange(!props.open);
 						}}
 					/>
-				</div>
+				</FlexBox>
+
 				<Breadcrumbs />
 			</FlexBox>
 			<FlexBox style={{ justifyContent: 'flex-end' }}>
 				<ThemeSwitcher />
 				<DropDownButton
 					icon={TranslateIcon}
-					width='100%'
 					dataSource={Object.values(locales)}
 					stylingMode='contained'
 					useSelectMode
@@ -65,7 +66,7 @@ const PreferenceToolbar = (props: Props) => {
 
 const Toolbar = styled.nav`
 	height: 100%;
-	max-height: 2.25rem;
+	max-height: 2rem;
 	padding: 8px;
 	display: flex;
 	justify-content: space-between;
@@ -83,15 +84,15 @@ const StyledButton = styled(Button)<React.PropsWithChildren & IButtonOptions>`
 
 const divide = css`
 	& > * + * {
-		border-width: 0 0 0 1px;
+		border-width: 0 0 0 2px;
 		border-style: solid;
 		border-color: white;
 		padding: 0 16px;
 	}
-	& > :nth-child(odd) {
+	& > :nth-of-type(odd) {
 		padding-right: 12px;
 	}
-	& > :nth-child(even) {
+	& > :nth-of-type(even) {
 		padding-left: 12px;
 	}
 `;

@@ -1,3 +1,19 @@
 {
-	"form_title": "Create new user"
+	"fields": {
+		"display_name": "전체 이름",
+		"email": "이메일",
+		"phone": "전화번호",
+		"address": "주소",
+		"current_password": "현재 비밀번호",
+		"new_password": "새 비밀번호",
+		"dateOfBirth": "생일",
+		"confirm_password": "비밀번호 확인",
+		"role": "역할"
+	},
+	"title": {
+		"profile_settings": "프로필 설정",
+		"change_password": "패스워드 변경",
+		"create_new_user": "새 사용자 만들기",
+		"user_list": "사용자 목록"
+	}
 }

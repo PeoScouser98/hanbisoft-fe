@@ -5,27 +5,30 @@ import { useSigninMutation } from '../../app/store/apis/auth.api';
 import { useAppDispatch, useAppSelector } from '../../app/store/hook';
 import { signout } from '../../app/store/reducers/auth.reducer';
 import axiosInstance from '@/app/configs/axios.config';
+import { IUser } from '@/types/global';
+import { UserRoleEnum } from '../constants/_app.const';
 
 /**
  * @description Provides auth actions (signin/signout), and get user state
  */
 export default function useAuth() {
-	const authState = useAppSelector((state) => state.auth);
-	const [signinMutation, { isLoading, isError }] = useSigninMutation();
-
+	const { user, authenticated } = useAppSelector((state) => state.auth);
+	const [signinMutation] = useSigninMutation();
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+
+	const isSuperAdmin = user?.role === UserRoleEnum.SUPER_ADMIN;
+	const isAdmin = user?.role === UserRoleEnum.ADMIN;
 
 	const handleSignin = useCallback((payload: Pick<IUser, 'email' | 'password'>) => {
 		toast.promise(signinMutation(payload).unwrap(), {
 			loading: 'Signing you in ...',
-			success: ({ data, message }) => {
+			success: ({ message }) => {
 				navigate('/');
-				axiosInstance.setAccessToken(data.accessToken);
 				return message;
 			},
-			error: ({ data }) => {
-				return data?.message || 'Failed to sign in';
+			error: ({ message }) => {
+				return message || 'Failed to sign in';
 			}
 		});
 	}, []);
@@ -36,5 +39,12 @@ export default function useAuth() {
 		toast.success(`You've signed out!`);
 	}, []);
 
-	return { authState, signinStates: { isLoading, isError }, signin: handleSignin, signout: handleSignout };
+	return {
+		user,
+		authenticated,
+		isAdmin,
+		isSuperAdmin,
+		signin: handleSignin,
+		signout: handleSignout
+	};
 }

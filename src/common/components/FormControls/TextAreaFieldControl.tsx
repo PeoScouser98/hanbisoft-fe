@@ -29,7 +29,8 @@ const TextAreaFieldControl: React.FC<TTextAreaFieldProps> = (props) => {
 TextAreaFieldControl.defaultProps = {
 	validationMessagePosition: 'bottom',
 	valueChangeEvent: 'input',
-	autoResizeEnabled: true
+	autoResizeEnabled: true,
+	height: 28
 };
 
 export type { TTextAreaFieldProps };

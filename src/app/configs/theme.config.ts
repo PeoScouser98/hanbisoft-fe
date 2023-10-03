@@ -23,7 +23,7 @@ const theme: Theme = {
 		warning: { light: '#f0ad4e', dark: '#f0ad4e' },
 		danger: { light: '#d9534f', dark: '#d9534f' },
 		shadow: { light: '#9ca3af', dark: '' },
-		disabled: { light: '#e5e7eb', dark: '555555' }
+		disabled: { light: '#e5e7eb', dark: '#555555' }
 	},
 	breakpoints: {
 		mobile: '(min-width: 375px) and (max-width: 767px)',
