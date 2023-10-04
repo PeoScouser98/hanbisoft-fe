@@ -54,8 +54,8 @@ Our ERP project aims to address the multifaceted needs of businesses across vari
 -  Devextreme: JavaScript Component Suite for Responsive Web Development.
 -  Other libraries and tools: Redux Toolkit, React Query, Axios, Yup, etc.
 
-## Contributing
-
+## Contributors
+![ducnv167](https://github.com/PeoScouser98/hanbisoft-react/assets/97147601/5935be54-f52d-48ca-a973-1274fa1789db)
 ![PeoScouser98](https://avatars.githubusercontent.com/u/97147601?v=4&size=50&button=true)
 
 ## License
