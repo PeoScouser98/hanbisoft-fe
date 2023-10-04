@@ -1,27 +1,63 @@
-# React + TypeScript + Vite
+# Hanbisoft ERP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hanbisoft ERP web application
 
-Currently, two official plugins are available:
+## Introduction
 
--  [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--  [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Our ERP project aims to address the multifaceted needs of businesses across various industries. Whether it's managing inventory, tracking sales, optimizing supply chains, or streamlining financial processes, our solution leverages the capabilities of React, TypeScript, and DevExtreme to provide a comprehensive ERP platform.
 
-## Expanding the ESLint configuration
+## Feature
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Modular and Scalable**: The use of React and TypeScript allows for the creation of modular components, making it easy to extend and scale the ERP system as your business grows.
 
--  Configure the top-level `parserOptions` property like this:
+2. **User-Friendly Interface**: DevExtreme UI components offer a responsive and intuitive user interface, ensuring that your employees can access and utilize the ERP system with ease.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+3. **Performance and Speed**: DevExtreme components are optimized for performance, ensuring that your ERP system can handle large volumes of data without compromising on speed.
 
--  Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
--  Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
--  Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+4. **Customization**: Our solution is highly customizable to suit the unique requirements of your business. You can tailor the ERP system to match your specific processes and workflows.
+
+5. **Integration**: Seamlessly integrate the ERP system with other enterprise applications, databases, and third-party services to create a unified and efficient ecosystem.
+
+6. **Data Analytics**: Leverage the power of data analytics and visualization provided by DevExtreme to gain valuable insights and make informed decisions.
+
+## Installation and Setup
+
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/PeoScouser98/hanbisoft-react.git <your_folder_name>
+   ```
+
+2. Navigate to the project directory:
+
+   ```
+   cd <your_folder_name>
+   ```
+
+3. Install the dependencies:
+
+   ```
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```
+   npm run dev
+   ```
+
+5. Open your web browser and visit `http://localhost:8000` to access the application.
+
+## Technologies Used
+
+-  React: JavaScript library for building user interfaces.
+-  Devextreme: JavaScript Component Suite for Responsive Web Development.
+-  Other libraries and tools: Redux Toolkit, React Query, Axios, Yup, etc.
+
+## Contributing
+
+![PeoScouser98](https://avatars.githubusercontent.com/u/97147601?v=4&size=50&button=true)
+
+## License
+
+This project is licensed under the MIT License.
