@@ -1,4 +1,4 @@
-import { changePasswordSchema } from '@/app/validations/auth.validation';
+import { changePasswordSchema } from '@/app/schemas/auth.schema';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from 'devextreme-react';

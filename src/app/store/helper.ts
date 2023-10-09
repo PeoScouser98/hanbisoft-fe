@@ -22,12 +22,12 @@ const axiosBaseQuery =
 			const url = baseUrl + endpoint;
 			const response = await axiosInstance.request({ url, method, data, params });
 			return { data: response };
-		} catch (axiosError) {
-			const err = axiosError as AxiosError;
+		} catch (error) {
+			const axiosError = error as AxiosError;
 			return {
 				error: {
-					status: err.response?.status,
-					data: err.response?.data || err.message
+					status: axiosError.response?.status,
+					data: axiosError.response?.data || axiosError.message
 				}
 			};
 		}

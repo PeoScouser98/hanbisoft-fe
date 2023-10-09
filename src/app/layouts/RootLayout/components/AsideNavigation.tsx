@@ -1,6 +1,5 @@
 import navigation from '@/app/configs/navigation.config';
 import { useAppSelector } from '@/app/store/hook';
-import useAuth from '@/common/hooks/useAuth';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
 import { TNavigation } from '@/types/global';
 import styled from '@emotion/styled';
@@ -14,7 +13,7 @@ const AsideNavigation: React.FunctionComponent = () => {
 	const { currentPage } = useAppSelector((state) => state.pages);
 	const [searchValue, setSearchValue] = React.useState<string>('');
 	const { t, i18n } = useTranslation('common');
-	const { isAdmin, isSuperAdmin } = useAuth();
+	// const { isAdmin, isSuperAdmin } = useAuth();
 
 	const treeViewDataSource = React.useMemo(
 		() =>
@@ -22,14 +21,14 @@ const AsideNavigation: React.FunctionComponent = () => {
 				if (!nav.items)
 					return {
 						...nav,
-						visible: nav.checkAdmin ? isAdmin || isSuperAdmin : true,
+						// disabled: nav.checkAdmin && !isAdmin && !isSuperAdmin,
 						text: t(nav.locale)
 					};
 
 				return {
 					...nav,
 					text: t(nav.text),
-					visible: nav.checkAdmin ? isAdmin || isSuperAdmin : true,
+					// disabled: nav.checkAdmin && !isAdmin && !isSuperAdmin,
 					selected: nav.id === currentPage.id,
 					items: nav.items.map((childNav) => ({
 						...childNav,
@@ -110,17 +109,17 @@ const StyledTreeView = styled(TreeView)`
 	padding: 8px 8px 8px 0;
 	& .dx-treeview-item-content {
 		height: 2rem;
-		font-size: 1rem;
+		font-size: 14px;
 		line-height: 2rem;
 		vertical-align: middle;
 		overflow: hidden;
-		font-weight: normal;
 		text-overflow: ellipsis;
 		width: 100%;
+		font-weight: bold;
 		white-space: nowrap;
 		& .dx-icon {
 			font-size: 20px !important;
-			margin-right: 0.75em;
+			margin-right: 1.5rem;
 		}
 	}
 	& .dx-treeview-node.dx-treeview-item-without-checkbox.dx-treeview-item-with-custom-expander-icon {
@@ -147,10 +146,10 @@ const TextBoxWrapper = styled.div`
 
 const SearchBox = styled(TextBox)`
 	height: 2rem;
-	background-color: transparent;
+	background-color: transparent !important;
 	& .dx-texteditor-input-container > * {
 		color: white;
-		background-color: transparent;
+		background-color: transparent !important;
 	}
 	& .dx-icon-search::before {
 		color: white !important;

@@ -1,0 +1,15 @@
+{
+	"fields": {
+		"site_name": "사이트 이름",
+		"logo": "심벌 마크"
+	},
+	"captions": {
+		"general_settings": "일반 설정",
+		"contact": "연락하다"
+	},
+	"tabs": {
+		"site_settings": "사이트 설정",
+		"access_management": "접근 관리",
+		"menu_settings": "메뉴 설정"
+	}
+}

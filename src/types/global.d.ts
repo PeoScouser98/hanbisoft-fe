@@ -1,6 +1,9 @@
+/// <reference types="react" />
+/// <reference types="devextreme" />
+/// <reference types="devextreme-react" />
+
 import { IEmployee } from '@/common/types/employee.type';
 import { dxTreeViewItem } from 'devextreme/ui/tree_view';
-import { DxIconType } from '../common/components/DxIcon';
 import store from '@/app/store/store';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import SelectFieldControl from '@/common/components/FormControls/SelectFieldControl';
@@ -11,7 +14,11 @@ import { Control, FieldValues } from 'react-hook-form';
 import { Column } from 'devextreme/ui/data_grid';
 import { IColumnProps } from 'devextreme-react/data-grid';
 import React from 'react';
-import { UserRoleEnum } from '@/common/constants/_app.const';
+import { UserRoleEnum } from '@/common/constants/app.const';
+import { dxFileUploaderOptions } from 'devextreme/ui/file_uploader';
+import { Interpolation, Theme } from '@emotion/react';
+import { TDxIcon } from 'devextreme';
+import { HttpStatusCode } from 'axios';
 
 declare global {
 	interface Window {
@@ -22,8 +29,15 @@ declare global {
 	}
 }
 
+declare namespace JSX {
+	interface IntrinsicElements {
+		[elemName: string]: any;
+	}
+}
+
 // #region HTTP
 export declare type HttpResponse<T> = {
+	status?: HttpStatusCode;
 	message: string;
 	metadata: T;
 };
@@ -57,13 +71,21 @@ export declare type AuthResponse = {
 export declare interface IUser {
 	_id: string;
 	email: string;
-	age: number;
 	picture: string;
 	password: string;
 	display_name: string;
 	phone: string;
 	address: string;
-	role: UserRoleEnum; // 0 | 1
+	role: {
+		role_cd: number;
+		role_name?: string;
+		permissions: {
+			allowAccessing: boolean;
+			allowAdding: boolean;
+			allowUpdating: boolean;
+			allowDeleting: boolean;
+		};
+	}; // 0 | 1
 }
 export declare interface IPage {
 	id: string;
@@ -74,7 +96,8 @@ export declare interface IPage {
 	canReorder?: boolean;
 }
 export declare interface TNavigation extends dxTreeViewItem {
-	icon: DxIconType;
+	id: string;
+	icon: TDxIcon;
 	path?: string;
 	locale: string;
 	items?: dxTreeViewItem['items'] & TNavigation['breadcrumbs'];
@@ -113,17 +136,36 @@ export declare type TLookupFields = {
 };
 
 export declare interface ITypographyProps extends React.AllHTMLAttributes<HTMLElement>, React.PropsWithChildren {
-	variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'small';
+	variant?: 'h1' | 'h2' | 'h3' | 'p' | 'small';
 	color?: 'accent' | 'danger' | 'success' | 'warning';
 	theme?: Theme;
+	lineClamp?: number;
 	as?: keyof HTMLElementTagNameMap;
 }
 
-export declare type TTextFieldProps = RequiredFieldControlProps & ITextBoxOptions;
-export declare type TSelectFieldProps = RequiredFieldControlProps & ISelectBoxOptions;
-export declare type TNumberFieldProps = RequiredFieldControlProps & INumberBoxOptions;
+export declare type TImageProps = React.ClassAttributes<HTMLImageElement> &
+	React.ImgHTMLAttributes<HTMLImageElement> & {
+		css?: Interpolation<Theme>;
+		fallbackImage?: string;
+		skeletonProps?: typeof Skeleton.prototype.props;
+	};
+
+export declare type TSwitchProps = {
+	onElement?: React.ComponentType<React.AllHTMLAttributes<HTMLElement>>;
+	offElement?: React.ComponentType<React.AllHTMLAttributes<HTMLElement>>;
+	checked?: boolean;
+	onChange?: (...params) => unknown;
+};
+
+export declare type TDataGridProps = dxDataGridOptions;
+export declare type TColumnDef = Column | IColumnProps | (typeof TDataGridProps)['columns'];
+
+export declare type TTextFieldProps = RequiredFieldControlProps & ITextBoxOptions & { size?: 'sm' | 'md' | 'lg' };
+export declare type TSelectFieldProps = RequiredFieldControlProps & ISelectBoxOptions & { size?: 'sm' | 'md' | 'lg' };
+export declare type TNumberFieldProps = RequiredFieldControlProps & INumberBoxOptions & { size?: 'sm' | 'md' | 'lg' };
+export declare type TTextAreaFieldProps = RequiredFieldControlProps & ITextAreaOptions & { size?: 'sm' | 'md' | 'lg' };
 export declare type TRadioGroupProps = RequiredFieldControlProps & IRadioGroupOptions;
-export declare type TTextAreaFieldProps = RequiredFieldControlProps & ITextAreaOptions;
+export declare type TFileUploadFieldProps = RequiredFieldControlProps & dxFileUploaderOptions & { label: string };
 
 export declare type TextFieldControl = React.FC<TTextFieldProps>;
 export declare type SelectFieldControl = React.FC<TSelectFieldProps>;

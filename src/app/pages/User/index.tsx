@@ -1,11 +1,8 @@
+import LabelButton from '@/common/components/Buttons/LabelButton';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import StyledDataGrid from '@/common/components/StyledDataGrid';
-import SearchLabelButton from '@/common/components/StyledDataGrid/SearchLabelButton';
-import { ROLE_MAP } from '@/common/constants/_app.const';
-import useAuth from '@/common/hooks/useAuth';
 import useColumnsDef from '@/common/hooks/useColumnsDef';
 import { getDataChanges, handleExportExcel } from '@/common/utils/dataGridUtils';
-import '@/common/utils/stringUtils';
 import styled from '@emotion/styled';
 import { AxiosRequestConfig } from 'axios';
 import Button from 'devextreme-react/button';
@@ -15,22 +12,29 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import defaultProps from './defaultProps';
-import useDeleteUsersMutation from './hooks/useDeleteUsersMutation';
-import useGetUsersQuery from './hooks/useGetUserQuery';
-import useUpdateUserMutation from './hooks/useUpdateUsersMutation';
+import { useGetUserRolesQuery } from '@/app/services/hooks/useAuthQueries';
+import { useDeleteUsersMutation, useGetUsersQuery, useUpdateUserMutation } from '@/app/services/hooks/useUserQueries';
+import defaultProps from './declarations/defaultProps';
 
 const { columns, ...restProps } = defaultProps;
 
 const searchFields = [
 	{
+		key: 'display_name',
+		component: TextFieldControl,
+		localization: 'user:fields.display_name',
+		componentProps: {
+			name: 'display_name',
+			mode: 'search'
+		}
+	},
+	{
 		key: 'email',
 		component: TextFieldControl,
-		localization: 'user:fields.phone',
+		localization: 'user:fields.email',
 		componentProps: {
 			name: 'email',
-			mode: 'search',
-			label: 'Email'
+			mode: 'search'
 		}
 	},
 	{
@@ -53,17 +57,17 @@ const UsersPage: React.FunctionComponent = () => {
 	const { control, handleSubmit } = useForm();
 	const [selectedRowKeys, setSelectedRowKeys] = React.useState<Array<string>>([]);
 	const id = React.useId();
+	const { data: roles } = useGetUserRolesQuery();
 	const { mutateAsync: updateAsync } = useUpdateUserMutation();
 	const { mutateAsync: deleteAsync } = useDeleteUsersMutation();
-	const { isSuperAdmin, isAdmin } = useAuth();
 
 	const columnsDef = useColumnsDef(
 		columns,
 		{ ns: 'user', key: 'fields' },
 		{
-			role: Array.from(ROLE_MAP, ([key, value]) => ({
-				text: value,
-				value: key
+			role: roles?.map((role) => ({
+				text: role.role_name.capitalize(),
+				value: role._id
 			}))
 		}
 	);
@@ -98,7 +102,7 @@ const UsersPage: React.FunctionComponent = () => {
 	return (
 		<Wrapper>
 			<Flex css={{ gap: '4px' }}>
-				<SearchLabelButton htmlFor={id} />
+				<LabelButton htmlFor={id} text={t('common:btn.search')} icon='search' />
 				<Button
 					type='success'
 					text={t('common:btn.save')}
@@ -110,7 +114,6 @@ const UsersPage: React.FunctionComponent = () => {
 					type='danger'
 					text={t('common:btn.delete')}
 					icon='trash'
-					visible={isSuperAdmin}
 					disabled={selectedRowKeys.length === 0}
 					onClick={handleDelete}
 				/>
@@ -134,7 +137,6 @@ const UsersPage: React.FunctionComponent = () => {
 				dataSource={data}
 				onSaved={handleSave}
 				noDataText={t('common:notify.no_data')}
-				keyExpr='_id'
 				onSelectedRowKeysChange={setSelectedRowKeys}
 				onContentReady={(e) => {
 					setHasEditData(e.component.hasEditData());
@@ -157,10 +159,9 @@ const Wrapper = styled.div`
 	flex-direction: column;
 	gap: 0.5rem;
 `;
-
 const SearchForm = styled.form`
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(6, 1fr);
 	align-items: center;
 	column-gap: 4px;
 	row-gap: 8px;

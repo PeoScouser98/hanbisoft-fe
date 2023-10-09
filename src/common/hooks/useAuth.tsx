@@ -1,4 +1,6 @@
-import React, { useCallback } from 'react';
+/** @copyright PeoScouser98 */
+
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useSigninMutation } from '../../app/store/apis/auth.api';
@@ -6,10 +8,9 @@ import { useAppDispatch, useAppSelector } from '../../app/store/hook';
 import { signout } from '../../app/store/reducers/auth.reducer';
 import axiosInstance from '@/app/configs/axios.config';
 import { IUser } from '@/types/global';
-import { UserRoleEnum } from '../constants/_app.const';
 
 /**
- * @description Provides auth actions (signin/signout), and get user state
+ * Provides auth actions (signin/signout), and get user state
  */
 export default function useAuth() {
 	const { user, authenticated } = useAppSelector((state) => state.auth);
@@ -17,10 +18,7 @@ export default function useAuth() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const isSuperAdmin = React.useMemo(() => user?.role === UserRoleEnum.SUPER_ADMIN, [user]);
-	const isAdmin = React.useMemo(() => user?.role === UserRoleEnum.ADMIN, [user]);
-
-	const handleSignin = useCallback((payload: Pick<IUser, 'email' | 'password'>) => {
+	const handleSignin = React.useCallback((payload: Pick<IUser, 'email' | 'password'>) => {
 		toast.promise(signinMutation(payload).unwrap(), {
 			loading: 'Signing you in ...',
 			success: ({ message }) => {
@@ -33,7 +31,7 @@ export default function useAuth() {
 		});
 	}, []);
 
-	const handleSignout = useCallback(() => {
+	const handleSignout = React.useCallback(() => {
 		dispatch(signout());
 		axiosInstance.clearToken();
 		toast.success(`You've signed out!`);
@@ -42,8 +40,6 @@ export default function useAuth() {
 	return {
 		user,
 		authenticated,
-		isAdmin,
-		isSuperAdmin,
 		signin: handleSignin,
 		signout: handleSignout
 	};

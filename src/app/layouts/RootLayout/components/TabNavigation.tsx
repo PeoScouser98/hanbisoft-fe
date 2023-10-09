@@ -3,6 +3,7 @@ import ErrorBoundary from '@/common/components/ErrorBoundary';
 import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
 import Typography from '@/common/components/Typography';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
+import useScreenSize from '@/common/hooks/useScreenSize';
 import { useSessionStorage } from '@/common/hooks/useStorage';
 import { IPage } from '@/types/global';
 import { css } from '@emotion/react';
@@ -13,12 +14,26 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet, useNavigate } from 'react-router-dom';
 
+const defaultProps = {
+	scrollingEnabled: true,
+	scrollByContent: true,
+	showNavButtons: true,
+	repaintChangesOnly: true,
+	hoverStateEnabled: false,
+	focusStateEnabled: false,
+	deferRendering: false,
+	activeStateEnabled: true,
+	keyExpr: 'id'
+};
+
 const TabNavigation: React.FunctionComponent = () => {
 	const { openingPages, currentPage } = useAppSelector((state) => state.pages);
 	const { handleOpenPage, handleClosePage, handleReorderPage } = usePageNavigate();
+	const screenSize = useScreenSize();
 	const navigate = useNavigate();
 	const { t, i18n } = useTranslation();
-	const [outletContext, setOutletContext] = useSessionStorage('outlet_context', {});
+
+	const tabPanelHeight = React.useMemo(() => screenSize.height - 128, [screenSize.height]);
 
 	React.useEffect(() => {
 		navigate(currentPage.path);
@@ -27,7 +42,15 @@ const TabNavigation: React.FunctionComponent = () => {
 	const renderTitle = React.useCallback(
 		(page: IPage) => (
 			<TabItem onClick={() => handleOpenPage(page)}>
-				<Typography variant='p' css={{ width: '85%', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+				<Typography
+					variant='small'
+					css={{
+						width: '85%',
+						textOverflow: 'ellipsis',
+						overflow: 'hidden',
+						fontSize: '12px',
+						lineHeight: 'auto'
+					}}>
 					{t(page?.locale)}
 				</Typography>
 				{page?.canClose && (
@@ -42,18 +65,6 @@ const TabNavigation: React.FunctionComponent = () => {
 			</TabItem>
 		),
 		[i18n.language]
-	);
-	const handleRenderItem = React.useCallback(
-		() => (
-			<OutLetWrapper>
-				<React.Suspense fallback={<LoadingProgressBar />}>
-					<ErrorBoundary>
-						<Outlet context={{ outletContext, setOutletContext }} />
-					</ErrorBoundary>
-				</React.Suspense>
-			</OutLetWrapper>
-		),
-		[]
 	);
 
 	const handleTabDragStart = React.useCallback((e: DragStartEvent) => {
@@ -72,46 +83,57 @@ const TabNavigation: React.FunctionComponent = () => {
 				onReorder={(e) => {
 					handleReorderPage({ fromIndex: e.fromIndex, toIndex: e.toIndex, itemData: e.fromData[e.fromIndex] });
 				}}>
-				<StyledTabPanel
+				<TabPanel
+					{...defaultProps}
+					height={tabPanelHeight}
 					dataSource={openingPages}
-					scrollingEnabled
-					scrollByContent
-					showNavButtons
-					itemTitleRender={renderTitle}
-					hoverStateEnabled={false}
-					focusStateEnabled={false}
-					repaintChangesOnly
-					deferRendering={false}
 					selectedIndex={openingPages.indexOf(currentPage)}
-					activeStateEnabled
+					scrollByContent
+					itemTitleRender={renderTitle}
+					showNavButtons
+					scrollingEnabled
 					keyExpr='id'
 					onTitleClick={({ itemData }) => handleOpenPage(itemData as unknown as IPage)}
+					selectedItem={currentPage}
+					itemComponent={TabContent}
 					css={css`
+						& > * {
+							z-index: 1;
+						}
 						& .dx-tabs-wrapper > .dx-item .dx-tab {
 							padding: 0 !important;
 						}
 					`}
-					selectedItem={currentPage}
-					itemRender={handleRenderItem}
 				/>
 			</Sortable>
 		</Container>
 	);
 };
 
+const TabContent: React.FunctionComponent = React.memo(() => {
+	const [outletContext, setOutletContext] = useSessionStorage('outlet_context', {});
+	return (
+		<OutLetWrapper>
+			<React.Suspense fallback={<LoadingProgressBar />}>
+				<ErrorBoundary>
+					<Outlet context={{ outletContext, setOutletContext }} />
+				</ErrorBoundary>
+			</React.Suspense>
+		</OutLetWrapper>
+	);
+});
 const Container = styled.div`
 	height: 100%;
-	padding: 16px;
-`;
-
-const StyledTabPanel = styled(TabPanel)`
-	height: calc(100vh - 6.5rem);
+	padding: 1.5rem;
 `;
 
 const TabItem = styled.div`
 	position: relative;
 	width: 10rem;
 	text-align: center;
+	padding: 4px;
+	font-weight: bold;
+	vertical-align: middle;
 `;
 
 const CloseButton = styled.i`
@@ -120,6 +142,7 @@ const CloseButton = styled.i`
 	right: 0;
 	font-size: 12px !important;
 	transition: 0.2s ease-in-out;
+	padding: 2px;
 	opacity: 0.5;
 	&:hover {
 		opacity: 1;
@@ -127,7 +150,7 @@ const CloseButton = styled.i`
 `;
 
 const OutLetWrapper = styled.div`
-	padding: 1rem;
+	padding: 0.75rem;
 `;
 
 export default TabNavigation;

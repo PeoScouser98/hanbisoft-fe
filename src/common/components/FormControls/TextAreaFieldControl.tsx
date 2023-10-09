@@ -1,20 +1,24 @@
+/**
+ * @copyright PeoScouser98
+ */
+
+import useGetFieldControlSize from '@/common/hooks/useGetFieldControlSize';
+import { TTextAreaFieldProps } from '@/types/global';
 import { TextArea } from 'devextreme-react';
-import { ITextAreaOptions } from 'devextreme-react/text-area';
-import { Control, FieldValues, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
-declare type TTextAreaFieldProps = { name: string; control: Control<FieldValues> } & ITextAreaOptions;
-
-const TextAreaFieldControl: React.FC<TTextAreaFieldProps> = (props) => {
+const TextAreaFieldControl: React.FC<TTextAreaFieldProps> = ({ control, name, disabled, size, ...props }) => {
 	const { field, fieldState } = useController({
-		name: props.name,
-		control: props.control,
+		name,
+		control,
 		defaultValue: props.defaultValue
 	});
-	console.log(fieldState.error);
+	const height = useGetFieldControlSize(props.size);
 
 	return (
 		<TextArea
 			name={props.name}
+			height={height}
 			onValueChange={(value) => field.onChange(value)}
 			ref={(e) => field.ref(e?.instance)}
 			validationError={fieldState.error}

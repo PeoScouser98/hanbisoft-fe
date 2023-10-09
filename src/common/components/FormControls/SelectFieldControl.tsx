@@ -1,3 +1,8 @@
+/**
+ * @copyright PeoScouser98
+ */
+
+import useGetFieldControlSize from '@/common/hooks/useGetFieldControlSize';
 import type { TSelectFieldProps } from '@/types/global';
 import { SelectBox } from 'devextreme-react';
 import React from 'react';
@@ -9,7 +14,7 @@ const SelectFieldControl: React.FC<TSelectFieldProps> = (props): React.JSX.Eleme
 		name: props.name,
 		disabled: props.disabled
 	});
-
+	const height = useGetFieldControlSize(props.size);
 	return (
 		<SelectBox
 			displayExpr='text'
@@ -18,6 +23,8 @@ const SelectFieldControl: React.FC<TSelectFieldProps> = (props): React.JSX.Eleme
 			ref={(e) => {
 				field.ref(e?.instance);
 			}}
+			searchEnabled={props.searchEnabled}
+			height={height}
 			isValid={!fieldState.invalid}
 			onValueChange={(value) => field.onChange(value)}
 			validationError={fieldState.error}
@@ -30,7 +37,8 @@ SelectFieldControl.defaultProps = {
 	showClearButton: true,
 	height: 28,
 	labelMode: 'static',
-	validationMessageMode: 'auto'
+	validationMessageMode: 'auto',
+	searchEnabled: true
 };
 
 export default SelectFieldControl;

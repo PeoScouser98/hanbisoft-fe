@@ -12,7 +12,7 @@ import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { useTranslation } from 'react-i18next';
-import useGetUsersQuery from '../User/hooks/useGetUserQuery';
+import { useGetUsersQuery } from '@/app/services/hooks/useUserQueries';
 
 const Home: React.FunctionComponent = () => {
 	const { data } = useGetUsersQuery({});
@@ -76,9 +76,7 @@ const Home: React.FunctionComponent = () => {
 				<Card key={index} className='dx-card'>
 					<item.icon style={{ fontSize: '3rem' }} />
 					<CardBody>
-						<Typography variant='h3' css={{ fontWeight: '600 !important' }}>
-							{item.title}
-						</Typography>
+						<Typography variant='h2'>{item.title}</Typography>
 						<Typography variant='p' className='disabled'>
 							{item.description}
 						</Typography>

@@ -1,6 +1,6 @@
 import { useUpdateUserInfoMutation } from '@/app/store/apis/auth.api';
 import { useAppSelector } from '@/app/store/hook';
-import { updateUserSchema } from '@/app/validations/auth.validation';
+import { updateUserSchema } from '@/app/schemas/auth.schema';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from 'devextreme-react';
@@ -39,6 +39,7 @@ const EditProfileForm = () => {
 		resolver: yupResolver(updateUserSchema),
 		defaultValues: user
 	});
+	const [isEditing, setIsEditing] = React.useState<boolean>(false);
 	const { t } = useTranslation(['common', 'user']);
 	const [mutateAsync] = useUpdateUserInfoMutation();
 
@@ -49,6 +50,10 @@ const EditProfileForm = () => {
 			error: t('common:notify.error')
 		});
 	};
+
+	React.useEffect(() => {
+		reset(user);
+	}, [isEditing]);
 
 	return (
 		<form onSubmit={handleSubmit(handleUpdateUserInfo)}>
@@ -61,6 +66,7 @@ const EditProfileForm = () => {
 									key={fieldProps.name}
 									name={fieldProps.name}
 									control={control}
+									disabled={!isEditing}
 									label={t(fieldProps.i18nLabelKey)}
 									labelMode='static'
 								/>
@@ -69,7 +75,11 @@ const EditProfileForm = () => {
 					))}
 				</GroupItem>
 				<GroupItem>
-					<Button useSubmitBehavior text={t('btn.save')} icon='save' type='default' />
+					{isEditing ? (
+						<Button useSubmitBehavior text={t('btn.save')} icon='save' type='success' />
+					) : (
+						<Button text={t('btn.edit')} type='default' icon='edit' onClick={() => setIsEditing(!isEditing)} />
+					)}
 				</GroupItem>
 			</Form>
 		</form>

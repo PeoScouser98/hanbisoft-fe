@@ -1,5 +1,5 @@
 /**
- * @copyright @PeoScouser98
+ * @copyright PeoScouser98
  */
 
 import React from 'react';

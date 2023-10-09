@@ -34,7 +34,7 @@ const Breadcrumbs: React.FunctionComponent = () => {
 			{Array.isArray(breadcrumbs) &&
 				breadcrumbs.map((item: Pick<TNavigation, 'id' | 'locale' | 'path'>, index) => (
 					<React.Fragment key={index}>
-						<ChevronRight css={{ fontSize: '18px' }} />
+						<ChevronRight css={{ fontSize: '20px' }} />
 						<StyledLink to={item?.path}>{t(item?.locale)}</StyledLink>
 					</React.Fragment>
 				))}
@@ -46,6 +46,7 @@ const BreadCrumbsWrapper = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	vertical-align: middle !important;
 	gap: 0.5em;
 	& * + *,
 	& * {
@@ -58,16 +59,12 @@ const BreadCrumbsWrapper = styled.div`
 
 const StyledLink = styled(Link)`
 	text-decoration: none;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5em;
-	font-size: 14px !important;
-	line-height: 16px;
+	font-size: 12px !important;
+	line-height: 14px;
 	vertical-align: middle !important;
 	white-space: nowrap;
+	font-weight: medium;
 	color: white !important;
-	transition: linear 300ms ease-in-out;
 `;
 
-export default Breadcrumbs;
+export default React.memo(Breadcrumbs);

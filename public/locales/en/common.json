@@ -1,16 +1,20 @@
 {
 	"actions": {
 		"profile": "Profile",
-		"sign_out": "Sign out"
+		"sign_out": "Sign out",
+		"use-dark-mode": "Dark mode",
+		"use-light-mode": "Light mode"
 	},
 	"navigation": {
 		"dashboard": "Dashboard",
 		"users": "Users",
-		"equipments": "Equipments"
+		"equipments": "Equipments",
+		"settings": "Settings"
 	},
 	"btn": {
 		"search": "Search",
 		"save": "Save",
+		"edit": "Edit",
 		"revert": "Revert",
 		"delete": "Delete"
 	},

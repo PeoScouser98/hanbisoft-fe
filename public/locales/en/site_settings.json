@@ -1,0 +1,12 @@
+{
+	"fields": { "site_name": "Site's name", "logo": "Logo" },
+	"captions": {
+		"general_settings": "General settings",
+		"contact": "Contact"
+	},
+	"tabs": {
+		"site_settings": "Site settings",
+		"access_management": "Access management",
+		"menu_settings": "Menu settings"
+	}
+}

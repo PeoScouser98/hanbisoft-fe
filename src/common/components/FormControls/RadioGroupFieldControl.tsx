@@ -1,3 +1,7 @@
+/**
+ * @copyright PeoScouser98
+ */
+
 import type { TRadioGroupProps } from '@/types/global';
 import { RadioGroup } from 'devextreme-react';
 import { useController } from 'react-hook-form';

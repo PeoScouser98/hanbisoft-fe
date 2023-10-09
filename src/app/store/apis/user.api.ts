@@ -3,16 +3,6 @@ import { AxiosRequestConfig } from 'axios';
 import axiosBaseQuery from '../helper';
 import { HttpResponse, IUser } from '@/types/global';
 
-const initialData = [
-	{
-		_id: crypto.randomUUID(),
-		display_name: null,
-		email: null,
-		phone: null,
-		role: null
-	}
-];
-
 const userApi = createApi({
 	reducerPath: 'userApi',
 	tagTypes: ['Users'],

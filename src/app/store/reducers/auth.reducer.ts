@@ -3,7 +3,24 @@ import authApi from '../apis/auth.api';
 import { AuthResponse } from '@/types/global';
 
 const initialState: AuthResponse = {
-	user: null,
+	user: {
+		_id: null,
+		display_name: null,
+		address: null,
+		email: null,
+		phone: null,
+		picture: null,
+		role: {
+			role_cd: null,
+			role_name: null,
+			permissions: {
+				allowAccessing: false,
+				allowAdding: false,
+				allowUpdating: false,
+				allowDeleting: false
+			}
+		}
+	},
 	accessToken: null,
 	authenticated: false
 };

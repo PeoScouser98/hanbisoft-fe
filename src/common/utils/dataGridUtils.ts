@@ -32,8 +32,8 @@ export const getDataChanges = (event: SavedEvent<any, any>) => {
 };
 
 /**
- * @description Handle export excel from data grid
- * @param  component
+ * Handle export excel from data grid
+ * @param component
  * @param fileName
  */
 export const handleExportExcel = <T>(component: ExportingEvent<T>['component'], fileName: string) => {

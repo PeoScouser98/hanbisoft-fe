@@ -22,7 +22,7 @@ const theme: Theme = {
 		success: { light: '#5cb85c', dark: '#5cb85c' },
 		warning: { light: '#f0ad4e', dark: '#f0ad4e' },
 		danger: { light: '#d9534f', dark: '#d9534f' },
-		shadow: { light: '#9ca3af', dark: '' },
+		shadow: { light: '#dddddd', dark: '#4b5563' },
 		disabled: { light: '#e5e7eb', dark: '#555555' }
 	},
 	breakpoints: {

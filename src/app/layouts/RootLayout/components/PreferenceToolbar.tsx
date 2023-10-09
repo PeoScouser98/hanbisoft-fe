@@ -1,27 +1,32 @@
-import React from 'react';
+import navigation from '@/app/configs/navigation.config';
 import TranslateIcon from '@/assets/svg/translate.svg?raw';
-import ThemeSwitcher from '@/app/layouts/RootLayout/components/ThemeSwitcher';
+import Switch from '@/common/components/Switch';
+import useDxTheme from '@/common/hooks/useDxTheme';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
 import { useLocalStorage } from '@/common/hooks/useStorage';
 import { locales } from '@/i18n';
-import { DropDownButton } from 'devextreme-react';
-import Button, { IButtonOptions } from 'devextreme-react/button';
-import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { DropDownButton } from 'devextreme-react';
+import Button, { IButtonOptions } from 'devextreme-react/button';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Breadcrumbs from './Breadcrumbs';
-import { Link } from 'react-router-dom';
 
 type Props = {
 	open: boolean;
 	onOpenStateChange: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PreferenceToolbar: React.FunctionComponent<Props> = (props) => {
+const settingPageMetadata = navigation.find((nav) => nav.path === '/settings');
+
+const PreferenceToolbar: React.FC<Props> = (props) => {
 	const { i18n } = useTranslation();
 	const [currentLanguage, setCurrentLanguage] = useLocalStorage(
 		'language',
 		locales[(i18n.language as keyof typeof locales) || 'en']
 	);
+	const { handleOpenPage } = usePageNavigate();
 
 	return (
 		<Toolbar className='dx-theme-accent-as-background-color'>
@@ -29,7 +34,7 @@ const PreferenceToolbar: React.FunctionComponent<Props> = (props) => {
 				<FlexBox>
 					<StyledButton
 						id='toggle-panel-btn'
-						icon={props.open ? 'chevrondoubleleft' : 'chevrondoubleright'}
+						icon='menu'
 						stylingMode='text'
 						type='normal'
 						focusStateEnabled={false}
@@ -38,19 +43,17 @@ const PreferenceToolbar: React.FunctionComponent<Props> = (props) => {
 						}}
 					/>
 				</FlexBox>
-
 				<Breadcrumbs />
 			</FlexBox>
 			<FlexBox style={{ justifyContent: 'flex-end' }}>
-				<ThemeSwitcher />
 				<DropDownButton
 					icon={TranslateIcon}
 					dataSource={Object.values(locales)}
 					stylingMode='contained'
 					useSelectMode
+					height={24}
 					selectedItemKey={currentLanguage?.value}
 					focusStateEnabled={false}
-					text={currentLanguage?.text}
 					selectedItem={currentLanguage}
 					displayExpr='text'
 					onSelectionChanged={(e) => {
@@ -59,6 +62,21 @@ const PreferenceToolbar: React.FunctionComponent<Props> = (props) => {
 					}}
 					keyExpr='value'
 				/>
+				<Button
+					focusStateEnabled={false}
+					icon='preferences'
+					stylingMode='contained'
+					text='Settings'
+					onClick={() =>
+						handleOpenPage({
+							id: settingPageMetadata?.id,
+							path: settingPageMetadata?.path,
+							locale: settingPageMetadata?.locale,
+							canReorder: true,
+							canClose: true
+						})
+					}
+				/>
 			</FlexBox>
 		</Toolbar>
 	);
@@ -66,12 +84,12 @@ const PreferenceToolbar: React.FunctionComponent<Props> = (props) => {
 
 const Toolbar = styled.nav`
 	height: 100%;
-	max-height: 2rem;
+	height: 2rem;
 	padding: 8px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	@media screen and (min-width: 375px) and (max-width: 767px) {
+	@media screen and (${({ theme }) => theme.breakpoints.mobile}) {
 		padding: 4px;
 	}
 `;
@@ -86,7 +104,7 @@ const divide = css`
 	& > * + * {
 		border-width: 0 0 0 2px;
 		border-style: solid;
-		border-color: white;
+		border-color: rgba(225, 225, 225, 0.9);
 		padding: 0 16px;
 	}
 	& > :nth-of-type(odd) {
@@ -100,7 +118,7 @@ const divide = css`
 const FlexBox = styled.div<{ divide?: boolean }>`
 	display: flex;
 	align-items: center;
-	gap: ${(props) => (props.divide ? 0 : '16px')};
+	gap: ${(props) => (props.divide ? 0 : '8px')};
 	${(props) => (props.divide ? divide : undefined)}
 `;
 

@@ -2,6 +2,7 @@
  * @copyright quanghiep03198
  */
 
+import useGetFieldControlSize from '@/common/hooks/useGetFieldControlSize';
 import type { TNumberFieldProps } from '@/types/global';
 import { NumberBox } from 'devextreme-react';
 import React from 'react';
@@ -13,14 +14,16 @@ const NumberFieldControl: React.FC<TNumberFieldProps> = (props): React.JSX.Eleme
 		name: props.name,
 		disabled: props.disabled
 	});
-
+	const height = useGetFieldControlSize(props.size);
 	const id = React.useId();
+
 	return (
 		<NumberBox
 			id={id}
 			ref={(e) => {
 				field.ref(e?.instance);
 			}}
+			height={height}
 			onValueChange={(value) => field.onChange(value)}
 			isValid={!fieldState.invalid}
 			validationError={fieldState.error}

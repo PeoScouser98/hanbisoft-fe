@@ -1,5 +1,5 @@
 /**
- * @copyright @PeoScouser98
+ * @copyright PeoScouser98
  */
 
 import { Component, ErrorInfo } from 'react';
@@ -33,7 +33,7 @@ class ErrorBoundary extends Component<React.PropsWithChildren, State> {
 		if (this.state.hasError) {
 			return (
 				<Wrapper>
-					<ErrorOutlineOutlined />
+					<ErrorIcon />
 					<div>
 						<Typography variant='h3' css={{ marginBottom: '8px' }}>
 							Something went wrong
@@ -62,6 +62,10 @@ const Wrapper = styled.div`
 		font-size: 3rem;
 		color: ${({ theme: { colors } }) => colors.danger};
 	}
+`;
+
+const ErrorIcon = styled(ErrorOutlineOutlined)`
+	color: ${({ theme }) => theme.colors.danger.light};
 `;
 
 export default ErrorBoundary;

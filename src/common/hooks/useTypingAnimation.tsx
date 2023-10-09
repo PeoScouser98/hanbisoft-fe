@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { TypePhase } from '../constants/_app.const';
+
+enum TypePhase {
+	Typing,
+	Pausing,
+	Deleting
+}
 
 const TYPING_INTERVAL_MIN = 50;
 const TYPING_INTERVAL_MAX = 50;

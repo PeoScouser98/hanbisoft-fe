@@ -3,7 +3,7 @@ import ChainedBackend from 'i18next-chained-backend';
 import HttpBackend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
-export const locales = {
+const locales = {
 	en: {
 		value: 'en',
 		text: 'English'
@@ -31,13 +31,14 @@ i18n
 			backends: [HttpBackend],
 			backendOptions: [
 				{
-					loadPath: '/locales/{{lng}}/{{ns}}.json'
+					loadPath: '/locales/{{lng}}/{{ns}}.json',
+					addPath: '/locales/add/{{lng}}/{{ns}}.json'
 				}
 			]
 		},
 		defaultNS: ['common', 'home'],
-		preload: ['en'],
-		ns: ['common', 'home', 'equipment'],
+		preload: ['en', 'kr'],
+		ns: ['common', 'home', 'equipment', 'users'],
 		lng,
 		fallbackLng: 'en',
 		fallbackNS: ['common', 'home'],
@@ -52,6 +53,6 @@ i18n
 		}
 	});
 
+export { locales };
 const t = i18n.t.bind(i18n);
-
-export { t };
+export default t;

@@ -6,10 +6,12 @@ import EditProfileForm from './components/EditProfileForm';
 import Profile from './components/Profile';
 import { useTranslation } from 'react-i18next';
 import { useGetUserInfoQuery } from '@/app/store/apis/auth.api';
+import useQueryParams from '@/common/hooks/useQueryParams';
 
 const ProfilePage = () => {
+	const { setParam, getParam } = useQueryParams();
 	const { data } = useGetUserInfoQuery();
-	const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
+	const selectedIndex = React.useMemo(() => (!!getParam('tab') ? +getParam('tab') : 0), [getParam]);
 	const { t, i18n } = useTranslation('user');
 	const tabs = React.useMemo(
 		() => [
@@ -28,8 +30,10 @@ const ProfilePage = () => {
 		],
 		[data, t, i18n.language]
 	);
-
-	const handleChangeTab = React.useCallback(setSelectedIndex, []);
+	const handleChangeTab = (value) => {
+		const tabIndex = value?.id ?? selectedIndex;
+		setParam('tab', tabIndex);
+	};
 
 	return (
 		<Container>
@@ -44,9 +48,7 @@ const ProfilePage = () => {
 					scrollingEnabled
 					repaintChangesOnly
 					selectionMode='single'
-					onSelectedItemChange={(value) => {
-						handleChangeTab(value?.id || 0);
-					}}
+					onSelectedItemChange={handleChangeTab}
 				/>
 				<TabPanel className='content'>{tabs[selectedIndex].content}</TabPanel>
 			</div>

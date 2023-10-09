@@ -1,7 +1,6 @@
+import { AuthResponse, HttpResponse, IUser } from '@/types/global';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import axiosBaseQuery from '../helper';
-import { AxiosRequestConfig } from 'axios';
-import { AuthResponse, HttpResponse, IUser } from '@/types/global';
 
 const authApi = createApi({
 	reducerPath: 'authApi',

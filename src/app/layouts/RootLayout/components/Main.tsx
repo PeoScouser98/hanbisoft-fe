@@ -15,7 +15,7 @@ const Main: React.FunctionComponent = () => {
 	const [openedStateMode, setOpenedStateMode] = React.useState<OpenedStateMode>();
 
 	React.useEffect(() => {
-		setOpenedStateMode((_) => (isLargeScreen ? 'shrink' : 'overlap'));
+		setOpenedStateMode(() => (isLargeScreen ? 'shrink' : 'overlap'));
 		setOpenState(isLargeScreen);
 	}, [isLargeScreen]);
 
@@ -41,10 +41,7 @@ const Main: React.FunctionComponent = () => {
 					width: fit-content;
 				}
 				& .dx-drawer-wrapper {
-					height: calc(100vh - 2.5rem);
-				}
-				& .dx-drawer-shader {
-					backdrop-filter: blur(2px);
+					height: calc(100vh - 3rem);
 				}
 			`}>
 			<DrawerContent id='content'>
@@ -61,7 +58,6 @@ const DrawerContent = styled.div`
 	justify-content: space-between;
 	height: inherit;
 	width: 100%;
-	font-size: 16px;
 `;
 
-export default Main;
+export default React.memo(Main);

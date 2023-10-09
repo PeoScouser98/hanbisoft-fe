@@ -1,11 +1,13 @@
 import axios, { HttpStatusCode } from 'axios';
 import { signout } from '../store/reducers/auth.reducer';
-import __configs from './system.config';
+import __configs from './app.config';
+import qs from 'qs';
 
 const axiosInstance = axios.create({
 	baseURL: __configs.BASE_URL,
 	withCredentials: true,
-	timeout: 5000 // Cancel request if response time > 5 seconds
+	paramsSerializer: (params) => qs.stringify(params),
+	timeout: 10000 // Cancel request if response time > 5 seconds
 });
 
 let retry = 0;
@@ -19,7 +21,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
 	(response) => response.data,
 	async (error) => {
-		if (error.response.status === HttpStatusCode.Unauthorized) {
+		if (error.response?.status === HttpStatusCode.Unauthorized) {
 			retry++;
 			console.log('[ERROR] ::: Signin session has expired.');
 			const { user } = window.store.getState().auth;

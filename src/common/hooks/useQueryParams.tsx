@@ -22,7 +22,7 @@ function useQueryParams() {
 		setSearchParams(newSearchParams);
 	};
 
-	return { params, getParam, setParam, deleteParam };
+	return { getParam, setParam, deleteParam };
 }
 
 export default useQueryParams;

@@ -1,22 +1,30 @@
+/**
+ * @copyright PeoScouser98
+ */
+
+import useGetFieldControlSize from '@/common/hooks/useGetFieldControlSize';
 import type { TTextFieldProps } from '@/types/global';
 import { TextBox } from 'devextreme-react';
 import React from 'react';
 import { useController } from 'react-hook-form';
 
-const TextFieldControl: React.FC<TTextFieldProps> = (props) => {
+const TextFieldControl: React.FC<TTextFieldProps> = ({ control, size, ...props }) => {
 	const { field, fieldState } = useController({
-		control: props.control,
+		control: control,
 		name: props.name,
 		disabled: props.disabled
 	});
 
 	const id = React.useId();
+	const height = useGetFieldControlSize(size);
+
 	return (
 		<TextBox
 			id={id}
 			ref={(e) => {
 				field.ref(e?.instance);
 			}}
+			height={height}
 			labelMode={props.labelMode || 'static'}
 			isValid={!fieldState.invalid}
 			validationError={fieldState.error}
@@ -31,7 +39,7 @@ TextFieldControl.defaultProps = {
 	validationMessageMode: 'auto',
 	validationMessagePosition: 'bottom',
 	valueChangeEvent: 'input',
-	height: 28,
+	size: 'lg',
 	showClearButton: true
 };
 

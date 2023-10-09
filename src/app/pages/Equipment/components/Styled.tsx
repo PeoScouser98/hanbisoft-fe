@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import React from 'react';
 
 const Container = styled.div`
 	display: flex;
@@ -8,25 +9,24 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const SearchBox = styled.form`
+const SearchBox = React.memo(styled.form`
 	flex: 1;
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	row-gap: 8px;
-	column-gap: 4px;
-	row-gap: 8px;
+	grid-template-columns: repeat(6, 1fr);
+	row-gap: 4px;
+	column-gap: 8px;
 	padding: 4px;
 
 	@media (${({ theme }) => theme.breakpoints.mobile}) {
-		grid-template-columns: repeat(2, 2fr);
+		grid-template-columns: repeat(2, 1fr);
 	}
 	@media (${({ theme }) => theme.breakpoints.tablet}) {
-		grid-template-columns: repeat(3, 4fr);
+		grid-template-columns: repeat(3, 1fr);
 	}
 	& button[type='submit'] {
 		display: none;
 	}
-`;
+`);
 
 const ButtonGroup = styled.div`
 	display: flex;

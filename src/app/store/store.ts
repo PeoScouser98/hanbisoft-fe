@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import __configs from '../configs/system.config';
+import __configs from '../configs/app.config';
 import authApi from './apis/auth.api';
 import userApi from './apis/user.api';
 import rootReducer from './root.reducer';

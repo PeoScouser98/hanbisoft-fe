@@ -6,11 +6,13 @@
 	"navigation": {
 		"dashboard": "게시판",
 		"users": "사용자",
-		"equipments": "장비"
+		"equipments": "장비",
+		"settings": "설정"
 	},
 	"btn": {
 		"search": "조회",
 		"save": "저장",
+		"edit": "편집하다",
 		"delete": "삭제",
 		"revert": "초기화"
 	},

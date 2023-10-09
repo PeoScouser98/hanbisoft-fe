@@ -11,20 +11,19 @@ import { IPage } from '@/types/global';
 
 export default function usePageNavigate() {
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const [outletContext, setOutletContext] = useSessionStorage('outlet_context');
+
+	// const [outletContext, setOutletContext] = useSessionStorage('outlet_context');
 
 	const handleOpenPage = React.useCallback((payload: IPage) => {
-		if (!outletContext[payload.id]) setOutletContext({ ...outletContext, [payload.id]: {} });
+		// if (!outletContext[payload.id]) setOutletContext({ ...outletContext, [payload.id]: {} });
 		dispatch(openNewPage(payload));
-		navigate(payload.path);
 	}, []);
 
 	const handleClosePage = React.useCallback((payload: IPage) => {
-		setOutletContext((prev) => {
-			delete prev[payload.id];
-			return prev;
-		});
+		// setOutletContext((prev) => {
+		// 	delete prev[payload.id];
+		// 	return prev;
+		// });
 		dispatch(closePage(payload));
 	}, []);
 

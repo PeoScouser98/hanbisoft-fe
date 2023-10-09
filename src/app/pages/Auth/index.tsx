@@ -2,7 +2,7 @@ import LoadingProgressBar from '@/common/components/Loading/LoadingProgressBar';
 import styled from '@emotion/styled';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { GridPattern, Pattern1, Pattern2 } from './components';
+import { GridPattern, Pattern1, Pattern2 } from './components/Styled';
 
 const AuthLayout: React.FunctionComponent = () => {
 	return (

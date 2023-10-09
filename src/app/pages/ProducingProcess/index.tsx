@@ -2,6 +2,7 @@ import React from 'react';
 import Scheduler, { Resource } from 'devextreme-react/scheduler';
 import { data, resourcesData, priorityData } from './data';
 
+/** @deprecated */
 const SchedulerExample: React.FunctionComponent = () => {
 	return (
 		<Scheduler

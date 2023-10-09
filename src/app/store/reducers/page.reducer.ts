@@ -35,6 +35,7 @@ const pageSlice = createSlice({
 			const openingPages = state.openingPages.filter((page) => page.id !== action.payload.id);
 			const currentPage =
 				action.payload.id !== state.currentPage.id ? state.currentPage : state.openingPages[currentPageIndex - 1];
+
 			return {
 				currentPage,
 				openingPages

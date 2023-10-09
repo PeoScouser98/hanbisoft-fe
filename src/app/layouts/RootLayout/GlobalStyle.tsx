@@ -6,18 +6,19 @@ export default function GlobalStyles() {
 
 const styles = css`
 	* {
-		font-family: 'Roboto', sans-serif;
+		font-family: 'Noto Sans KR', sans-serif;
 		margin: 0;
 		box-sizing: border-box;
 	}
 	body {
-		font-family: 'Roboto', sans-serif;
+		font-family: 'Noto Sans KR', sans-serif;
 		margin: 0;
 		padding: 0;
 	}
 
 	:root {
-		--tracking-tight: -0.025em --tracking-normal: 0;
+		--tracking-tight: -0.025em;
+		--tracking-normal: 0;
 		--tracking-wide: 0.025em;
 	}
 `;

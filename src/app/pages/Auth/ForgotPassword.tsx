@@ -1,4 +1,4 @@
-import authService from '@/app/services/auth.service';
+import authService from '@/app/services/api/auth.service';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
 import Typography from '@/common/components/Typography';
 import styled from '@emotion/styled';

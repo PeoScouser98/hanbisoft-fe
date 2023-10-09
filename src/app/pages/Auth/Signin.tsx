@@ -1,8 +1,4 @@
-import { signinSchema } from '@/app/validations/auth.validation';
-import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
-import Typography from '@/common/components/Typography';
-import useAuth from '@/common/hooks/useAuth';
-import { useTypingAnimation } from '@/common/hooks/useTypingAnimation';
+import React from 'react';
 import { keyframes } from '@emotion/css';
 import styled from '@emotion/styled';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,10 +6,14 @@ import { ArrowForward } from '@mui/icons-material';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Microsoft from '@mui/icons-material/Microsoft';
 import { Button } from 'devextreme-react';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { Form, FormWrapper, StyledLink } from './components';
+import { signinSchema } from '@/app/schemas/auth.schema';
+import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
+import Typography from '@/common/components/Typography';
+import useAuth from '@/common/hooks/useAuth';
+import { useTypingAnimation } from '@/common/hooks/useTypingAnimation';
+import { Form, FormWrapper, StyledLink } from './components/Styled';
 
 const SigninPage: React.FunctionComponent = () => {
 	const { control, handleSubmit } = useForm({
@@ -25,7 +25,7 @@ const SigninPage: React.FunctionComponent = () => {
 	return (
 		<Container>
 			<HeroImage id='hero-image'>
-				<Logo variant='h4'>
+				<Logo variant='h3'>
 					<Microsoft /> Hanbisoft
 				</Logo>
 				<TypingTypography />
@@ -45,12 +45,12 @@ const SigninPage: React.FunctionComponent = () => {
 					<Typography variant='p' css={{ textAlign: 'center', marginBottom: '24px' }}>
 						Enter your email and password below to sign-in to your account
 					</Typography>
-
 					<TextFieldControl
 						name='email'
 						mode='text'
 						control={control}
 						label='Email'
+						labelMode='floating'
 						height={36}
 						css={{ fontSize: '14px' }}
 					/>
@@ -59,6 +59,7 @@ const SigninPage: React.FunctionComponent = () => {
 						mode='password'
 						control={control}
 						label='Password'
+						labelMode='floating'
 						height={36}
 						css={{ fontSize: '14px' }}
 					/>
@@ -117,9 +118,8 @@ const blink = keyframes`
 		}
 `;
 const StyledTypography = styled(Typography)`
-	font-weight: 900 !important;
+	font-weight: bolder !important;
 	user-select: none;
-	/* color: white !important; */
 	&::after {
 		content: '|';
 		color: inherit;
@@ -140,10 +140,10 @@ const TypingTypography: React.FunctionComponent = () => {
 
 	return (
 		<Typography variant='h1'>
-			<Typography variant='h1' color='accent' css={{ marginBottom: '12px' }}>
+			<Typography variant='h1' css={{ marginBottom: '12px' }}>
 				Enterprise Resource Planning <br /> web application.
 			</Typography>
-			<StyledTypography variant='h2' color='accent' aria-label={selectedPhase}>
+			<StyledTypography variant='h2' aria-label={selectedPhase}>
 				{typedPhase}
 			</StyledTypography>
 		</Typography>
@@ -155,8 +155,6 @@ const Logo = styled(Typography)`
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-
-	font-weight: 700 !important;
 	margin-bottom: 5rem;
 `;
 
