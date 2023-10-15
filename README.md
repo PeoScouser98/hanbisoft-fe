@@ -109,17 +109,15 @@ Our ERP project aims to address the multifaceted needs of businesses across vari
 
 -  React: JavaScript library for building user interfaces.
 -  Devextreme: JavaScript Component Suite for Responsive Web Development.
--  Other libraries and tools: Redux Toolkit, React Query, Axios, Yup, etc.
+-  Other libraries and tools: Redux Toolkit, React Query, Vitest, ...etc.
 
 ## Contributing
 
-<img src='https://avatars.githubusercontent.com/u/97147601?v=4&size=50&button=true' style='width: 48px; aspect-ratio: 1; border-radius: 9999px; object-fit:cover; cursor:pointer'/>
-<img src='https://github.com/PeoScouser98/hanbisoft-react/assets/97147601/5935be54-f52d-48ca-a973-1274fa1789db?size=50&button=true' style='width: 48px; aspect-ratio: 1; border-radius: 9999px; object-fit:cover; cursor:pointer'/>
-
-## License
-
-This project is licensed under the MIT License.
-
+<div style='display: flex; align-items:center; gap: 8px'>
+   <img src='https://avatars.githubusercontent.com/u/97147601' style='width: 48px; aspect-ratio: 1; border-radius: 999px; object-fit:cover; cursor:pointer'/>
+   <img src='https://github.com/PeoScouser98/hanbisoft-react/assets/97147601/5935be54-f52d-48ca-a973-1274fa1789db'    
+style='width: 48px; aspect-ratio: 1; border-radius: 999px; object-fit:cover; cursor:pointer'/>
+</div>
 
 ## License
 
