@@ -1,7 +1,3 @@
-/// <reference types="react" />
-/// <reference types="devextreme" />
-/// <reference types="devextreme-react" />
-
 import { IEmployee } from '@/common/types/employee.type';
 import { dxTreeViewItem } from 'devextreme/ui/tree_view';
 import store from '@/app/store/store';
@@ -11,10 +7,10 @@ import NumberFieldControl from '@/common/components/FormControls/NumberFieldCont
 import RadioGroupFieldControl from '@/common/components/FormControls/RadioGroupFieldControl';
 import TextAreaFieldControl from '@/common/components/FormControls/TextAreaFieldControl';
 import { Control, FieldValues } from 'react-hook-form';
-import { Column } from 'devextreme/ui/data_grid';
+import { Column, dxDataGridOptions } from 'devextreme/ui/data_grid';
 import { IColumnProps } from 'devextreme-react/data-grid';
 import React from 'react';
-import { UserRoleEnum } from '@/common/constants/app.const';
+import { DefaultUserRoleEnum } from '@/common/constants/app.const';
 import { dxFileUploaderOptions } from 'devextreme/ui/file_uploader';
 import { Interpolation, Theme } from '@emotion/react';
 import { TDxIcon } from 'devextreme';
@@ -60,66 +56,6 @@ export declare type PaginateResult<T> = {
 	meta?: any;
 };
 
-export declare type AuthResponse = {
-	user: Omit<IUser, 'password'> | null;
-	accessToken: string | null;
-	authenticated: boolean;
-};
-// #endregion
-
-// #region Entities
-export declare interface IUser {
-	_id: string;
-	email: string;
-	picture: string;
-	password: string;
-	display_name: string;
-	phone: string;
-	address: string;
-	role: {
-		role_cd: number;
-		role_name?: string;
-		permissions: {
-			allowAccessing: boolean;
-			allowAdding: boolean;
-			allowUpdating: boolean;
-			allowDeleting: boolean;
-		};
-	}; // 0 | 1
-}
-export declare interface IPage {
-	id: string;
-	text?: string;
-	locale: string;
-	path: string;
-	canClose: boolean;
-	canReorder?: boolean;
-}
-export declare interface TNavigation extends dxTreeViewItem {
-	id: string;
-	icon: TDxIcon;
-	path?: string;
-	locale: string;
-	items?: dxTreeViewItem['items'] & TNavigation['breadcrumbs'];
-	breadcrumbs?: Array<Pick<TNavigation, 'locale' | 'path'>>;
-}
-export declare interface IEquipment {
-	prod_etc1: string;
-	sale_status: string;
-	sale_dept_cd: string;
-	spec: string;
-	sales_cd: string;
-	width: number;
-	carcass_cd: string;
-	weight: number;
-	area: number;
-	yag: string;
-	prod_type3: string;
-	pyeong: number;
-	prod_type1: string;
-	prod_type: string;
-	item_cd: string;
-}
 // #endregion
 
 // #region Form field controls

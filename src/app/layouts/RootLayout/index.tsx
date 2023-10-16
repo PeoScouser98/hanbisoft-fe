@@ -4,6 +4,9 @@ import Main from './components/Main';
 import Header from './components/Navbar';
 import React from 'react';
 import NotificationPanel from './components/NotificationPanel';
+import { useLocation } from 'react-router-dom';
+import navigation from '@/app/configs/navigation.config';
+import usePageNavigate from '@/common/hooks/usePageNavigate';
 
 const RootLayout: React.FunctionComponent = () => {
 	const [open, setOpen] = React.useState<boolean>(false);

@@ -1,4 +1,5 @@
-import { AuthResponse, HttpResponse, IUser } from '@/types/global';
+import { IUser } from '@/types/entities';
+import { HttpResponse } from '@/types/global';
 import { createApi } from '@reduxjs/toolkit/query/react';
 import axiosBaseQuery from '../helper';
 
@@ -7,7 +8,10 @@ const authApi = createApi({
 	tagTypes: ['Auth', 'Info', 'Users'],
 	baseQuery: axiosBaseQuery(),
 	endpoints: (build) => ({
-		signin: build.mutation<HttpResponse<AuthResponse>, Pick<IUser, 'email' | 'password'>>({
+		signin: build.mutation<
+			HttpResponse<{ user: Omit<IUser, 'password'> | null; accessToken: string | null; authenticated: boolean }>,
+			Pick<IUser, 'email' | 'password'>
+		>({
 			query: (payload) => ({ url: '/auth/signin', data: payload, method: 'POST' }),
 			invalidatesTags: ['Auth']
 		}),

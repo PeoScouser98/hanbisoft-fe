@@ -2,10 +2,10 @@
  * @copyright quanghiep03198
  */
 
+import React from 'react';
 import useGetFieldControlSize from '@/common/hooks/useGetFieldControlSize';
 import type { TNumberFieldProps } from '@/types/global';
 import { NumberBox } from 'devextreme-react';
-import React from 'react';
 import { useController } from 'react-hook-form';
 
 const NumberFieldControl: React.FC<TNumberFieldProps> = (props): React.JSX.Element => {
@@ -41,4 +41,4 @@ NumberFieldControl.defaultProps = {
 	showClearButton: true
 };
 
-export default NumberFieldControl;
+export default React.memo(NumberFieldControl);

@@ -1,18 +1,22 @@
 {
 	"actions": {
 		"profile": "프로필",
-		"sign_out": "로그아웃"
+		"sign_out": "로그아웃",
+		"use_dark_mode": "라이트",
+		"use_light_mode": "다크"
 	},
 	"navigation": {
 		"dashboard": "게시판",
 		"users": "사용자",
 		"equipments": "장비",
-		"settings": "설정"
+		"settings": "설정",
+		"common_code": "공통 코드"
 	},
 	"btn": {
 		"search": "조회",
 		"save": "저장",
 		"edit": "편집하다",
+		"upload": "업로드",
 		"delete": "삭제",
 		"revert": "초기화"
 	},

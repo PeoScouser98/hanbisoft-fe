@@ -1,20 +1,22 @@
-import EquipmentService from '@/app/services/api/equipment.service';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import React from 'react';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import EquipmentService from '@/app/services/api/equipment.service';
+import { AxiosRequestConfig } from 'axios';
 
+const QUERY_KEY = 'equipment';
 /**
  * Get equipments
  */
-export function useGetEquipmentsQuery(searchTerms) {
-	const [dependencies, setDependencies] = React.useState(searchTerms);
+export function useGetEquipmentsQuery(searchTerms: AxiosRequestConfig['params']) {
+	const [dependencies, setDependencies] = React.useState<AxiosRequestConfig['params']>(searchTerms);
 
 	React.useEffect(() => {
 		setDependencies(searchTerms);
 	}, [searchTerms]);
 
 	return useInfiniteQuery(
-		['equipment', dependencies],
+		[QUERY_KEY, dependencies],
 		async ({ pageParam = 1 }) => {
 			const response = await EquipmentService.getEquipments({ page: pageParam, ...searchTerms });
 			return response?.metadata;
@@ -42,9 +44,9 @@ export function useGetEquipmentsQuery(searchTerms) {
 export function useSaveEquipmentsMutation() {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['equipment'],
+		mutationKey: [QUERY_KEY],
 		mutationFn: EquipmentService.saveEquipmentsChanges,
-		onSuccess: () => queryClient.invalidateQueries(['equipment'])
+		onSuccess: () => queryClient.invalidateQueries([QUERY_KEY])
 	});
 }
 
@@ -69,8 +71,8 @@ export function useGetLookupFieldsQuery() {
 export function useDeleteEquipmentsMutation() {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['equipment'],
+		mutationKey: [QUERY_KEY],
 		mutationFn: EquipmentService.deleteEquipments,
-		onSuccess: () => queryClient.invalidateQueries(['equipment'])
+		onSuccess: () => queryClient.invalidateQueries([QUERY_KEY])
 	});
 }

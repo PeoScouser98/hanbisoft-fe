@@ -6,7 +6,8 @@
 	},
 	"tabs": {
 		"site_settings": "Site settings",
+		"permissions_management": "Roles & Permissions",
 		"access_management": "Access management",
-		"menu_settings": "Menu settings"
+		"common_codes": "Common codes"
 	}
 }

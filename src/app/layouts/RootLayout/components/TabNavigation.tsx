@@ -5,10 +5,10 @@ import Typography from '@/common/components/Typography';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
 import useScreenSize from '@/common/hooks/useScreenSize';
 import { useSessionStorage } from '@/common/hooks/useStorage';
-import { IPage } from '@/types/global';
+import { IPage } from '@/types/entities';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ScrollView, Sortable, TabPanel } from 'devextreme-react';
+import { Sortable, TabPanel } from 'devextreme-react';
 import { DragStartEvent } from 'devextreme/ui/sortable';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -68,20 +68,19 @@ const TabNavigation: React.FunctionComponent = () => {
 	);
 
 	const handleTabDragStart = React.useCallback((e: DragStartEvent) => {
-		if (e.itemData?.canReorder === false) return false;
 		e.itemData = e.fromData[e.fromIndex];
 	}, []);
 
 	return (
 		<Container>
 			<Sortable
-				filter='.dx-tab'
+				filter='.tab-panel-item'
 				data={openingPages}
 				itemOrientation='horizontal'
 				dragDirection='horizontal'
 				onDragStart={handleTabDragStart}
-				onReorder={(e) => {
-					handleReorderPage({ fromIndex: e.fromIndex, toIndex: e.toIndex, itemData: e.fromData[e.fromIndex] });
+				onReorder={({ fromIndex, toIndex, itemData }) => {
+					handleReorderPage({ fromIndex, toIndex, itemData });
 				}}>
 				<TabPanel
 					{...defaultProps}
@@ -93,13 +92,15 @@ const TabNavigation: React.FunctionComponent = () => {
 					showNavButtons
 					scrollingEnabled
 					keyExpr='id'
+					onTitleRendered={(e) => {
+						if (e.itemData.canReorder) {
+							e.itemElement.classList.add('tab-panel-item');
+						}
+					}}
 					onTitleClick={({ itemData }) => handleOpenPage(itemData as unknown as IPage)}
 					selectedItem={currentPage}
 					itemComponent={TabContent}
 					css={css`
-						& > * {
-							z-index: 1;
-						}
 						& .dx-tabs-wrapper > .dx-item .dx-tab {
 							padding: 0 !important;
 						}
@@ -130,6 +131,7 @@ const Container = styled.div`
 const TabItem = styled.div`
 	position: relative;
 	width: 10rem;
+	height: 100%;
 	text-align: center;
 	padding: 4px;
 	font-weight: bold;
@@ -138,11 +140,11 @@ const TabItem = styled.div`
 
 const CloseButton = styled.i`
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: -2px;
+	right: -2px;
 	font-size: 12px !important;
 	transition: 0.2s ease-in-out;
-	padding: 2px;
+	padding: 4px;
 	opacity: 0.5;
 	&:hover {
 		opacity: 1;

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { confirm } from 'devextreme/ui/dialog';
-
 import { siteSettingSchema } from '@/app/schemas/site_setting.schema';
 import FileUploadFieldControl from '@/common/components/FormControls/FileUploadFieldControl';
 import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
@@ -13,11 +12,11 @@ import { useUpdateSiteSettingMutation } from '@/app/services/hooks/useSiteSettin
 
 const form = [
 	{
-		localeCaption: 'site_settings:captions.general_settings',
+		locale: 'system_settings:captions.general_settings',
 		items: [
 			{
 				component: TextFieldControl,
-				locale: 'site_settings:fields.site_name',
+				locale: 'system_settings:fields.site_name',
 				props: {
 					name: 'site_name',
 					labelMode: 'floating'
@@ -25,7 +24,7 @@ const form = [
 			},
 			{
 				component: FileUploadFieldControl,
-				locale: 'site_settings:fields.logo',
+				locale: 'system_settings:fields.logo',
 				props: {
 					label: 'Logo',
 					selectButtonText: 'Choose a logo',
@@ -35,7 +34,7 @@ const form = [
 		]
 	},
 	{
-		localeCaption: 'site_settings:captions.contact',
+		locale: 'system_settings:captions.contact',
 		items: [
 			{
 				component: TextFieldControl,
@@ -71,7 +70,7 @@ const SiteSettingFormPanel: React.FunctionComponent = () => {
 		defaultValues: {}
 	});
 	const { mutateAsync } = useUpdateSiteSettingMutation();
-	const { t } = useTranslation(['user', 'site_settings', 'common']);
+	const { t } = useTranslation(['user', 'system_settings', 'common']);
 
 	const handleSaveSettings = async (data) => {
 		const result = await confirm(/* html */ `<i>Accept those changes?</i>`, 'Confirm changes');
@@ -95,7 +94,7 @@ const SiteSettingFormPanel: React.FunctionComponent = () => {
 			<Form>
 				<Item colCount={2} itemType='group' badge='hello'>
 					{form.map((groupItem) => (
-						<Item itemType='group' key={crypto.randomUUID()} caption={t(groupItem.localeCaption)}>
+						<Item itemType='group' key={crypto.randomUUID()} caption={t(groupItem.locale)}>
 							{groupItem.items.map((field) => {
 								const { component: FormField, props } = field;
 								return (

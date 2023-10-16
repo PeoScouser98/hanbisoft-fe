@@ -1,8 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import axiosInstance from '../../configs/axios.config';
-import { type IUser, type HttpResponse } from '@/types/global';
+import { type HttpResponse } from '@/types/global';
 import { DataChange } from 'devextreme/common/grids';
 import useAsync from '@/common/utils/useAsync';
+import { IUser } from '@/types/entities';
 
 export default class UserService {
 	static getUsers = useAsync(async (params: AxiosRequestConfig['params']): Promise<HttpResponse<IUser[]>> => {

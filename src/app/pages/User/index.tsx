@@ -1,20 +1,21 @@
-import LabelButton from '@/common/components/Buttons/LabelButton';
-import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
-import StyledDataGrid from '@/common/components/StyledDataGrid';
-import useColumnsDef from '@/common/hooks/useColumnsDef';
-import { getDataChanges, handleExportExcel } from '@/common/utils/dataGridUtils';
+import React from 'react';
 import styled from '@emotion/styled';
 import { AxiosRequestConfig } from 'axios';
 import Button from 'devextreme-react/button';
 import { SavedEvent } from 'devextreme/ui/data_grid';
 import { confirm } from 'devextreme/ui/dialog';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { useGetUserRolesQuery } from '@/app/services/hooks/useAuthQueries';
 import { useDeleteUsersMutation, useGetUsersQuery, useUpdateUserMutation } from '@/app/services/hooks/useUserQueries';
-import defaultProps from './declarations/defaultProps';
+import { useGetUserRolesQuery } from '@/app/services/hooks/useUserRoleQueries';
+import LabelButton from '@/common/components/Buttons/LabelButton';
+import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
+import StyledDataGrid from '@/common/components/StyledDataGrid';
+import { DefaultUserRoleEnum } from '@/common/constants/app.const';
+import useColumnsDef from '@/common/hooks/useColumnsDef';
+import { getDataChanges, handleExportExcel } from '@/common/utils/dataGridUtils';
+import defaultProps from './defaultProps';
 
 const { columns, ...restProps } = defaultProps;
 
@@ -65,16 +66,18 @@ const UsersPage: React.FunctionComponent = () => {
 		columns,
 		{ ns: 'user', key: 'fields' },
 		{
-			role: roles?.map((role) => ({
-				text: role.role_name.capitalize(),
-				value: role._id
-			}))
+			role: roles
+				?.filter((role) => role?.role_cd !== DefaultUserRoleEnum.SUPER_ADMIN)
+				?.map((role) => ({
+					text: role.role_name.capitalize(),
+					value: role?._id
+				}))
 		}
 	);
 
 	const handleSave = React.useCallback(async (e: SavedEvent) => {
 		const ok = await confirm(
-			/* html */ `<i>${t('common:notify.confirm_save_changes')}</i>`,
+			/* template */ `<i>${t('common:notify.confirm_save_changes')}</i>`,
 			t('common:notify.confirm_title')
 		);
 

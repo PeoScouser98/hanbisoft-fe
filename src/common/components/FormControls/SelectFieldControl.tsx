@@ -41,4 +41,4 @@ SelectFieldControl.defaultProps = {
 	searchEnabled: true
 };
 
-export default SelectFieldControl;
+export default React.memo(SelectFieldControl);

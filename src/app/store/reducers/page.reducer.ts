@@ -42,7 +42,9 @@ const pageSlice = createSlice({
 			};
 		},
 		reorderPage: (state, action) => {
-			if (!action.payload.itemData.canReorder) return state;
+			console.log(action.payload.itemData);
+			if (action.payload.itemData.canReorder === false) return { ...state };
+			if (action.payload.toIndex === 0) return { ...state };
 			state.openingPages.splice(action.payload.fromIndex, 1);
 			state.openingPages.splice(action.payload.toIndex, 0, action.payload.itemData);
 			return state;

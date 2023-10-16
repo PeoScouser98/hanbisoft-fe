@@ -1,8 +1,8 @@
+import { IUser } from '@/types/entities';
 import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../apis/auth.api';
-import { AuthResponse } from '@/types/global';
 
-const initialState: AuthResponse = {
+const initialState: { user: Omit<IUser, 'password'> | null; accessToken: string | null; authenticated: boolean } = {
 	user: {
 		_id: null,
 		display_name: null,
@@ -14,10 +14,9 @@ const initialState: AuthResponse = {
 			role_cd: null,
 			role_name: null,
 			permissions: {
-				allowAccessing: false,
-				allowAdding: false,
-				allowUpdating: false,
-				allowDeleting: false
+				allow_adding: false,
+				allow_updating: false,
+				allow_deleting: false
 			}
 		}
 	},

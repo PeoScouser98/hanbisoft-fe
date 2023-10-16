@@ -1,46 +1,62 @@
-import { TDataGridProps } from '@/types/global';
+import SelectFieldControl from '@/common/components/FormControls/SelectFieldControl';
+import TextFieldControl from '@/common/components/FormControls/TextFieldControl';
+import { TDataGridProps, TSelectFieldProps, TTextAreaFieldProps } from '@/types/global';
+import React from 'react';
 
 const searchFields: Array<{
-	i18nKey: string;
+	label: string;
 	key: string;
 	name: string;
 	type: 'Text' | 'Select';
+	component?: React.ComponentType<TSelectFieldProps | TTextAreaFieldProps>;
+	props?: {
+		label: string;
+		key: string;
+		name: string;
+		type: 'Text' | 'Select';
+	};
 }> = [
 	{
 		key: 'item_cd',
 		type: 'Text',
 		name: 'item_cd',
-		i18nKey: 'equipment:item_cd'
+		component: TextFieldControl,
+		label: 'equipment:item_cd'
 	},
 	{
 		key: 'carcass_cd',
+		component: TextFieldControl,
 		type: 'Text',
 		name: 'carcass_cd',
-		i18nKey: 'equipment:carcass_cd'
+		label: 'equipment:carcass_cd'
 	},
 	{
 		key: 'sale_status',
 		type: 'Select',
+		component: SelectFieldControl,
 		name: 'sale_status',
-		i18nKey: 'equipment:sale_status'
+		label: 'equipment:sale_status'
 	},
 	{
 		key: 'prod_type1',
 		type: 'Select',
+		component: SelectFieldControl,
 		name: 'prod_type1',
-		i18nKey: 'equipment:prod_type1'
+		label: 'equipment:prod_type1'
 	},
 	{
 		key: 'prod_type2',
 		type: 'Select',
+		component: SelectFieldControl,
 		name: 'prod_type2',
-		i18nKey: 'equipment:prod_type2'
+		label: 'equipment:prod_type2'
 	},
 	{
 		key: 'prod_type3',
 		type: 'Select',
+		component: SelectFieldControl,
 		name: 'prod_type3',
-		i18nKey: 'equipment:prod_type3'
+		label: 'equipment:prod_type3'
 	}
 ];
 
@@ -122,6 +138,7 @@ const defaultProps: Partial<TDataGridProps> = {
 	paging: {
 		enabled: false
 	},
+
 	columnResizingMode: 'nextColumn',
 	export: {
 		enabled: true,

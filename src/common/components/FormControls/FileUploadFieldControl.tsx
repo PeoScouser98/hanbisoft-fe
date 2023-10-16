@@ -43,4 +43,4 @@ FileUploadFieldControl.defaultProps = {
 	selectButtonText: 'Choose a file'
 };
 
-export default FileUploadFieldControl;
+export default React.memo(FileUploadFieldControl);

@@ -22,6 +22,7 @@ const Image: React.FC<TImageProps> = (props) => {
 					setLoading(false);
 					e.currentTarget.src = props.src;
 				}}
+				loading='lazy'
 				style={{ display: loading ? 'none' : 'inline-block' }}
 				css={props.css}
 				onError={({ currentTarget }) => {

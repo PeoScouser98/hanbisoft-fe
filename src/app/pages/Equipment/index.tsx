@@ -1,11 +1,9 @@
-import React from 'react';
-import Button from 'devextreme-react/button';
-import ScrollView from 'devextreme-react/scroll-view';
-import { ContentReadyEvent, SavedEvent } from 'devextreme/ui/data_grid';
-import { confirm } from 'devextreme/ui/dialog';
-import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'sonner';
+import {
+	useDeleteEquipmentsMutation,
+	useGetEquipmentsQuery,
+	useGetLookupFieldsQuery,
+	useSaveEquipmentsMutation
+} from '@/app/services/hooks/useEquipmentQueries';
 import ButtonList, { TButtonListProps } from '@/common/components/Buttons/ButtonGroup';
 import LabelButton from '@/common/components/Buttons/LabelButton';
 import SelectFieldControl from '@/common/components/FormControls/SelectFieldControl';
@@ -15,14 +13,16 @@ import useColumnsDef from '@/common/hooks/useColumnsDef';
 import useDebounce from '@/common/hooks/useDebounce';
 import useScreenSize from '@/common/hooks/useScreenSize';
 import { handleExportExcel } from '@/common/utils/dataGridUtils';
+import Button from 'devextreme-react/button';
+import ScrollView from 'devextreme-react/scroll-view';
+import { ContentReadyEvent, SavedEvent } from 'devextreme/ui/data_grid';
+import { confirm } from 'devextreme/ui/dialog';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { Container, SearchBox } from './components/Styled';
-import defaultProps, { searchFields } from './declarations/defaultProps';
-import {
-	useDeleteEquipmentsMutation,
-	useGetEquipmentsQuery,
-	useGetLookupFieldsQuery,
-	useSaveEquipmentsMutation
-} from '@/app/services/hooks/useEquipmentQueries';
+import defaultProps, { searchFields } from './defaultProps';
 
 const { columns, ...restProps } = defaultProps;
 
@@ -37,15 +37,11 @@ const EquipmentList: React.FunctionComponent = () => {
 	const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useGetEquipmentsQuery(searchTerms);
 	const columnsDef = useColumnsDef(columns, { ns: 'equipment' }, lookupFields);
 	const { mutateAsync: deleteAsync } = useDeleteEquipmentsMutation();
-	const { mutateAsync: saveAsync, isLoading: isSaving } = useSaveEquipmentsMutation();
+	const { mutateAsync: saveAsync, isLoading: isSaving } = useSaveEquipmentsMutation(); // Save upserted equipments
 	const dataGridRef = React.useRef<typeof StyledDataGrid.prototype>(null);
 	const [hasEditedData, setHasEditedData] = React.useState<boolean>(() => dataGridRef.current?.instance.hasEditData());
 	const dataGridHeight = React.useMemo<number>(() => screenSize.height - 260, [screenSize.height]);
-	const lazyFetchNextPage = useDebounce((e) => {
-		if (e.reachedBottom && hasNextPage) {
-			fetchNextPage();
-		}
-	}, 200);
+	const lazyFetchNextPage = useDebounce(fetchNextPage, 200);
 	const actionButtonsGroup: TButtonListProps['items'] = React.useMemo(
 		() => [
 			{
@@ -94,7 +90,7 @@ const EquipmentList: React.FunctionComponent = () => {
 	};
 
 	const handleDelete = React.useCallback(async () => {
-		const result = await confirm(/* html */ `<i>Are you sure?</i>`, 'Confirm delete');
+		const result = await confirm(/*template*/ `<i>Are you sure?</i>`, 'Confirm delete');
 		if (result === true) {
 			toast.promise(async () => await deleteAsync({ _ids: selectedRowKeys.join(',') }), {
 				loading: t('notify.loading'),
@@ -105,39 +101,27 @@ const EquipmentList: React.FunctionComponent = () => {
 	}, []);
 
 	const handleScrollToBottom = React.useCallback(async (e: ContentReadyEvent) => {
-		e.component.getScrollable().on('scroll', lazyFetchNextPage);
+		e.component.getScrollable().on('scroll', ({ reachedBottom }: { reachedBottom: boolean }) => {
+			if (reachedBottom && hasNextPage) lazyFetchNextPage();
+		});
 	}, []);
 
 	return (
 		<Container>
 			<ButtonList items={actionButtonsGroup} />
-
 			<ScrollView direction='horizontal'>
 				<SearchBox onSubmit={handleSubmit((data) => setSearchTerms(data))}>
 					{searchFields.map((options) => {
-						const { type, name, i18nKey, ...rest } = options;
-						if (type === 'Select')
-							return (
-								<SelectFieldControl
-									control={control}
-									dataSource={lookupFields[name]}
-									label={t(i18nKey)}
-									name={name}
-									disabled={isLoadingLookupValues}
-									labelMode='floating'
-									searchEnabled
-									showClearButton
-									{...rest}
-								/>
-							);
+						const { type, name, label, component: Field, ...rest } = options;
 						return (
-							<TextFieldControl
-								showClearButton
-								mode='search'
+							<Field
+								key={name}
 								control={control}
-								labelMode='floating'
-								label={t(i18nKey)}
+								dataSource={lookupFields[name]}
+								label={t(label)}
 								name={name}
+								disabled={isLoadingLookupValues}
+								labelMode='floating'
 								{...rest}
 							/>
 						);

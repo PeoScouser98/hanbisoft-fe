@@ -1,51 +1,47 @@
 import Image from '@/common/components/FallbackImage';
-import { ROLE_MAP } from '@/common/constants/app.const';
-import { TColumnDef, TDataGridProps } from '@/types/global';
-
-const columns: TColumnDef = [
-	{
-		dataField: 'display_name',
-		allowFilter: true,
-		allowSorting: true,
-		minWidth: 196,
-		validationRules: [{ type: 'required' }],
-		cellRender: (cell) => {
-			return (
-				<div css={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-					<Image src={cell.row.data?.picture} />
-					{cell.row.data?.display_name}
-				</div>
-			);
-		}
-	},
-	{
-		dataField: 'email',
-		validationRules: [
-			{
-				type: 'email'
-			},
-			{ type: 'required' }
-		],
-		minWidth: 196
-	},
-	{
-		dataField: 'phone',
-		validationRules: [{ type: 'required' }, { type: 'stringLength', min: 10, max: 10 }],
-		minWidth: 196
-	},
-	{
-		dataField: 'role',
-		validationRules: [{ type: 'required' }],
-		allowSorting: false,
-		minWidth: 196,
-		cellRender: (cell) => {
-			return ROLE_MAP.get(cell.value);
-		}
-	}
-];
+import { TDataGridProps } from '@/types/global';
 
 const defaultProps: TDataGridProps = {
-	columns,
+	columns: [
+		// {
+		// 	dataField: 'picture',
+		// 	allowFiltering: false,
+		// 	allowSorting: false,
+		// 	allowEditing: false,
+		// 	cellRender: (instance) => {
+		// 		console.log(instance.value);
+		// 		return <Image src={instance.value} css={{ width: '2rem', aspectRatio: 1 }} />;
+		// 	}
+		// },
+
+		{
+			dataField: 'display_name',
+			allowSorting: true,
+			minWidth: 196,
+			validationRules: [{ type: 'required' }]
+		},
+		{
+			dataField: 'email',
+			validationRules: [
+				{
+					type: 'email'
+				},
+				{ type: 'required' }
+			],
+			minWidth: 196
+		},
+		{
+			dataField: 'phone',
+			validationRules: [{ type: 'required' }, { type: 'stringLength', min: 10, max: 10 }],
+			minWidth: 196
+		},
+		{
+			dataField: 'role',
+			validationRules: [{ type: 'required' }],
+			allowSorting: false,
+			minWidth: 196
+		}
+	],
 	columnFixing: {
 		enabled: true
 	},

@@ -2,7 +2,7 @@
 /// <reference types="devextreme" />
 /// <reference types="devextreme-react" />
 
-module 'devextreme' {
+declare module 'devextreme' {
 	export declare type TDxIcon =
 		| 'airplane'
 		| 'bookmark'

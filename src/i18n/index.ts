@@ -36,9 +36,9 @@ i18n
 				}
 			]
 		},
-		defaultNS: ['common', 'home'],
+		defaultNS: ['common'],
 		preload: ['en', 'kr'],
-		ns: ['common', 'home', 'equipment', 'users'],
+		ns: ['common', 'home', 'equipment', 'users', 'user_role'],
 		lng,
 		fallbackLng: 'en',
 		fallbackNS: ['common', 'home'],
@@ -53,6 +53,6 @@ i18n
 		}
 	});
 
-export { locales };
 const t = i18n.t.bind(i18n);
-export default t;
+
+export { locales, t };

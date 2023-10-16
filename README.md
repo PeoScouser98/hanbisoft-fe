@@ -56,7 +56,10 @@ Our ERP project aims to address the multifaceted needs of businesses across vari
 
 ## Contributing
 
-![PeoScouser98](https://avatars.githubusercontent.com/u/97147601?v=4&size=50&button=true)
+<div style='display: flex; align-items:center; gap: 8px'>
+   <img src='https://avatars.githubusercontent.com/u/97147601?v=4&size=50&button=true' style='width: 48px; aspect-ratio: 1; border-radius: 9999px; object-fit:cover; cursor:pointer'/>
+   <img src='https://github.com/PeoScouser98/hanbisoft-react/assets/97147601/5935be54-f52d-48ca-a973-1274fa1789db?size=50&button=true' style='width: 48px; aspect-ratio: 1; border-radius: 9999px; object-fit:cover; cursor:pointer'/>
+</div>
 
 ## License
 

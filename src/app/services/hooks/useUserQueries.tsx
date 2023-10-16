@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
 import UserService from '@/app/services/api/user.service';
 
+const QUERY_KEY = 'user';
 /**
  * Get all users
  */
@@ -14,7 +15,7 @@ export function useGetUsersQuery(searchTerms: AxiosRequestConfig['params']) {
 	}, [searchTerms]);
 
 	return useQuery({
-		queryKey: ['users', dependencies],
+		queryKey: [QUERY_KEY, dependencies],
 		initialData: [],
 		queryFn: () => UserService.getUsers(searchTerms),
 		select: (response) => response.metadata
@@ -27,9 +28,9 @@ export function useGetUsersQuery(searchTerms: AxiosRequestConfig['params']) {
 export function useUpdateUserMutation() {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['users'],
+		mutationKey: [QUERY_KEY],
 		mutationFn: UserService.updateUsersList,
-		onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] })
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] })
 	});
 }
 
@@ -39,8 +40,8 @@ export function useUpdateUserMutation() {
 export function useDeleteUsersMutation() {
 	const queryClient = useQueryClient();
 	return useMutation({
-		mutationKey: ['users'],
+		mutationKey: [QUERY_KEY],
 		mutationFn: UserService.deleteUsers,
-		onSuccess: () => queryClient.invalidateQueries(['users'])
+		onSuccess: () => queryClient.invalidateQueries([QUERY_KEY])
 	});
 }

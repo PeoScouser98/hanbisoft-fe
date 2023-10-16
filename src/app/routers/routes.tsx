@@ -12,7 +12,7 @@ const EquipmentsPage = React.lazy(() => import('@/app/pages/Equipment'));
 const Signin = React.lazy(() => import('@/app/pages/Auth/Signin'));
 const ProfilePage = React.lazy(() => import('@/app/pages/Profile'));
 const ForgotPasswordPage = React.lazy(() => import('@/app/pages/Auth/ForgotPassword'));
-const SiteSettingsPage = React.lazy(() => import('../pages/Settings'));
+const SiteSettingsPage = React.lazy(() => import('../pages/SystemSettings'));
 
 const routesConfig: Array<RouteObject> = [
 	{ path: '*', element: <Navigate to='/404' replace /> },

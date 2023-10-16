@@ -21,10 +21,10 @@ export default defineConfig({
 		minify: 'esbuild'
 	},
 	server: {
-		port: 8000
+		port: 4444
 	},
 	preview: {
-		port: 9000
+		port: 4000
 	},
 	resolve: {
 		alias: [

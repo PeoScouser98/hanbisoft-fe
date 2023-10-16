@@ -9,9 +9,9 @@ import { useTranslation } from 'react-i18next';
  * Returns an array of columns with caption translated with i18n
  * @note Use array of keys if your i18n namespace has nested key(s), order of parent key to child key is the order of key in array, otherwise just using namespace only
  * @example
- * const columns = [{dataField: 'name'}, {dataField: 'age'}] // Define your column first
+ * const columns : Array<TColumnDef> = [{dataField: 'name'}, {dataField: 'age'}] // Define your column first
  * const columnsDef = useColumnsDef(columns, {ns: 'common', key:['form', 'btn']})
- * // columnsDef = [ {datField, t('common:form.btn.dataField'), ... other properties ...}]
+ * @result columnsDef = [ {datField, t('common:form.btn.dataField'), ... other properties ...}]
  */
 
 export default function useColumnsDef(

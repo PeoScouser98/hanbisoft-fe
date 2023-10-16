@@ -1,7 +1,8 @@
 import navigation from '@/app/configs/navigation.config';
 import { useAppSelector } from '@/app/store/hook';
 import usePageNavigate from '@/common/hooks/usePageNavigate';
-import { TNavigation } from '@/types/global';
+import { INavigation } from '@/types/entities';
+
 import styled from '@emotion/styled';
 import { TextBox, TreeView } from 'devextreme-react';
 import { ItemClickEvent } from 'devextreme/ui/tree_view';
@@ -40,7 +41,7 @@ const AsideNavigation: React.FunctionComponent = () => {
 	);
 
 	const handleItemClick = React.useCallback(
-		(itemData: ItemClickEvent<TNavigation>['itemData']) => {
+		(itemData: ItemClickEvent<INavigation>['itemData']) => {
 			if (!itemData?.path) return;
 			handleOpenPage({
 				id: itemData?.id as string,

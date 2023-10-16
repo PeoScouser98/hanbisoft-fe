@@ -9,7 +9,8 @@
 	},
 	"tabs": {
 		"site_settings": "사이트 설정",
+		"permissions_management": "역할 및 권한",
 		"access_management": "접근 관리",
-		"menu_settings": "메뉴 설정"
+		"common_code": "공통 코드"
 	}
 }

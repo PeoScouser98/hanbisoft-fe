@@ -1,7 +1,7 @@
 /**
  * @copyright PeoScouser98
  */
-
+import React from 'react';
 import type { TRadioGroupProps } from '@/types/global';
 import { RadioGroup } from 'devextreme-react';
 import { useController } from 'react-hook-form';
@@ -37,4 +37,4 @@ const defaultProps: Partial<TRadioGroupProps> = {
 RadioGroupFieldControl.defaultProps = defaultProps;
 
 export type { TRadioGroupProps };
-export default RadioGroupFieldControl;
+export default React.memo(RadioGroupFieldControl);

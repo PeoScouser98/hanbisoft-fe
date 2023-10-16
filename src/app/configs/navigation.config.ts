@@ -1,5 +1,4 @@
-import { TNavigation } from '@/types/global';
-
+import { INavigation } from '@/types/entities';
 /**
  * @example
  * const navigation = {
@@ -12,13 +11,14 @@ import { TNavigation } from '@/types/global';
  *	}
  */
 
-const navigation: Array<TNavigation> = [
+const navigation: Array<INavigation> = [
 	{
 		id: '1',
 		locale: 'common:navigation.dashboard',
 		path: '/',
 		icon: 'home',
 		hasItems: false,
+		canReorder: false,
 		breadcrumbs: [{ locale: 'common:navigation.dashboard', path: '/' }]
 	},
 	{
@@ -27,6 +27,7 @@ const navigation: Array<TNavigation> = [
 		icon: 'group',
 		path: '/users',
 		hasItems: false,
+		canReorder: true,
 		breadcrumbs: [{ locale: 'common:navigation.users', path: '/users' }]
 	},
 	{
@@ -35,13 +36,15 @@ const navigation: Array<TNavigation> = [
 		path: '/settings',
 		icon: 'preferences',
 		breadcrumbs: [{ locale: 'common:navigation.settings', path: '/settings' }],
-		visible: false
+		visible: false,
+		canReorder: true
 	},
 	{
 		id: '4',
 		locale: 'common:navigation.equipments',
 		path: '/equipments',
 		icon: 'file',
+		canReorder: true,
 		breadcrumbs: [{ locale: 'common:navigation.equipments', path: '/equipments' }]
 	}
 ];

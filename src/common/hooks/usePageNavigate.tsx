@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../app/store/hook';
 import { closePage, openNewPage, reorderPage } from '../../app/store/reducers/page.reducer';
 import { useSessionStorage } from './useStorage';
-import { IPage } from '@/types/global';
+import { IPage } from '@/types/entities';
 
 /**
  * @description Navigate page

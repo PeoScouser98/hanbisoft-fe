@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
+import { TDxIcon } from 'devextreme';
+import { IButtonOptions } from 'devextreme-react/button';
 import React from 'react';
 import { TLabelButtonProps } from './LabelButton';
-import { IButtonOptions } from 'devextreme-react/button';
 
 export type TButtonListProps = {
 	items: Array<{
-		component: React.ComponentType<IButtonOptions>;
-		props: TLabelButtonProps | IButtonOptions;
+		component: React.ComponentType<IButtonOptions | TLabelButtonProps>;
+		props: TLabelButtonProps | (IButtonOptions & { icon: TDxIcon });
 	}>;
 };
 

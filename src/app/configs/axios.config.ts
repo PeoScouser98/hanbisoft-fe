@@ -29,17 +29,16 @@ axiosInstance.interceptors.response.use(
 				window.store.dispatch(signout());
 				return Promise.reject(error);
 			}
-			console.log('retry :>> ', retry);
 			if (retry > 1) {
 				controller.abort();
 				window.store.dispatch(signout());
-				return Promise.reject(error);
+				return Promise.reject(new Error('Failed to get refresh token'));
 			}
 			if (retry === 1) {
-				await axiosInstance.get('/auth/refresh-token/' + user._id, { signal: controller.signal }).catch((error) => {
+				await axiosInstance.get('/auth/refresh-token/' + user._id, { signal: controller.signal }).catch(() => {
 					retry++;
 					controller.abort();
-					return Promise.reject(error);
+					return Promise.reject(new Error('Failed to get refresh token'));
 				});
 				return await axiosInstance
 					.request({ ...error.config, signal: controller.signal })
@@ -47,10 +46,10 @@ axiosInstance.interceptors.response.use(
 						retry--;
 						return response;
 					})
-					.catch((error) => {
+					.catch(() => {
 						retry++;
 						controller.abort();
-						return Promise.reject(error);
+						return Promise.reject(new Error('Failed to retry previous request'));
 					});
 			}
 		}

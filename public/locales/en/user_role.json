@@ -1,0 +1,7 @@
+{
+	"role_cd": "Code",
+	"role_name": "Role",
+	"permissions.allow_adding": "Allow adding",
+	"permissions.allow_updating": "Allow updating",
+	"permissions.allow_deleting": "Allow deleting"
+}

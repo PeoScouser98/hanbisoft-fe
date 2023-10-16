@@ -2,19 +2,21 @@
 	"actions": {
 		"profile": "Profile",
 		"sign_out": "Sign out",
-		"use-dark-mode": "Dark mode",
-		"use-light-mode": "Light mode"
+		"use_dark_mode": "Use dark mode",
+		"use_light_mode": "Use light mode"
 	},
 	"navigation": {
 		"dashboard": "Dashboard",
 		"users": "Users",
 		"equipments": "Equipments",
-		"settings": "Settings"
+		"settings": "Settings",
+		"common_code": "Common codes"
 	},
 	"btn": {
 		"search": "Search",
 		"save": "Save",
 		"edit": "Edit",
+		"upload": "Upload",
 		"revert": "Revert",
 		"delete": "Delete"
 	},

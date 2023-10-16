@@ -2,6 +2,7 @@
  * @copyright PeoScouser98
  */
 
+import React from 'react';
 import useGetFieldControlSize from '@/common/hooks/useGetFieldControlSize';
 import { TTextAreaFieldProps } from '@/types/global';
 import { TextArea } from 'devextreme-react';
@@ -38,4 +39,4 @@ TextAreaFieldControl.defaultProps = {
 };
 
 export type { TTextAreaFieldProps };
-export default TextAreaFieldControl;
+export default React.memo(TextAreaFieldControl);

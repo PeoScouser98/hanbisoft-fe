@@ -9,6 +9,7 @@ const StyledDataGrid = styled(DataGrid)`
 		top: 0px;
 		text-align: center !important;
 		color: white !important;
+		font-weight: bold;
 		background-color: ${({ theme }) => {
 			const { mode } = useDxTheme();
 			return theme.colors.accent[mode];

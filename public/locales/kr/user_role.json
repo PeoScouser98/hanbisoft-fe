@@ -1,0 +1,7 @@
+{
+	"role_cd": "역할 코드",
+	"role_name": "역할",
+	"permissions.allow_adding": "추가 허용",
+	"permissions.allow_updating": "업데이트 허용",
+	"permissions.allow_deleting": "삭제 허용"
+}

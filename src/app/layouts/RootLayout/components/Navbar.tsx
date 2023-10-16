@@ -72,9 +72,7 @@ const Navbar: React.FC<Props> = ({ open, onOpenStateChange: handleOpenStateChang
 						position='left'
 						showEvent='mouseenter'
 						hideEvent='mouseleave'
-						contentRender={() => (
-							<Typography variant='p'>{mode === 'light' ? 'Use dark mode' : 'Use light mode'}</Typography>
-						)}
+						contentRender={() => <Typography variant='p'>{t(`actions.use_${mode}_mode`)}</Typography>}
 					/>
 					<Swap
 						id='theme-toggle'
