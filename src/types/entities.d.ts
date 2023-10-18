@@ -1,8 +1,8 @@
 import { dxTreeViewItem } from 'devextreme/ui/tree_view';
 
 export declare interface IUserRole {
-	readonly _id: string;
-	readonly role_cd: number;
+	readonly _id?: string;
+	readonly role_cd?: number;
 	role_name?: string;
 	permissions: {
 		allow_adding: boolean;
