@@ -1,13 +1,13 @@
 /** @copyright PeoScouser98 */
 
+import axiosInstance from '@/app/configs/axios.config';
+import { IUser } from '@/types/entities';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useSigninMutation } from '../../app/store/apis/auth.api';
 import { useAppDispatch, useAppSelector } from '../../app/store/hook';
 import { signout } from '../../app/store/reducers/auth.reducer';
-import axiosInstance from '@/app/configs/axios.config';
-import { IUser } from '@/types/global';
 
 /**
  * Provides auth actions (signin/signout), and get user state

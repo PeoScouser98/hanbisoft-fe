@@ -1,7 +1,6 @@
 import navigation from '@/app/configs/navigation.config';
-import { useAppSelector } from '@/app/store/hook';
-import usePageNavigate from '@/common/hooks/usePageNavigate';
-import { TNavigation } from '@/types/global';
+import { INavigation } from '@/types/entities';
+
 import styled from '@emotion/styled';
 import { ChevronRight } from '@mui/icons-material';
 import HomeIcon from '@mui/icons-material/Home';
@@ -13,7 +12,7 @@ const Breadcrumbs: React.FunctionComponent = () => {
 	const { t, i18n } = useTranslation('common');
 	const { pathname } = useLocation();
 
-	const breadcrumbs: Array<Pick<TNavigation, 'text' | 'path' | 'breadcrumbs'>> = React.useMemo(() => {
+	const breadcrumbs: Array<Pick<INavigation, 'text' | 'path' | 'breadcrumbs'>> = React.useMemo(() => {
 		const matchedNavigationItem = navigation.find((item) => {
 			return item.path
 				? !!matchPath(item?.path as string, pathname)
@@ -32,7 +31,7 @@ const Breadcrumbs: React.FunctionComponent = () => {
 			</StyledLink>
 
 			{Array.isArray(breadcrumbs) &&
-				breadcrumbs.map((item: Pick<TNavigation, 'id' | 'locale' | 'path'>, index) => (
+				breadcrumbs.map((item: Pick<INavigation, 'id' | 'locale' | 'path'>, index) => (
 					<React.Fragment key={index}>
 						<ChevronRight css={{ fontSize: '20px' }} />
 						<StyledLink to={item?.path}>{t(item?.locale)}</StyledLink>
